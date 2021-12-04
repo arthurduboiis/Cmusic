@@ -6,3 +6,10 @@
 //
 
 #include "render.h"
+
+void clearRenderer(void){
+    SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+    SDL_RenderClear( renderer );
+}
+
+

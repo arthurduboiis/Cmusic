@@ -8,6 +8,13 @@
 #ifndef render_h
 #define render_h
 
-#include <stdio.h>
+#include "common.h"
+#include "initMedia.h"
+
+extern SDL_Renderer *renderer;
+
+void clearRenderer(void);
+
+
 
 #endif /* render_h */

@@ -7,13 +7,90 @@
 
 #include "initMedia.h"
 
+
+_Bool init(void)
+{
+    //Initialization flag
+    _Bool success = 1;
+
+    //Initialize SDL
+    if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+    {
+        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+        success = 0;
+    }
+    else
+    {
+        IMG_Init(IMG_INIT_JPG);
+        //Create window
+        window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+        if( window == NULL )
+        {
+            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+            success = 0;
+        }
+        else
+        { //Create renderer for window<
+            renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+            if( renderer == NULL )
+            {
+                printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
+                success = 0;
+            }else {
+                //Initialize renderer color
+                //SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+                
+                //Initialize PNG loading
+                int imgFlags = IMG_INIT_PNG;
+                if( !( IMG_Init( imgFlags ) & imgFlags ) )
+                {
+                    printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+                    success = 0;
+                }
+                //Initialize SDL_ttf
+               if( TTF_Init() == -1 )
+               {
+                   printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+                   success = 0;
+               }
+            }
+           
+        }
+    }
+
+    return success;
+}
+
+
+void closee(void)
+{
+    TTF_CloseFont( gFont );
+    gFont = NULL;
+
+    //Destroy window
+    SDL_DestroyRenderer( renderer );
+    renderer = NULL;
+
+
+    //Destroy window
+    SDL_DestroyWindow( window );
+    window = NULL;
+    
+
+
+    //Quit SDL subsystems
+    IMG_Quit();
+    SDL_Quit();
+}
+
+
 _Bool loadMediaText(void)
 {
     //Loading success flag
     _Bool success = 1;
 
     //Open the font
-    gFont = TTF_OpenFont( "./Ressources/img/lazy.ttf", 28 );
+    gFont = TTF_OpenFont( "./Ressources/font/arial.ttf", 28 );
     if( gFont == NULL )
     {
         printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
@@ -27,8 +104,7 @@ _Bool loadMediaText(void)
         
         
         //Render text
-        SDL_Color textColor = { 0, 0, 0 };
-        if( !loadFromRenderedText( &gPromptTextTexture, "Enter text : ", textColor ) )
+        if( !loadFromRenderedText( &gPromptTextTexture, "Enter text : ") )
         {
             printf( "Failed to render text texture!\n" );
             success = 0;
@@ -38,14 +114,17 @@ _Bool loadMediaText(void)
     return success;
 }
 
+
+
+
 #if defined(SDL_TTF_MAJOR_VERSION)
-_Bool loadFromRenderedText(LTexture *ltexture, char textureText[], SDL_Color textColor )
+_Bool loadFromRenderedText(LTexture *ltexture, char textureText[])
 {
     //Get rid of preexisting texture
     freeLtexture(ltexture);
-
+    SDL_Color colorText = {0,0,0};
     //Render text surface
-    SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText, textColor );
+    SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText, colorText );
     if( textSurface == NULL )
     {
         printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
@@ -90,7 +169,7 @@ _Bool loadFromFile(char path[],LTexture *finalTexture){
     else
     {
         //Color key image
-        SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
+        SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format,89, 106, 255 ) );
         //Create texture from surface pixels
         newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
         if( newTexture == NULL )
@@ -167,10 +246,15 @@ SDL_Texture* loadMediaTexture(char path[])
     return newTexture;
 }
 
+
+
 int getWidth(LTexture *texture){
     return texture->mWidth;
 }
 int getHeight(LTexture *texture){
     return texture->mHeight;
 }
+
+
+        
 

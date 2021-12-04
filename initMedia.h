@@ -10,15 +10,15 @@
 
 #include "common.h"
 
-#define SCREEN_WIDTH 1440
-#define SCREEN_HEIGHT 960
+#define SCREEN_WIDTH 1152
+#define SCREEN_HEIGHT 648
 #define FONT_SIZE 32
 
 
 SDL_Renderer *renderer;
 SDL_Window *window;
 TTF_Font *gFont;
-SDL_Color colorText = {0,0,0};
+char mot[100][100];
 
 typedef struct LTexture {
     SDL_Texture *mTexture;
@@ -26,11 +26,15 @@ typedef struct LTexture {
     int mHeight;
 } LTexture;
 
+_Bool init(void);
+void closee(void);
+
 _Bool loadMediaText(void);
 
 #if defined(SDL_TTF_MAJOR_VERSION)
-_Bool loadFromRenderedText(LTexture *ltexture, char textureText[], SDL_Color textColor );
+_Bool loadFromRenderedText(LTexture *ltexture, char textureText[]);
 #endif
+
 
 _Bool loadFromFile(char path[],LTexture *finalTexture);
 void freeLtexture(LTexture *texture);
@@ -38,6 +42,8 @@ void renderLTexture(LTexture texture,  int x, int y, SDL_Rect *clip);
 
 
 SDL_Texture* loadMediaTexture(char path[]);
+
+
 
 //Gets LTexture dimensions
 int getWidth(LTexture *texture);
