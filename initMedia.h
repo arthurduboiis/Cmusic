@@ -27,7 +27,7 @@ typedef struct LTexture {
 } LTexture;
 
 _Bool init(void);
-void closee(void);
+
 
 _Bool loadMediaText(void);
 

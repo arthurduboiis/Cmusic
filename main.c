@@ -2,8 +2,9 @@
 #include "initMedia.h"
 #include "render.h"
 #include "viewport.h"
+#include "mouseButton.h"
 
-
+void closee(void);
 
 int main(int argc, const char * argv[]) {
     if( !init() )
@@ -25,6 +26,9 @@ int main(int argc, const char * argv[]) {
             //Event handler
             SDL_Event e;
             
+            setPositionButtonLeftMenu();
+           
+            
             while( !quit )
             {
                 //Handle events on queue
@@ -35,9 +39,12 @@ int main(int argc, const char * argv[]) {
                     {
                         quit = 1;
                     }
+                    
+                    initButtonLeftMenu(&e);
                 }
                 clearRenderer();
                 createLeftMenu();
+               
                 SDL_RenderPresent(renderer);
             }
         }
@@ -45,4 +52,41 @@ int main(int argc, const char * argv[]) {
     closee();
     
     return 0;
+}
+
+void closee(void)
+{
+    
+    freeLtexture(&recSelected);
+    freeLtexture(&logoTexture);
+    freeLtexture(&homeTxt);
+    freeLtexture(&homePng);
+    freeLtexture(&newTxt);
+    freeLtexture(&newPng);
+    freeLtexture(&topTxt);
+    freeLtexture(&topPng);
+    freeLtexture(&playlistTxt);
+    freeLtexture(&playlistPng);
+    freeLtexture(&paramTxt);
+    freeLtexture(&paramPng);
+    
+
+    
+    TTF_CloseFont( gFont );
+    gFont = NULL;
+
+    //Destroy window
+    SDL_DestroyRenderer( renderer );
+    renderer = NULL;
+
+
+    //Destroy window
+    SDL_DestroyWindow( window );
+    window = NULL;
+    
+
+
+    //Quit SDL subsystems
+    IMG_Quit();
+    SDL_Quit();
 }

@@ -62,58 +62,24 @@ _Bool init(void)
 }
 
 
-void closee(void)
-{
-    TTF_CloseFont( gFont );
-    gFont = NULL;
-
-    //Destroy window
-    SDL_DestroyRenderer( renderer );
-    renderer = NULL;
-
-
-    //Destroy window
-    SDL_DestroyWindow( window );
-    window = NULL;
-    
-
-
-    //Quit SDL subsystems
-    IMG_Quit();
-    SDL_Quit();
-}
-
 
 _Bool loadMediaText(void)
 {
     //Loading success flag
     _Bool success = 1;
+    
+    
 
     //Open the font
-    gFont = TTF_OpenFont( "./Ressources/font/arial.ttf", 28 );
+    gFont = TTF_OpenFont( "./Ressources/font/coco-sharp.ttf", 20 );
     if( gFont == NULL )
     {
         printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
         success = 0;
     }
-    else
-    {
-        // TODO
-        // tab de Ltexture
-        LTexture gPromptTextTexture;
-        
-        
-        //Render text
-        if( !loadFromRenderedText( &gPromptTextTexture, "Enter text : ") )
-        {
-            printf( "Failed to render text texture!\n" );
-            success = 0;
-        }
-    }
 
     return success;
 }
-
 
 
 
@@ -124,7 +90,7 @@ _Bool loadFromRenderedText(LTexture *ltexture, char textureText[])
     freeLtexture(ltexture);
     SDL_Color colorText = {0,0,0};
     //Render text surface
-    SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText, colorText );
+    SDL_Surface* textSurface = TTF_RenderUTF8_Blended(gFont, textureText, colorText );
     if( textSurface == NULL )
     {
         printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
