@@ -71,7 +71,7 @@ _Bool loadMediaText(void)
     
 
     //Open the font
-    gFont = TTF_OpenFont( "./Ressources/font/coco-sharp.ttf", 20 );
+    gFont = TTF_OpenFont( CHEMIN"Ressources/font/coco-sharp.ttf", 20 );
     if( gFont == NULL )
     {
         printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
@@ -220,7 +220,3 @@ int getWidth(LTexture *texture){
 int getHeight(LTexture *texture){
     return texture->mHeight;
 }
-
-
-        
-

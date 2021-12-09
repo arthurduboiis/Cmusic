@@ -24,8 +24,8 @@ _Bool createLeftMenu(void)
     SDL_SetRenderDrawColor( renderer, 89, 106, 255, 0xFF );
     SDL_RenderFillRect( renderer, &viewportSize );
     //LTexture logoTexture;
-    if(!loadFromFile("./Ressources/img/logo_cmusic.png", &logoTexture)){
-        printf( "Failed to load ./Ressources/img/logo_cmusic.png \n" );
+    if(!loadFromFile(CHEMIN"Ressources/img/logo_cmusic.png", &logoTexture)){
+        printf( "Failed to load" CHEMIN "Ressources/img/logo_cmusic.png \n" );
         success = 0;
         return success;
     }
@@ -37,8 +37,8 @@ _Bool createLeftMenu(void)
     recSelectedSize.x = 0;
     recSelectedSize.y = 0;
     
-    if(!loadFromFile("./Ressources/img/selected.png", &recSelected)){
-        printf("Failed to load ./Ressources/img/selected.png \n");
+    if(!loadFromFile(CHEMIN"Ressources/img/selected.png", &recSelected)){
+        printf("Failed to load" CHEMIN "Ressources/img/selected.png \n");
         success = 0;
         return success;
     }
@@ -47,35 +47,35 @@ _Bool createLeftMenu(void)
     
     loadFromRenderedText(&homeTxt, "Accueil");
     renderLTexture(homeTxt, 62, 207, NULL);
-    loadFromFile("./Ressources/img/home.png", &homePng);
+    loadFromFile(CHEMIN"Ressources/img/home.png", &homePng);
     homePng.mHeight = 25;
     homePng.mWidth = 25;
     renderLTexture(homePng, 20,202, NULL);
     
     loadFromRenderedText(&newTxt, "Nouveautés");
     renderLTexture(newTxt, 62, 257, NULL);
-    loadFromFile("./Ressources/img/new.png", &newPng);
+    loadFromFile(CHEMIN"Ressources/img/new.png", &newPng);
     newPng.mHeight = 25;
     newPng.mWidth = 25;
     renderLTexture(newPng, 20, 256, NULL);
     
     loadFromRenderedText(&topTxt, "Top");
     renderLTexture(topTxt, 62, 307, NULL);
-    loadFromFile("./Ressources/img/rank.png", &topPng);
+    loadFromFile(CHEMIN"Ressources/img/rank.png", &topPng);
     topPng.mHeight = 25;
     topPng.mWidth = 25;
     renderLTexture(topPng, 20, 306, NULL);
     
     loadFromRenderedText(&playlistTxt, "Playlists");
     renderLTexture(playlistTxt, 62, 357, NULL);
-    loadFromFile("./Ressources/img/playlist.png", &playlistPng);
+    loadFromFile(CHEMIN"Ressources/img/playlist.png", &playlistPng);
     playlistPng.mHeight = 25;
     playlistPng.mWidth = 25;
     renderLTexture(playlistPng, 20, 356, NULL);
     
     loadFromRenderedText(&paramTxt, "Paramètres");
     renderLTexture(paramTxt, 62, 532, NULL);
-    loadFromFile("./Ressources/img/setting.png", &paramPng);
+    loadFromFile(CHEMIN"Ressources/img/setting.png", &paramPng);
     paramPng.mHeight = 25;
     paramPng.mWidth = 25;
     renderLTexture(paramPng, 20, 531, NULL);
@@ -98,7 +98,7 @@ _Bool createBottomMenu(void)
    
     SDL_RenderSetViewport( renderer, &viewportDeuxSize );
     
-    loadFromFile("./Ressources/img/background.png", &background);
+    loadFromFile(CHEMIN"Ressources/img/background.png", &background);
     renderLTexture(background , -500,0, NULL);
     
     SDL_SetRenderDrawColor( renderer, 108, 108, 108, 0xFF );
@@ -113,32 +113,32 @@ _Bool createBottomMenu(void)
      LTexture replay;
      LTexture sound;
 */
-    loadFromFile("./Ressources/img/play.png", &play);
+    loadFromFile(CHEMIN"Ressources/img/play.png", &play);
     play.mHeight = 25;
     play.mWidth = 25;
     renderLTexture(play,553,27.5, NULL);
     
-    loadFromFile("./Ressources/img/skip_right.png", &nextRight);
+    loadFromFile(CHEMIN"Ressources/img/skip_right.png", &nextRight);
     nextRight.mHeight = 25;
     nextRight.mWidth = 25;
     renderLTexture(nextRight,598,27.5, NULL);
     
-    loadFromFile("./Ressources/img/skip_left.png", &nextLeft);
+    loadFromFile(CHEMIN"Ressources/img/skip_left.png", &nextLeft);
     nextLeft.mHeight = 25;
     nextLeft.mWidth = 25;
     renderLTexture(nextLeft,508,27.5, NULL);
     
-    loadFromFile("./Ressources/img/shuffle.png", &randomMusic);
+    loadFromFile(CHEMIN"Ressources/img/shuffle.png", &randomMusic);
     randomMusic.mHeight = 25;
     randomMusic.mWidth = 25;
     renderLTexture(randomMusic,423,27.5, NULL);
     
-    loadFromFile("./Ressources/img/repeat.png", &replay);
+    loadFromFile(CHEMIN"Ressources/img/repeat.png", &replay);
     replay.mHeight = 25;
     replay.mWidth = 25;
     renderLTexture(replay,683,27.5, NULL);
     
-    loadFromFile("./Ressources/img/sound.png", &sound);
+    loadFromFile(CHEMIN"Ressources/img/sound.png", &sound);
     sound.mHeight = 25;
     sound.mWidth = 25;
     renderLTexture(sound,978,27.5, NULL);
@@ -174,7 +174,7 @@ _Bool createCenterMenu(void){
     loadFromRenderedText(&textTexture, "fichier :");
     renderLTexture(textTexture, 10, 270, NULL);
 
-    loadFromFile("./Ressources/img/mp3.png", &mp3Texture);
+    loadFromFile(CHEMIN"Ressources/img/mp3.png", &mp3Texture);
     mp3Texture.mHeight = 90;
     mp3Texture.mWidth = 90;
     renderLTexture(mp3Texture, 100, 210, NULL);
@@ -208,8 +208,8 @@ void buttonSelected(void){
 
 void setRectSelected(SDL_Rect* size, int y)
 {
-    if(!loadFromFile("./Ressources/img/selected.png", &recSelected)){
-        printf("Failed to load ./Ressources/img/selected.png \n");
+    if(!loadFromFile(CHEMIN"Ressources/img/selected.png", &recSelected)){
+        printf("Failed to load" CHEMIN "Ressources/img/selected.png \n");
         
     }
     

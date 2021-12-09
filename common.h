@@ -7,11 +7,31 @@
 
 #ifndef common_h
 #define common_h
+#define MAC
+
+#ifdef WINDOWS
 
 #include <stdio.h>
-#include <SDL2_image/SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL.h>
-#include <SDL2_mixer/SDL_mixer.h>
-#include <SDL2_ttf/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
+#define CHEMIN "../"
+
+#endif
+
+#ifdef LINUX
+/ Code source pour Linux /
+#endif
+
+#ifdef MAC
+    #include <stdio.h>
+    #include <SDL2_image/SDL_image.h>
+    #include <SDL2/SDL.h>
+    #include <SDL2_mixer/SDL_mixer.h>
+    #include <SDL2_ttf/SDL_ttf.h>
+
+    #define CHEMIN "./"
+#endif
 #endif /* common_h */
