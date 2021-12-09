@@ -21,7 +21,7 @@ void setPosition(LButton *button, int x, int y )
     button->mPosition.y = y;
 }
 
-void handleEvent( LButton *button, SDL_Event* e )
+void handleEvent( LButton *button, SDL_Event* e ,int width, int height)
 {
     //If mouse event happened
     if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
@@ -38,7 +38,7 @@ void handleEvent( LButton *button, SDL_Event* e )
             inside = 0;
         }
         //Mouse is right of the button
-        else if( x > button->mPosition.x + BUTTON_WIDTH )
+        else if( x > button->mPosition.x + width )
         {
             inside = 0;
         }
@@ -48,7 +48,7 @@ void handleEvent( LButton *button, SDL_Event* e )
             inside = 0;
         }
         //Mouse below the button
-        else if( y > button->mPosition.y + BUTTON_HEIGHT )
+        else if( y > button->mPosition.y + height )
         {
             inside = 0;
         }
@@ -70,13 +70,15 @@ void handleEvent( LButton *button, SDL_Event* e )
     }
 }
 
-void initButtonLeftMenu(SDL_Event *e)
+void initButtonMenu(SDL_Event *e)
 {
     for(int i = 0; i< TOTAL_BUTTONS_LEFT_MENU; i++)
     {
-        handleEvent(&gButtonsLeftMenu[i], e);
+        handleEvent(&gButtonsLeftMenu[i], e, BUTTON_WIDTH, BUTTON_HEIGHT);
+        handleEvent(&gButtonsBottomMenu[i], e,BUTTON_BOTTOM_WIDTH,BUTTON_BOTTOM_HEIGHT);
     }
 }
+
 
 void setPositionButtonLeftMenu(void)
 {
@@ -85,6 +87,16 @@ void setPositionButtonLeftMenu(void)
     setPosition(&gButtonsLeftMenu[2], X_BUTTON_LEFT_MENU,Y_BUTTON_RANK);
     setPosition(&gButtonsLeftMenu[3], X_BUTTON_LEFT_MENU,Y_BUTTON_PLAYLIST);
     setPosition(&gButtonsLeftMenu[4], X_BUTTON_LEFT_MENU,Y_BUTTON_SETTING);
+    
+}
+
+void setPositionButtonBottomMenu(void)
+{
+    setPosition(&gButtonsBottomMenu[0], X_BUTTON_SHUFFLE,Y_BUTTON_BOTTOM_MENU);
+    setPosition(&gButtonsBottomMenu[1], X_BUTTON_SKIP_LEFT,Y_BUTTON_BOTTOM_MENU);
+    setPosition(&gButtonsBottomMenu[2], X_BUTTON_PLAY,Y_BUTTON_BOTTOM_MENU);
+    setPosition(&gButtonsBottomMenu[3], X_BUTTON_SKIP_RIGHT,Y_BUTTON_BOTTOM_MENU);
+    setPosition(&gButtonsBottomMenu[4], X_BUTTON_REPEAT,Y_BUTTON_BOTTOM_MENU);
     
 }
 

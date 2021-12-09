@@ -86,6 +86,117 @@ _Bool createLeftMenu(void)
     
 }
 
+_Bool createBottomMenu(void)
+{
+    _Bool success = 1;
+    
+    SDL_Rect viewportDeuxSize;
+    viewportDeuxSize.h = 80;
+    viewportDeuxSize.w = 1152;
+    viewportDeuxSize.x = 0;
+    viewportDeuxSize.y = 568;
+   
+    SDL_RenderSetViewport( renderer, &viewportDeuxSize );
+    
+    loadFromFile("./Ressources/img/background.png", &background);
+    renderLTexture(background , -500,0, NULL);
+    
+    SDL_SetRenderDrawColor( renderer, 108, 108, 108, 0xFF );
+    SDL_RenderDrawLine( renderer,0,0,1152,0 );
+    
+    /*
+     LTexture play;
+     LTexture stop;
+     LTexture nextRight;
+     LTexture nextLeft;
+     LTexture randomMusic;
+     LTexture replay;
+     LTexture sound;
+*/
+    loadFromFile("./Ressources/img/play.png", &play);
+    play.mHeight = 25;
+    play.mWidth = 25;
+    renderLTexture(play,553,27.5, NULL);
+    
+    loadFromFile("./Ressources/img/skip_right.png", &nextRight);
+    nextRight.mHeight = 25;
+    nextRight.mWidth = 25;
+    renderLTexture(nextRight,598,27.5, NULL);
+    
+    loadFromFile("./Ressources/img/skip_left.png", &nextLeft);
+    nextLeft.mHeight = 25;
+    nextLeft.mWidth = 25;
+    renderLTexture(nextLeft,508,27.5, NULL);
+    
+    loadFromFile("./Ressources/img/shuffle.png", &randomMusic);
+    randomMusic.mHeight = 25;
+    randomMusic.mWidth = 25;
+    renderLTexture(randomMusic,423,27.5, NULL);
+    
+    loadFromFile("./Ressources/img/repeat.png", &replay);
+    replay.mHeight = 25;
+    replay.mWidth = 25;
+    renderLTexture(replay,683,27.5, NULL);
+    
+    loadFromFile("./Ressources/img/sound.png", &sound);
+    sound.mHeight = 25;
+    sound.mWidth = 25;
+    renderLTexture(sound,978,27.5, NULL);
+    
+    
+    
+    return success;
+    
+}
+
+_Bool createCenterMenu(void){
+
+    _Bool success = 1;
+
+    SDL_SetRenderDrawColor(renderer, 0,0,0,0);
+    SDL_Rect viewportSize;
+    viewportSize.h = 568;
+    viewportSize.w = 952;
+    viewportSize.x = 200;
+    viewportSize.y = 0;
+    SDL_RenderSetViewport( renderer, &viewportSize );
+
+    loadFromRenderedText(&textTexture, "Récents");
+    renderLTexture(textTexture, 10, 10, NULL);
+
+    SDL_RenderDrawLine(renderer, 0, 200, 1152, 200);
+
+    //todo optimisation
+    loadFromRenderedText(&textTexture, "Ajouter");
+    renderLTexture(textTexture, 10, 210, NULL);
+    loadFromRenderedText(&textTexture, "un");
+    renderLTexture(textTexture, 10, 240, NULL);
+    loadFromRenderedText(&textTexture, "fichier :");
+    renderLTexture(textTexture, 10, 270, NULL);
+
+    loadFromFile("./Ressources/img/mp3.png", &mp3Texture);
+    mp3Texture.mHeight = 90;
+    mp3Texture.mWidth = 90;
+    renderLTexture(mp3Texture, 100, 210, NULL);
+
+    loadFromRenderedText(&textTexture, "Télécharger par un lien YouTube :");
+    renderLTexture(textTexture, 210, 210, NULL);
+
+    SDL_RenderDrawLine(renderer, 0, 310, 1100, 310);
+
+    loadFromRenderedText(&textTexture, "Playlists");
+    renderLTexture(textTexture, 0, 320, NULL);
+
+    SDL_RenderDrawLine(renderer, 0, 470, 1100, 470);
+
+    loadFromRenderedText(&textTexture, "Tags");
+    renderLTexture(textTexture, 10, 480, NULL);
+
+
+    return success;
+
+}
+
 void buttonSelected(void){
     int i;
     for(i=0; i < TOTAL_BUTTONS_LEFT_MENU; i++){

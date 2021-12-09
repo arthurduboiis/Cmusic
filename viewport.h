@@ -18,8 +18,13 @@
 
 
 _Bool createLeftMenu(void);
+_Bool createBottomMenu(void);
+_Bool createCenterMenu(void);
+
+
 void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);
+
 LTexture logoTexture;
 LTexture recSelected;
 LTexture homeTxt;
@@ -32,6 +37,20 @@ LTexture playlistTxt;
 LTexture playlistPng;
 LTexture paramTxt;
 LTexture paramPng;
+
+LTexture textTexture;
+LTexture mp3Texture;
+
+LTexture background;
+LTexture play;
+LTexture stop;
+LTexture nextRight;
+LTexture nextLeft;
+LTexture randomMusic;
+LTexture replay;
+LTexture sound;
+
+
 
 
 

@@ -27,7 +27,7 @@ int main(int argc, const char * argv[]) {
             SDL_Event e;
             
             setPositionButtonLeftMenu();
-           
+            setPositionButtonBottomMenu();
             
             while( !quit )
             {
@@ -40,10 +40,13 @@ int main(int argc, const char * argv[]) {
                         quit = 1;
                     }
                     
-                    initButtonLeftMenu(&e);
+                    initButtonMenu(&e);
                 }
                 clearRenderer();
+                //createBottomMenu();
                 createLeftMenu();
+                createCenterMenu();
+                createBottomMenu();
                
                 SDL_RenderPresent(renderer);
             }
@@ -69,7 +72,19 @@ void closee(void)
     freeLtexture(&playlistPng);
     freeLtexture(&paramTxt);
     freeLtexture(&paramPng);
+    freeLtexture(&textTexture);
+    freeLtexture(&mp3Texture);
+    freeLtexture(&background);
+    freeLtexture(&play);
+    freeLtexture(&stop);
+    freeLtexture(&nextRight);
+    freeLtexture(&nextLeft);
+    freeLtexture(&randomMusic);
+    freeLtexture(&replay);
+    freeLtexture(&sound);
     
+    
+
 
     
     TTF_CloseFont( gFont );
