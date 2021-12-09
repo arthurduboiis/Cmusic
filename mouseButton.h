@@ -36,6 +36,7 @@
 typedef enum LButtonEvent
 {
     BUTTON_MOUSE_OUT = 0,
+    BUTTON_MOUSE_DOWN = 2,
     BUTTON_MOUSE_UP = 3,
     BUTTON_TOTAL = 4
 }LButtonEvent;

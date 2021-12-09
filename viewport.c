@@ -104,15 +104,7 @@ _Bool createBottomMenu(void)
     SDL_SetRenderDrawColor( renderer, 108, 108, 108, 0xFF );
     SDL_RenderDrawLine( renderer,0,0,1152,0 );
     
-    /*
-     LTexture play;
-     LTexture stop;
-     LTexture nextRight;
-     LTexture nextLeft;
-     LTexture randomMusic;
-     LTexture replay;
-     LTexture sound;
-*/
+
     loadFromFile(CHEMIN"Ressources/img/play.png", &play);
     play.mHeight = 25;
     play.mWidth = 25;

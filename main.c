@@ -6,7 +6,7 @@
 
 void closee(void);
 
-int main(int argc, const char * argv[]) {
+int main(int argc, char * argv[]) {
     if( !init() )
     {
       printf( "Failed to initialize!\n" );
