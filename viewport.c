@@ -156,6 +156,27 @@ _Bool createCenterMenu(void){
     loadFromRenderedText(&textTexture, "Récents");
     renderLTexture(textTexture, 10, 10, NULL);
 
+    /* EN COURS
+    const int width_Scrolling = 1100;
+    const int height_Scrolling = 568;
+
+    const int width_Affichage = 952;
+    const int height_Affichage = 180;
+
+//    // x_scrolling = 10, y_scrolling = 20
+//
+//    SDL_Rect scrolling;
+//    scrolling.h = 150;
+//    scrolling.w = 932;
+//    scrolling.x = 10;
+//    scrolling.y = 40;
+//
+//    SDL_RenderDrawRect(renderer, &scrolling);
+//    loadFromRenderedText(&textTexture, "Test");
+//    renderLTexture(textTexture, 10, 40, &scrolling);
+//
+//    SDL_RenderGetClipRect(renderer, &scrolling);
+*/
     SDL_RenderDrawLine(renderer, 0, 200, 1152, 200);
 
     //todo optimisation
@@ -174,10 +195,21 @@ _Bool createCenterMenu(void){
     loadFromRenderedText(&textTexture, "Télécharger par un lien YouTube :");
     renderLTexture(textTexture, 210, 210, NULL);
 
+    //implémentation barre de recherche (encore à améliorer)
+    SDL_Rect inputText;
+    inputText.h = 35;
+    inputText.w = 500;
+    inputText.x = 210;
+    inputText.y = 250;
+
+    SDL_RenderDrawRect(renderer, &inputText);
+    loadFromRenderedText(&inputTextTexture, textFromInput);
+    renderLTexture(inputTextTexture, 215, 255, NULL);
+
     SDL_RenderDrawLine(renderer, 0, 310, 1100, 310);
 
     loadFromRenderedText(&textTexture, "Playlists");
-    renderLTexture(textTexture, 0, 320, NULL);
+    renderLTexture(textTexture, 10, 320, NULL);
 
     SDL_RenderDrawLine(renderer, 0, 470, 1100, 470);
 

@@ -25,6 +25,9 @@ _Bool createCenterMenu(void);
 void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);
 
+LTexture inputTextTexture;
+char *textFromInput;
+
 LTexture logoTexture;
 LTexture recSelected;
 LTexture homeTxt;

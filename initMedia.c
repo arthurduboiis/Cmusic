@@ -67,8 +67,6 @@ _Bool loadMediaText(void)
 {
     //Loading success flag
     _Bool success = 1;
-    
-    
 
     //Open the font
     gFont = TTF_OpenFont( CHEMIN"Ressources/font/coco-sharp.ttf", 20 );
