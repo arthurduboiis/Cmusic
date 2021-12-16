@@ -20,10 +20,14 @@
 _Bool createLeftMenu(void);
 _Bool createBottomMenu(void);
 _Bool createCenterMenu(void);
-
+void createViewportTop(void);
+void createViewportNew(void);
+void createViewportPlaylist(void);
+void createViewportSetting(void);
 
 void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);
+void setXVolume(int);
 
 LTexture inputTextTexture;
 char *textFromInput;
@@ -52,6 +56,7 @@ LTexture nextLeft;
 LTexture randomMusic;
 LTexture replay;
 LTexture sound;
+LTexture point;
 
 
 

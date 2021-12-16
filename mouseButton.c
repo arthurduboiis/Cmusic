@@ -60,10 +60,22 @@ void handleEvent( LButton *button, SDL_Event* e ,int width, int height)
         //Mouse is inside button
         else
         {
+            if(e->type == SDL_MOUSEMOTION)
+            {
+                button->mCurrentButton = BUTTON_MOUSE_MOTION;
+            }
+            if(e->type == SDL_MOUSEBUTTONDOWN)
+            {
+                button->mCurrentButton = BUTTON_MOUSE_DOWN;
+                printf("downnnnn");
+            
+            }
+            
+            
             if(e->type == SDL_MOUSEBUTTONUP)
             {
                 button->mCurrentButton = BUTTON_MOUSE_UP;
-                printf("click on button");
+                printf("clicked");
             }
             
         }
@@ -77,7 +89,18 @@ void initButtonMenu(SDL_Event *e)
         handleEvent(&gButtonsLeftMenu[i], e, BUTTON_WIDTH, BUTTON_HEIGHT);
         handleEvent(&gButtonsBottomMenu[i], e,BUTTON_BOTTOM_WIDTH,BUTTON_BOTTOM_HEIGHT);
     }
+    handleEvent(&volumeButton, e, 100, BUTTON_VOLUME_SIZE);
+    
 }
+
+void dragButtonVolume(SDL_Event *event)
+{
+    if(volumeButton.mCurrentButton == 2)
+    {
+        setXVolume(event->motion.x - BUTTON_VOLUME_SIZE/2);
+    }
+}
+
 
 
 void setPositionButtonLeftMenu(void)
@@ -97,6 +120,7 @@ void setPositionButtonBottomMenu(void)
     setPosition(&gButtonsBottomMenu[2], X_BUTTON_PLAY,Y_BUTTON_BOTTOM_MENU);
     setPosition(&gButtonsBottomMenu[3], X_BUTTON_SKIP_RIGHT,Y_BUTTON_BOTTOM_MENU);
     setPosition(&gButtonsBottomMenu[4], X_BUTTON_REPEAT,Y_BUTTON_BOTTOM_MENU);
+    setPosition(&volumeButton, 1008, 600);
     
 }
 

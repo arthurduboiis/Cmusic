@@ -8,6 +8,8 @@
 #include "viewport.h"
 
 int selectedButton = 0;
+int xVolume = 1038;
+
 
 _Bool createLeftMenu(void)
 {
@@ -80,7 +82,27 @@ _Bool createLeftMenu(void)
     paramPng.mWidth = 25;
     renderLTexture(paramPng, 20, 531, NULL);
     
-   
+    switch (selectedButton) {
+        case 0:
+            createCenterMenu();
+            break;
+        case 1:
+            createViewportNew();
+            break;
+        case 2:
+            createViewportTop();
+            break;
+        case 3:
+            createViewportPlaylist();
+            break;
+        case 4:
+            createViewportSetting();
+            break;
+       
+            
+        default:
+            break;
+    }
     
     return success;
     
@@ -135,6 +157,14 @@ _Bool createBottomMenu(void)
     sound.mWidth = 25;
     renderLTexture(sound,978,27.5, NULL);
     
+    
+    SDL_RenderDrawLine(renderer, 1008,40, 1108, 40);
+    loadFromFile(CHEMIN"Ressources/img/point.png", &point);
+    point.mHeight = 16;
+    point.mWidth = 16;
+    
+    //question
+    renderLTexture(point, xVolume, 32, NULL);
     
     
     return success;
@@ -221,6 +251,50 @@ _Bool createCenterMenu(void){
 
 }
 
+void createViewportTop(void)
+{
+    SDL_SetRenderDrawColor(renderer, 0,0,0,0);
+    SDL_Rect viewportSize;
+    viewportSize.h = 568;
+    viewportSize.w = 952;
+    viewportSize.x = 200;
+    viewportSize.y = 0;
+    SDL_RenderSetViewport( renderer, &viewportSize );
+}
+
+void createViewportNew(void)
+{
+    SDL_SetRenderDrawColor(renderer, 0,0,0,0);
+    SDL_Rect viewportSize;
+    viewportSize.h = 568;
+    viewportSize.w = 952;
+    viewportSize.x = 200;
+    viewportSize.y = 0;
+    SDL_RenderSetViewport( renderer, &viewportSize );
+}
+
+void createViewportPlaylist(void)
+{
+    SDL_SetRenderDrawColor(renderer, 0,0,0,0);
+    SDL_Rect viewportSize;
+    viewportSize.h = 568;
+    viewportSize.w = 952;
+    viewportSize.x = 200;
+    viewportSize.y = 0;
+    SDL_RenderSetViewport( renderer, &viewportSize );
+}
+
+void createViewportSetting()
+{
+    SDL_SetRenderDrawColor(renderer, 0,0,0,0);
+    SDL_Rect viewportSize;
+    viewportSize.h = 568;
+    viewportSize.w = 952;
+    viewportSize.x = 200;
+    viewportSize.y = 0;
+    SDL_RenderSetViewport( renderer, &viewportSize );
+}
+
 void buttonSelected(void){
     int i;
     for(i=0; i < TOTAL_BUTTONS_LEFT_MENU; i++){
@@ -239,4 +313,8 @@ void setRectSelected(SDL_Rect* size, int y)
     
     renderLTexture(recSelected, X_BUTTON_LEFT_MENU,y, size);
     
+}
+
+void setXVolume(int x){
+    xVolume = x;
 }

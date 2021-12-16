@@ -32,10 +32,14 @@
 #define X_BUTTON_REPEAT 683
 #define Y_BUTTON_BOTTOM_MENU 595.5
 
+#define BUTTON_VOLUME_SIZE 16
+
+
 
 typedef enum LButtonEvent
 {
     BUTTON_MOUSE_OUT = 0,
+    BUTTON_MOUSE_MOTION = 1,
     BUTTON_MOUSE_DOWN = 2,
     BUTTON_MOUSE_UP = 3,
     BUTTON_TOTAL = 4
@@ -52,16 +56,19 @@ typedef struct LButton{
 
 LButton gButtonsLeftMenu[ TOTAL_BUTTONS_LEFT_MENU];
 LButton gButtonsBottomMenu[ TOTAL_BUTTONS_LEFT_MENU];
-
+LButton volumeButton;
 
 
 extern LTexture recSelected;
 extern SDL_Rect recSelectedSize;
+extern LTexture point;
+
 
 void initLButton(LButton *button);
 void setPosition( LButton *button, int x, int y );
 void handleEvent( LButton *button, SDL_Event* e, int width, int height );
-void initButtonMenu(SDL_Event *e);
+void initButtonMenu(SDL_Event*);
+void dragButtonVolume(SDL_Event*);
 
 void setPositionButtonLeftMenu(void);
 void setPositionButtonBottomMenu(void);

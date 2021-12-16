@@ -28,6 +28,8 @@ int main(int argc,char * argv[]) {
             SDL_Event e;
 
             textFromInput = malloc(100 * sizeof(char*));
+            
+            
 
             loadFromRenderedText(&inputTextTexture, textFromInput);
 
@@ -36,10 +38,16 @@ int main(int argc,char * argv[]) {
             setPositionButtonLeftMenu();
             setPositionButtonBottomMenu();
             
+            
+            
             while( !quit )
             {
-
+                
                 _Bool renderText = 0;
+                clearRenderer();
+                createLeftMenu();
+                //createCenterMenu();
+                createBottomMenu();
 
                 //Handle events on queue
                 while( SDL_PollEvent( &e ) != 0 )
@@ -86,11 +94,11 @@ int main(int argc,char * argv[]) {
                         }
                     }
                     initButtonMenu(&e);
+                    dragButtonVolume(&e);
                 }
-                clearRenderer();
-                createLeftMenu();
-                createCenterMenu();
-                createBottomMenu();
+                
+               
+                
                
                 SDL_RenderPresent(renderer);
             }
@@ -126,6 +134,7 @@ void closee(void)
     freeLtexture(&randomMusic);
     freeLtexture(&replay);
     freeLtexture(&sound);
+    freeLtexture(&point);
     
     
 
