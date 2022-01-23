@@ -35,4 +35,11 @@
 
     #define CHEMIN "./"
 #endif
+
+
+
+
+
+#include <unistd.h>
+#include <errno.h>
 #endif /* common_h */

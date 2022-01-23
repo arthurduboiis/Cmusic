@@ -15,12 +15,15 @@ int main(int argc,char * argv[]) {
     else
     {
         //Load media
+        
         if( !loadMediaText()  )
         {
             printf( "Failed to load media!\n" );
         }
         else
         {
+            initAllLTexture();
+            
             //Main loop flag
             _Bool quit = 0;
 
@@ -29,7 +32,8 @@ int main(int argc,char * argv[]) {
 
             textFromInput = malloc(100 * sizeof(char*));
             
-            
+            int isMusicPlaying = 0;
+
 
             loadFromRenderedText(&inputTextTexture, textFromInput);
 
@@ -76,6 +80,14 @@ int main(int argc,char * argv[]) {
                         {
                             textFromInput = SDL_GetClipboardText();
                             renderText = 1;
+                        }else if(e.key.keysym.sym == SDLK_SPACE){
+                            if(fork() == 0 && isMusicPlaying == 0){
+                                isMusicPlaying = 1;
+                                system("ffplay -nodisp rtmp://localhost/live/STREAM_NAME");}
+//                            else if(isMusicPlaying == 1){
+//                                isMusicPlaying = 0;
+//                                system("pkill ffplay");
+//                            }
                         }
 
                     }
@@ -135,8 +147,9 @@ void closee(void)
     freeLtexture(&replay);
     freeLtexture(&sound);
     freeLtexture(&point);
+    freeLtexture(&inputTextTexture);
     
-    
+    freeAllTexture();
 
 
     

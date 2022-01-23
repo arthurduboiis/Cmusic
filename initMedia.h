@@ -43,8 +43,14 @@ void renderLTexture(LTexture texture,  int x, int y, SDL_Rect *clip);
 
 SDL_Texture* loadMediaTexture(char path[]);
 
+// Texture for viewport news
+
+LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, nameTag, imgTag,timeAdd;
 
 
+void initAllLTexture(void);
+
+void freeAllTexture(void);
 //Gets LTexture dimensions
 int getWidth(LTexture *texture);
 int getHeight(LTexture *texture);

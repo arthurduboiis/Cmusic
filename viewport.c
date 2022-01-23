@@ -271,6 +271,49 @@ void createViewportNew(void)
     viewportSize.x = 200;
     viewportSize.y = 0;
     SDL_RenderSetViewport( renderer, &viewportSize );
+    
+    int xImg = 126;
+    int xText = 318;
+    int xDuration = 570;
+    int xTime = 670;
+    int xTag = 383;
+    int xTextTag = 400;
+    
+    renderLTexture(addNewText, 300, 22, NULL);
+    
+    //first
+    renderLTexture(voidImg, xImg, 80, NULL);
+    renderLTexture(musicTitle, xText, 94, NULL);
+    renderLTexture(musicArtiste, xText, 124, NULL);
+    renderLTexture(musicDuration, xDuration, 135, NULL);
+    renderLTexture(timeAdd, xTime, 135, NULL);
+    renderLTexture(textTags, xText, 174, NULL);
+    renderLTexture(imgTag, xTag, 166, NULL);
+    renderLTexture(nameTag, xTextTag, 174, NULL);
+    
+    //second
+    renderLTexture(voidImg, xImg, 239, NULL);
+    renderLTexture(musicTitle, xText, 253, NULL);
+    renderLTexture(musicArtiste, xText, 283, NULL);
+    renderLTexture(musicDuration, xDuration, 294, NULL);
+    renderLTexture(timeAdd, xTime, 294, NULL);
+    renderLTexture(textTags, xText, 332, NULL);
+    renderLTexture(imgTag, xTag, 324, NULL);
+    renderLTexture(nameTag, xTextTag, 332, NULL);
+    
+    //third
+    renderLTexture(voidImg, xImg, 398, NULL);
+    renderLTexture(musicTitle, xText, 412, NULL);
+    renderLTexture(musicArtiste, xText, 442, NULL);
+    renderLTexture(musicDuration, xDuration, 453, NULL);
+    renderLTexture(timeAdd, xTime, 453, NULL);
+    renderLTexture(textTags, xText, 490, NULL);
+    renderLTexture(imgTag, xTag, 483, NULL);
+    renderLTexture(nameTag, xTextTag, 490, NULL);
+    
+    
+    
+    
 }
 
 void createViewportPlaylist(void)

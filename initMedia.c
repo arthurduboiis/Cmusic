@@ -7,6 +7,47 @@
 
 #include "initMedia.h"
 
+static void vmsg(const char *prefix, const char *sep, const char *suffix,
+                 const char *format, va_list ap)
+{
+    if (format) {
+        char format2[strlen(prefix) + strlen(sep) + strlen(format) +
+                     strlen(suffix) + 2];
+        sprintf(format2, "%s%s%s%s\n", prefix, sep, format, suffix);
+        vfprintf(stderr, format2, ap);
+    } else {
+        fprintf(stderr, "%s%s\n", prefix, suffix);
+    }
+}
+
+void msg(const char *format, ...)
+{
+    va_list ap;
+    va_start(ap, format);
+    vmsg("", "", "", format, ap);
+    va_end(ap);
+}
+
+static void verr(const char *format, va_list ap)
+{
+    int saved_errno = errno;
+    vmsg("ERREUR", ": ", ".", format, ap);
+    if (saved_errno != 0)
+        fprintf(stderr,
+                "(errno = %d: %s)\n", saved_errno, strerror(saved_errno));
+}
+
+void die(const char *format, ...)
+{
+    va_list ap;
+    va_start(ap, format);
+    verr(format, ap);
+    va_end(ap);
+    exit(EXIT_FAILURE);
+}
+
+
+#define die_if(expr, ...) if (expr) die(__VA_ARGS__); else (void)0
 
 _Bool init(void)
 {
@@ -68,8 +109,8 @@ _Bool loadMediaText(void)
     //Loading success flag
     _Bool success = 1;
 
-    //Open the font
-    gFont = TTF_OpenFont( CHEMIN"Ressources/font/coco-sharp.ttf", 20 );
+    //Open the font coco-sharp
+    gFont = TTF_OpenFont( CHEMIN"Ressources/font/arial.ttf", 20 );
     if( gFont == NULL )
     {
         printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
@@ -210,7 +251,36 @@ SDL_Texture* loadMediaTexture(char path[])
     return newTexture;
 }
 
+void initAllLTexture(void){
+    
+    die_if(!loadFromRenderedText(&addNewText, "Ajouté récemment"), "Can't load text : Ajouté récemment");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/void.png", &voidImg), "Can't load void img");
+    die_if(!loadFromRenderedText(&musicTitle, "Titre de la musique"), "Can't load text : Titre de la musique");
+    die_if(!loadFromRenderedText(&musicArtiste, "Artiste"), "Can't load text : Artiste");
+    die_if(!loadFromRenderedText(&musicDuration, "04:34"), "Can't load text : Music duration");
+    die_if(!loadFromRenderedText(&timeAdd, "Il y a X minutes"), "Can't load text : Il y a X minutes");
+    die_if(!loadFromRenderedText(&textTags, "tags : "), "Can't load text : tags :");
+    die_if(!loadFromRenderedText(&nameTag, "Hip-Hop"), "Can't load text : nameTag");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/imgTag.png", &imgTag), "Can't load imgTag");
+    
+    
+}
 
+void freeAllTexture(void){
+    
+    // free viewport news
+    freeLtexture(&addNewText);
+    freeLtexture(&voidImg);
+    freeLtexture(&musicTitle);
+    freeLtexture(&musicArtiste);
+    freeLtexture(&musicDuration);
+    freeLtexture(&textTags);
+    freeLtexture(&nameTag);
+    freeLtexture(&imgTag);
+    freeLtexture(&timeAdd);
+
+    
+}
 
 int getWidth(LTexture *texture){
     return texture->mWidth;
