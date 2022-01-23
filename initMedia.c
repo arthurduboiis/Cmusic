@@ -253,6 +253,8 @@ SDL_Texture* loadMediaTexture(char path[])
 
 void initAllLTexture(void){
     
+    
+    // init viewport news
     die_if(!loadFromRenderedText(&addNewText, "Ajouté récemment"), "Can't load text : Ajouté récemment");
     die_if(!loadFromFile(CHEMIN"Ressources/img/void.png", &voidImg), "Can't load void img");
     die_if(!loadFromRenderedText(&musicTitle, "Titre de la musique"), "Can't load text : Titre de la musique");
@@ -262,6 +264,15 @@ void initAllLTexture(void){
     die_if(!loadFromRenderedText(&textTags, "tags : "), "Can't load text : tags :");
     die_if(!loadFromRenderedText(&nameTag, "Hip-Hop"), "Can't load text : nameTag");
     die_if(!loadFromFile(CHEMIN"Ressources/img/imgTag.png", &imgTag), "Can't load imgTag");
+    
+    // init viewport top
+    die_if(!loadFromRenderedText(&listenText, "Les plus écoutés"), "Can't load text : Les plus écoutés");
+    die_if(!loadFromRenderedText(&hashtag, "#"), " Can't load text : #");
+    die_if(!loadFromRenderedText(&title, "Titre"), "Can't load text : Title");
+    die_if(!loadFromRenderedText(&artist, "Artiste"), "Can't load text : Artiste");
+    die_if(!loadFromRenderedText(&duration, "Durée"), "Can't load text : Durée");
+    die_if(!loadFromRenderedText(&views, "Vues"), "Can't load text : Vues");
+    
     
     
 }
@@ -279,6 +290,14 @@ void freeAllTexture(void){
     freeLtexture(&imgTag);
     freeLtexture(&timeAdd);
 
+    // free viewport top
+    freeLtexture(&listenText);
+    freeLtexture(&hashtag);
+    freeLtexture(&title);
+    freeLtexture(&artist);
+    freeLtexture(&duration);
+    freeLtexture(&views);
+    
     
 }
 

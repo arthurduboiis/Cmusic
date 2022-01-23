@@ -260,6 +260,22 @@ void createViewportTop(void)
     viewportSize.x = 200;
     viewportSize.y = 0;
     SDL_RenderSetViewport( renderer, &viewportSize );
+    
+    int yTitle = 127;
+    
+    renderLTexture(listenText, 330, 9, NULL);
+    SDL_RenderDrawLine(renderer, 92, 111, 862, 111);
+    
+    renderLTexture(hashtag, 102, yTitle, NULL);
+    renderLTexture(title, 180, yTitle, NULL);
+    renderLTexture(artist, 425, yTitle, NULL);
+    renderLTexture(duration, 606, yTitle, NULL);
+    renderLTexture(views, 737, yTitle, NULL);
+    
+    for(int i = 0; i < 8 ; i++ ){
+        SDL_RenderDrawLine(renderer, 92, 166 + (i*50), 862, 166 + (i * 50));
+    }
+    
 }
 
 void createViewportNew(void)

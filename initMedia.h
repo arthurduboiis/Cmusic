@@ -47,7 +47,9 @@ SDL_Texture* loadMediaTexture(char path[]);
 
 LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, nameTag, imgTag,timeAdd;
 
+// Texture for viewport top
 
+LTexture listenText, hashtag, title, artist, duration, views;
 void initAllLTexture(void);
 
 void freeAllTexture(void);
