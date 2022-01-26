@@ -27,10 +27,9 @@ void dropEvent(SDL_Event* e)
     else {
         if( e->type == SDL_DROPFILE){
             dropped_filedir = e->drop.file;
-            // Shows directory of dropped file
             SDL_ShowSimpleMessageBox(
                 SDL_MESSAGEBOX_INFORMATION,
-                "File dropped on window",
+                "Le fichier a été envoyé au serveur.",
                 dropped_filedir,
                 window
             );
