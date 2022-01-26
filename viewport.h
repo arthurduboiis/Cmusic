@@ -32,31 +32,10 @@ void setXVolume(int);
 LTexture inputTextTexture;
 char *textFromInput;
 
-LTexture logoTexture;
-LTexture recSelected;
-LTexture homeTxt;
-LTexture homePng;
-LTexture newTxt;
-LTexture newPng;
-LTexture topTxt;
-LTexture topPng;
-LTexture playlistTxt;
-LTexture playlistPng;
-LTexture paramTxt;
-LTexture paramPng;
-
 LTexture textTexture;
 LTexture mp3Texture;
 
-LTexture background;
-LTexture play;
-LTexture stop;
-LTexture nextRight;
-LTexture nextLeft;
-LTexture randomMusic;
-LTexture replay;
-LTexture sound;
-LTexture point;
+
 
 
 

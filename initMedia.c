@@ -253,6 +253,30 @@ SDL_Texture* loadMediaTexture(char path[])
 
 void initAllLTexture(void){
     
+    // init left menu
+    die_if(!loadFromFile(CHEMIN"Ressources/img/logo_cmusic.png", &logoTexture), "Can't load logo");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/selected.png", &recSelected), "Can't load rectSelected");
+    die_if(!loadFromRenderedText(&homeTxt, "Accueil"),"Can't load text : Acceuil");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/home.png", &homePng), "Can't load img home");
+    die_if(!loadFromRenderedText(&newTxt, "Nouveautés"), "Can't load text : Nouveautés");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/new.png", &newPng), "Can't load img new");
+    die_if(!loadFromRenderedText(&topTxt, "Top"), "Can't load text : Top");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/rank.png", &topPng), "Can't load img top");
+    die_if(!loadFromRenderedText(&playlistTxt, "Playlists"), "Can't load text : playlist");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/playlist.png", &playlistPng), "Can't load img playlist");
+    die_if(!loadFromRenderedText(&paramTxt, "Paramètres"), "Can't load text : Paramètre");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/setting.png", &paramPng), "Can't load img setting");
+    
+    
+    // init bottom menu
+    die_if(!loadFromFile(CHEMIN"Ressources/img/background.png", &background), "Can't load background img for bottom menu");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/play.png", &play), "Can't load Play img ");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/skip_right.png", &nextRight), "Can't load skip right img");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/skip_left.png", &nextLeft), "Can't load skip left img");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/shuffle.png", &randomMusic), "Can't load shuffle img");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/repeat.png", &replay), "Can't load repeat img ");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/sound.png", &sound), "Can't load sound img");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/point.png", &point),"Can't load point img");
     
     // init viewport news
     die_if(!loadFromRenderedText(&addNewText, "Ajouté récemment"), "Can't load text : Ajouté récemment");
@@ -278,6 +302,35 @@ void initAllLTexture(void){
 }
 
 void freeAllTexture(void){
+    
+    
+    // free left menu
+    freeLtexture(&recSelected);
+    freeLtexture(&logoTexture);
+    freeLtexture(&homeTxt);
+    freeLtexture(&homePng);
+    freeLtexture(&newTxt);
+    freeLtexture(&newPng);
+    freeLtexture(&topTxt);
+    freeLtexture(&topPng);
+    freeLtexture(&playlistTxt);
+    freeLtexture(&playlistPng);
+    freeLtexture(&paramTxt);
+    freeLtexture(&paramPng);
+    
+    
+    //free bottom menu
+    freeLtexture(&background);
+    freeLtexture(&play);
+    freeLtexture(&stop);
+    freeLtexture(&nextRight);
+    freeLtexture(&nextLeft);
+    freeLtexture(&randomMusic);
+    freeLtexture(&replay);
+    freeLtexture(&sound);
+    freeLtexture(&point);
+    
+    
     
     // free viewport news
     freeLtexture(&addNewText);

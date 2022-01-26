@@ -124,18 +124,7 @@ int main(int argc,char * argv[]) {
 void closee(void)
 {
     
-    freeLtexture(&recSelected);
-    freeLtexture(&logoTexture);
-    freeLtexture(&homeTxt);
-    freeLtexture(&homePng);
-    freeLtexture(&newTxt);
-    freeLtexture(&newPng);
-    freeLtexture(&topTxt);
-    freeLtexture(&topPng);
-    freeLtexture(&playlistTxt);
-    freeLtexture(&playlistPng);
-    freeLtexture(&paramTxt);
-    freeLtexture(&paramPng);
+
     freeLtexture(&textTexture);
     freeLtexture(&mp3Texture);
     freeLtexture(&background);

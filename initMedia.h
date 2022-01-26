@@ -43,13 +43,19 @@ void renderLTexture(LTexture texture,  int x, int y, SDL_Rect *clip);
 
 SDL_Texture* loadMediaTexture(char path[]);
 
-// Texture for viewport news
+// Texture for left menu
+LTexture logoTexture,recSelected,homeTxt, homePng, newTxt, newPng, topTxt, topPng, playlistTxt, playlistPng, paramTxt, paramPng;
 
+//Texture for bottom menu
+LTexture background, play, stop, nextRight, nextLeft, randomMusic, replay, sound, point;
+
+// Texture for viewport news
 LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, nameTag, imgTag,timeAdd;
 
 // Texture for viewport top
-
 LTexture listenText, hashtag, title, artist, duration, views;
+
+
 void initAllLTexture(void);
 
 void freeAllTexture(void);
