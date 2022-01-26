@@ -4,6 +4,7 @@
 #include "render.h"
 #include "viewport.h"
 #include "mouseButton.h"
+#include "dropEvent.h"
 
 void closee(void);
 
@@ -42,7 +43,7 @@ int main(int argc,char * argv[]) {
             setPositionButtonLeftMenu();
             setPositionButtonBottomMenu();
             
-            
+            SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
             
             while( !quit )
             {
@@ -50,7 +51,6 @@ int main(int argc,char * argv[]) {
                 _Bool renderText = 0;
                 clearRenderer();
                 createLeftMenu();
-                //createCenterMenu();
                 createBottomMenu();
 
                 //Handle events on queue
@@ -105,8 +105,13 @@ int main(int argc,char * argv[]) {
                             renderText = 1;
                         }
                     }
+                    
+                    dropEvent(&e);
+            
                     initButtonMenu(&e);
                     dragButtonVolume(&e);
+                    
+                    
                 }
                 
                

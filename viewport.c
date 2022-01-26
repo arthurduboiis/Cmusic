@@ -202,6 +202,8 @@ _Bool createCenterMenu(void){
     mp3Texture.mHeight = 90;
     mp3Texture.mWidth = 90;
     renderLTexture(mp3Texture, 100, 210, NULL);
+    setDropButton(90, 90, 300, 210);
+    
 
     loadFromRenderedText(&textTexture, "Télécharger par un lien YouTube :");
     renderLTexture(textTexture, 210, 210, NULL);
