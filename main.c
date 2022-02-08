@@ -16,7 +16,6 @@ int main(int argc,char * argv[]) {
     else
     {
         //Load media
-        
         if( !loadMediaText()  )
         {
             printf( "Failed to load media!\n" );
@@ -24,7 +23,7 @@ int main(int argc,char * argv[]) {
         else
         {
             initAllLTexture();
-            
+
             //Main loop flag
             _Bool quit = 0;
 
@@ -32,9 +31,6 @@ int main(int argc,char * argv[]) {
             SDL_Event e;
 
             textFromInput = malloc(100 * sizeof(char*));
-            
-            int isMusicPlaying = 0;
-
 
             loadFromRenderedText(&inputTextTexture, textFromInput);
 
@@ -42,7 +38,7 @@ int main(int argc,char * argv[]) {
             
             setPositionButtonLeftMenu();
             setPositionButtonBottomMenu();
-            
+
             SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
             
             while( !quit )
@@ -51,6 +47,7 @@ int main(int argc,char * argv[]) {
                 _Bool renderText = 0;
                 clearRenderer();
                 createLeftMenu();
+                //createCenterMenu();
                 createBottomMenu();
 
                 //Handle events on queue
@@ -80,14 +77,6 @@ int main(int argc,char * argv[]) {
                         {
                             textFromInput = SDL_GetClipboardText();
                             renderText = 1;
-                        }else if(e.key.keysym.sym == SDLK_SPACE){
-                            if(fork() == 0 && isMusicPlaying == 0){
-                                isMusicPlaying = 1;
-                                system("ffplay -nodisp rtmp://localhost/live/STREAM_NAME");}
-//                            else if(isMusicPlaying == 1){
-//                                isMusicPlaying = 0;
-//                                system("pkill ffplay");
-//                            }
                         }
 
                     }
@@ -105,13 +94,10 @@ int main(int argc,char * argv[]) {
                             renderText = 1;
                         }
                     }
-                    
                     dropEvent(&e);
-            
+
                     initButtonMenu(&e);
                     dragButtonVolume(&e);
-                    
-                    
                 }
                 
                
@@ -128,25 +114,9 @@ int main(int argc,char * argv[]) {
 
 void closee(void)
 {
-    
-
-    freeLtexture(&textTexture);
-    freeLtexture(&mp3Texture);
-    freeLtexture(&background);
-    freeLtexture(&play);
-    freeLtexture(&stop);
-    freeLtexture(&nextRight);
-    freeLtexture(&nextLeft);
-    freeLtexture(&randomMusic);
-    freeLtexture(&replay);
-    freeLtexture(&sound);
-    freeLtexture(&point);
-    freeLtexture(&inputTextTexture);
-    
     freeAllTexture();
 
 
-    
     TTF_CloseFont( gFont );
     gFont = NULL;
 
@@ -161,9 +131,9 @@ void closee(void)
     
 
 
-    //Quit SDL
+    //Quit SDL subsystems
+    IMG_Quit();
     Mix_Quit();
     TTF_Quit();
-    IMG_Quit();
     SDL_Quit();
 }

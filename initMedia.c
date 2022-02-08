@@ -5,6 +5,7 @@
 //  Created by Arthur dubois on 29/11/2021.
 //
 
+#include <string.h>
 #include "initMedia.h"
 
 static void vmsg(const char *prefix, const char *sep, const char *suffix,
@@ -126,7 +127,6 @@ _Bool loadMediaText(void)
 
     return success;
 }
-
 
 
 #if defined(SDL_TTF_MAJOR_VERSION)
@@ -309,8 +309,14 @@ void initAllLTexture(void){
 }
 
 void freeAllTexture(void){
-    
-    
+
+    // free text input
+    freeLtexture(&inputTextTexture);
+
+    // free center menu
+    freeLtexture(&textTexture);
+    freeLtexture(&mp3Texture);
+
     // free left menu
     freeLtexture(&recSelected);
     freeLtexture(&logoTexture);

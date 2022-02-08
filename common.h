@@ -8,7 +8,7 @@
 #ifndef common_h
 #define common_h
 
-#define MAC
+#define WINDOWS
 
 #ifdef WINDOWS
 

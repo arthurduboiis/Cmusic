@@ -47,10 +47,7 @@ typedef enum LButtonEvent
 
 
 typedef struct LButton{
-    //Top left position
     SDL_Point mPosition;
-
-    //Currently used global sprite
     LButtonEvent mCurrentButton;
 }LButton;
 

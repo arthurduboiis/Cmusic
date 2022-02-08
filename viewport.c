@@ -167,30 +167,30 @@ _Bool createCenterMenu(void){
     loadFromRenderedText(&textTexture, "Récents");
     renderLTexture(textTexture, 10, 10, NULL);
 
-    /* EN COURS
+    // EN COURS
     const int width_Scrolling = 1100;
     const int height_Scrolling = 568;
 
     const int width_Affichage = 952;
     const int height_Affichage = 180;
 
-//    // x_scrolling = 10, y_scrolling = 20
+//  x_scrolling = 10, y_scrolling = 20
 //
-//    SDL_Rect scrolling;
-//    scrolling.h = 150;
-//    scrolling.w = 932;
-//    scrolling.x = 10;
-//    scrolling.y = 40;
-//
-//    SDL_RenderDrawRect(renderer, &scrolling);
-//    loadFromRenderedText(&textTexture, "Test");
-//    renderLTexture(textTexture, 10, 40, &scrolling);
+    SDL_Rect scrolling;
+    scrolling.h = 150;
+    scrolling.w = 932;
+    scrolling.x = 10;
+    scrolling.y = 40;
+
+    SDL_RenderDrawRect(renderer, &scrolling);
+    loadFromRenderedText(&textTexture, "Test");
+    renderLTexture(textTexture, 10, 40, NULL);
 //
 //    SDL_RenderGetClipRect(renderer, &scrolling);
-*/
+
     SDL_RenderDrawLine(renderer, 0, 200, 1152, 200);
 
-    //todo optimisation
+    //optimisation (si possible)
     loadFromRenderedText(&textTexture, "Ajouter");
     renderLTexture(textTexture, 10, 210, NULL);
     loadFromRenderedText(&textTexture, "un");

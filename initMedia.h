@@ -43,6 +43,14 @@ void renderLTexture(LTexture texture,  int x, int y, SDL_Rect *clip);
 
 SDL_Texture* loadMediaTexture(char path[]);
 
+// Texture & char for text input
+LTexture inputTextTexture;
+char *textFromInput;
+
+
+// Texture for center menu
+LTexture textTexture, mp3Texture;
+
 // Texture for left menu
 LTexture logoTexture,recSelected,homeTxt, homePng, newTxt, newPng, topTxt, topPng, playlistTxt, playlistPng, paramTxt, paramPng;
 

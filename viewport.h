@@ -30,16 +30,6 @@ void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);
 void setXVolume(int);
 
-LTexture inputTextTexture;
-char *textFromInput;
-
-LTexture textTexture;
-LTexture mp3Texture;
-
-
-
-
-
 SDL_Rect recSelectedSize;
 
 

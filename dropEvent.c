@@ -19,7 +19,7 @@ void dropEvent(SDL_Event* e)
     
     _Bool inside = 1;
     
-    if (xMouse < drop.x || xMouse > drop.x + drop.width || yMouse < drop.y || yMouse > drop.y + drop.height)
+    if (xMouse < drop.x || xMouse > drop.x + drop.width || yMouse < drop.y || yMouse > drop.y + drop.height)
     {
         inside = 0;
     }

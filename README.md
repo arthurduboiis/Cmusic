@@ -3,6 +3,8 @@
 ##Client Fonctionnel 
 Comporte toute la partie client graphique mais aussi le lancement d'une musique avec la touche espace
 
+NE PAS INSERER common.h DANS LES COMMITS
+
 Pour les versions Windows : aller dans common.h -> modifier #define MAC en #define WINDOWS
 
 Pour les versions Mac : aller dans common.h -> modifier #define WINDOWS en #define MAC
