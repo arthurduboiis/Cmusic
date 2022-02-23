@@ -28,8 +28,10 @@ void createViewportSetting(void);
 
 void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);
-void setXVolume(int);
 
+
+void setXVolume(int);
+void setXScrolling(int);
 SDL_Rect recSelectedSize;
 
 

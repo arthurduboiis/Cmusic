@@ -24,60 +24,111 @@ void setPosition(LButton *button, int x, int y )
 void handleEvent( LButton *button, SDL_Event* e ,int width, int height)
 {
     //If mouse event happened
-    if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
-    {
-        //Get mouse position
+    if (e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP ||
+        e->type == SDL_MOUSEWHEEL || e->type == SDL_MOUSEWHEEL_NORMAL) {
         int x, y;
-        SDL_GetMouseState( &x, &y );
-        //Check if mouse is in button
+        SDL_GetMouseState(&x, &y);
         _Bool inside = 1;
-
-        //Mouse is left of the button
-        if( x < button->mPosition.x )
-        {
+        if (x < button->mPosition.x) {
             inside = 0;
         }
-        //Mouse is right of the button
-        else if( x > button->mPosition.x + width )
-        {
+            //Mouse is right of the button
+        else if (x > button->mPosition.x + width) {
             inside = 0;
         }
-        //Mouse above the button
-        else if( y < button->mPosition.y )
-        {
+            //Mouse above the button
+        else if (y < button->mPosition.y) {
             inside = 0;
         }
-        //Mouse below the button
-        else if( y > button->mPosition.y + height )
-        {
+            //Mouse below the button
+        else if (y > button->mPosition.y + height) {
             inside = 0;
         }
-        //Mouse is outside button
-        if( !inside )
-        {
+        if (!inside) {
             button->mCurrentButton = BUTTON_MOUSE_OUT;
         }
-        //Mouse is inside button
-        else
-        {
-            if(e->type == SDL_MOUSEMOTION)
-            {
+            //Mouse is inside button
+        else {
+            if (e->type == SDL_MOUSEMOTION) {
                 button->mCurrentButton = BUTTON_MOUSE_MOTION;
             }
-            if(e->type == SDL_MOUSEBUTTONDOWN)
-            {
+            if (e->type == SDL_MOUSEBUTTONDOWN) {
                 button->mCurrentButton = BUTTON_MOUSE_DOWN;
                 printf("downnnnn");
-            
+
             }
-            
-            
-            if(e->type == SDL_MOUSEBUTTONUP)
-            {
+
+            if (e->type == SDL_MOUSEBUTTONUP) {
                 button->mCurrentButton = BUTTON_MOUSE_UP;
                 printf("clicked");
             }
-            
+
+            if (e->type == SDL_MOUSEWHEEL) {
+
+                if (e->wheel.y > 0 ){
+                    button->mCurrentButton = WHEEL_UP;
+
+                }else if (e->wheel.y < 0){
+                    button->mCurrentButton = WHEEL_DOWN;
+                }
+
+            }
+        }
+    } else {
+        if (e->type == SDL_MOUSEWHEEL_FLIPPED) {
+            //Get mouse position
+            int x, y;
+            SDL_GetMouseState(&x, &y);
+            //Check if mouse is in button
+            _Bool inside = 1;
+
+            //Mouse is left of the button
+            if (x < button->mPosition.x) {
+                inside = 0;
+            }
+                //Mouse is right of the button
+            else if (x > button->mPosition.x + width) {
+                inside = 0;
+            }
+                //Mouse above the button
+            else if (y < button->mPosition.y) {
+                inside = 0;
+            }
+                //Mouse below the button
+            else if (y > button->mPosition.y + height) {
+                inside = 0;
+            }
+            //Mouse is outside button
+            if (!inside) {
+                button->mCurrentButton = BUTTON_MOUSE_OUT;
+            }
+                //Mouse is inside button
+            else {
+                if (e->type == SDL_MOUSEMOTION) {
+                    button->mCurrentButton = BUTTON_MOUSE_MOTION;
+                }
+                if (e->type == SDL_MOUSEBUTTONDOWN) {
+                    button->mCurrentButton = BUTTON_MOUSE_DOWN;
+                    printf("downnnnn");
+
+                }
+
+                if (e->type == SDL_MOUSEBUTTONUP) {
+                    button->mCurrentButton = BUTTON_MOUSE_UP;
+                    printf("clicked");
+                }
+
+                if (e->type == SDL_MOUSEWHEEL) {
+
+                    if (e->wheel.y > 0 ){
+                        button->mCurrentButton = WHEEL_UP;
+                    }else if (e->wheel.y < 0){
+                        button->mCurrentButton = WHEEL_DOWN;
+                    }
+                }
+
+
+            }
         }
     }
 }
@@ -90,7 +141,7 @@ void initButtonMenu(SDL_Event *e)
         handleEvent(&gButtonsBottomMenu[i], e,BUTTON_BOTTOM_WIDTH,BUTTON_BOTTOM_HEIGHT);
     }
     handleEvent(&volumeButton, e, 100, BUTTON_VOLUME_SIZE);
-    
+    handleEvent(&scrollingArea, e, SCROLLING_AREA_WIDTH, SCROLLING_AREA_HEIGHT);
 }
 
 void dragButtonVolume(SDL_Event *event)
@@ -101,7 +152,17 @@ void dragButtonVolume(SDL_Event *event)
     }
 }
 
-
+void scrollingEvent()
+{
+    if(scrollingArea.mCurrentButton == 4)
+    {
+        setXScrolling(xScrolling+=15);
+    }
+    else if (scrollingArea.mCurrentButton == 5)
+    {
+        setXScrolling(xScrolling-=15);
+    }
+}
 
 void setPositionButtonLeftMenu(void)
 {
@@ -122,6 +183,11 @@ void setPositionButtonBottomMenu(void)
     setPosition(&gButtonsBottomMenu[4], X_BUTTON_REPEAT,Y_BUTTON_BOTTOM_MENU);
     setPosition(&volumeButton, 1008, 600);
     
+}
+
+void setPositionScrollingArea(void)
+{
+    setPosition(&scrollingArea, 210, 40);
 }
 
 

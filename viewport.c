@@ -10,6 +10,7 @@
 int selectedButton = 0;
 int xVolume = 1038;
 
+int xScrolling = 50;
 
 _Bool createLeftMenu(void)
 {
@@ -167,15 +168,7 @@ _Bool createCenterMenu(void){
     loadFromRenderedText(&textTexture, "Récents");
     renderLTexture(textTexture, 10, 10, NULL);
 
-    // EN COURS
-    const int width_Scrolling = 1100;
-    const int height_Scrolling = 568;
 
-    const int width_Affichage = 952;
-    const int height_Affichage = 180;
-
-//  x_scrolling = 10, y_scrolling = 20
-//
     SDL_Rect scrolling;
     scrolling.h = 150;
     scrolling.w = 932;
@@ -183,10 +176,15 @@ _Bool createCenterMenu(void){
     scrolling.y = 40;
 
     SDL_RenderDrawRect(renderer, &scrolling);
+
+    loadFromFile(CHEMIN"Ressources/img/mp3.png", &mp3Texture);
+    mp3Texture.mHeight = 60;
+    mp3Texture.mWidth = 60;
+    renderLTexture(mp3Texture, xScrolling, 60, NULL);
+
     loadFromRenderedText(&textTexture, "Test");
-    renderLTexture(textTexture, 10, 40, NULL);
-//
-//    SDL_RenderGetClipRect(renderer, &scrolling);
+    renderLTexture(textTexture, xScrolling, 130, NULL);
+
 
     SDL_RenderDrawLine(renderer, 0, 200, 1152, 200);
 
@@ -360,4 +358,8 @@ void setRectSelected(SDL_Rect* size, int y)
 void setXVolume(int x){
     xVolume = x;
     Mix_Volume(1, x-1000);
+}
+
+void setXScrolling(int x){
+    xScrolling = x;
 }
