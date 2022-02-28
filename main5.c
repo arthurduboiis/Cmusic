@@ -11,7 +11,6 @@
 #include "libavutil/samplefmt.h"
 #include "libavutil/time.h"
 #include "libavformat/avformat.h"
-#include "libswscale/swscale.h"
 #include "libavcodec/avfft.h"
 #include "libswresample/swresample.h"
 
@@ -32,12 +31,6 @@
 
 /* we use about AUDIO_DIFF_AVG_NB A-V differences to make the average */
 #define AUDIO_DIFF_AVG_NB   20
-
-/* NOTE: the size must be big enough to compensate the hardware audio buffersize size */
-/* TODO: We assume that a decoded and resampled frame fits into this buffer */
-#define SAMPLE_ARRAY_SIZE (8 * 65536)
-
-static unsigned sws_flags = SWS_BICUBIC;
 
 typedef struct MyAVPacketList {
     AVPacket *pkt;
@@ -81,7 +74,6 @@ typedef struct Clock {
 
 typedef struct Frame {
     AVFrame *frame;
-    AVSubtitle sub;
     int serial;
     double pts;           /* presentation timestamp for the frame */
     double duration;      /* estimated duration of the frame */
@@ -141,7 +133,6 @@ typedef struct AudioState {
 
     double audio_clock;
     int audio_clock_serial;
-    double audio_diff_cum; /* used for AV difference average computation */
     double audio_diff_avg_coef;
     double audio_diff_threshold;
     int audio_diff_avg_count;
@@ -174,7 +165,6 @@ typedef struct AudioState {
 } AudioState;
 
 SDL_AudioDeviceID audio_dev;
-const char* wanted_stream_spec[AVMEDIA_TYPE_NB] = {0};
 int infinite_buffer = -1;
 int64_t audio_callback_time;
 
@@ -708,10 +698,6 @@ void sdl_audio_callback(void *opaque, Uint8 *stream, int len){
         is->audio_buf_index += len1;
     }
     is->audio_write_buf_size = is->audio_buf_size - is->audio_buf_index;
-//    if (!isnan(is->audio_clock)) {
-//        set_clock_at(&is->audclk, is->audio_clock - (double)(2 * is->audio_hw_buf_size + is->audio_write_buf_size) / is->audio_tgt.bytes_per_sec, is->audio_clock_serial, audio_callback_time / 1000000.0);
-//        sync_clock_to_slave(&is->extclk, &is->audclk);
-//    }
 }
 
 int audio_thread(void *arg){
@@ -896,10 +882,6 @@ int stream_component_open(AudioState* is, int stream_index){
 
     if ((ret = decoder_init(&is->auddec, avctx, &is->audioq, is->continue_read_thread)) < 0)
         goto fail;
-//    if ((is->ic->iformat->flags & (AVFMT_NOBINSEARCH | AVFMT_NOGENSEARCH | AVFMT_NO_BYTE_SEEK)) && !is->ic->iformat->read_seek) {
-//        is->auddec.start_pts = is->audio_st->start_time;
-//        is->auddec.start_pts_tb = is->audio_st->time_base;
-//    }
     if ((ret = decoder_start(&is->auddec, audio_thread, "audio_decoder", is)) < 0)
         goto out;
     SDL_PauseAudioDevice(audio_dev, 0);
@@ -1003,23 +985,6 @@ int read_thread(void *arg){
 
 
     fprintf(stderr, "nb stream : %d\n", ic->nb_streams);
-//    for (i = 0; i < ic->nb_streams; i++) {
-//        AVStream *st = ic->streams[i];
-//        enum AVMediaType type = st->codecpar->codec_type;
-//        st->discard = AVDISCARD_ALL;
-//        fprintf(stderr, "stindex : %d, type : %d, i : %d\n", st_index[type], type, i);
-//        if (type >= 0 && wanted_stream_spec[type] && st_index[type] == -1)
-//            if (avformat_match_stream_specifier(ic, st, wanted_stream_spec[type]) > 0){
-//                fprintf(stderr, "stindex : %d, type : %d, i : %d\n", st_index[type], type, i);
-//                st_index[type] = i;
-//            }
-//    }
-//    for (i = 0; i < AVMEDIA_TYPE_NB; i++) {
-//        if (wanted_stream_spec[i] && st_index[i] == -1) {
-//            fprintf(stderr, "Stream specifier %s does not match any %s stream\n", wanted_stream_spec[i], av_get_media_type_string(i));
-//            st_index[i] = INT_MAX;
-//        }
-//    }
 
     for(i = 0; i < ic->nb_streams; i++){
         if(ic->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && audio_index < 0)
