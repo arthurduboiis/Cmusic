@@ -1,7 +1,5 @@
-
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_thread.h>
+//rtmp://localhost/live/STREAM_NAME
+///home/tanguy/Documents/ffmpeg_client/enemy.mp3
 
 #include "libavutil/avstring.h"
 #include "libavutil/channel_layout.h"
@@ -12,25 +10,21 @@
 #include "libavutil/time.h"
 #include "libavformat/avformat.h"
 #include "libavcodec/avfft.h"
+#include "libavutil/opt.h"
 #include "libswresample/swresample.h"
 
-#include "temp.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
 
 #define FF_QUIT_EVENT    (SDL_USEREVENT + 2)
-
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MIN_FRAMES 25
-
-/* Minimum SDL audio buffer size, in samples. */
 #define SDL_AUDIO_MIN_BUFFER_SIZE 512
-/* Calculate actual buffer size keeping in mind not cause too frequent audio callbacks */
 #define SDL_AUDIO_MAX_CALLBACKS_PER_SEC 30
-
-#define AV_NOSYNC_THRESHOLD 10.0
-
-
-/* we use about AUDIO_DIFF_AVG_NB A-V differences to make the average */
 #define AUDIO_DIFF_AVG_NB   20
+
+#define SAMPLE_QUEUE_SIZE 9
+#define FRAME_QUEUE_SIZE 9
 
 typedef struct MyAVPacketList {
     AVPacket *pkt;
@@ -48,11 +42,6 @@ typedef struct PacketQueue {
     SDL_cond *cond;
 } PacketQueue;
 
-#define VIDEO_PICTURE_QUEUE_SIZE 3
-#define SUBPICTURE_QUEUE_SIZE 16
-#define SAMPLE_QUEUE_SIZE 9
-#define FRAME_QUEUE_SIZE FFMAX(SAMPLE_QUEUE_SIZE, FFMAX(VIDEO_PICTURE_QUEUE_SIZE, SUBPICTURE_QUEUE_SIZE))
-
 typedef struct AudioParams {
     int freq;
     int channels;
@@ -68,7 +57,6 @@ typedef struct Clock {
     double last_updated;
     double speed;
     int serial;           /* clock is based on a packet with this serial */
-    int paused;
     int *queue_serial;    /* pointer to the current packet queue serial, used for obsolete clock detection */
 } Clock;
 
@@ -93,11 +81,6 @@ typedef struct FrameQueue {
     PacketQueue *pktq;
 } FrameQueue;
 
-enum {
-    AV_SYNC_AUDIO_MASTER, /* default choice */
-    AV_SYNC_EXTERNAL_CLOCK, /* synchronize to an external clock */
-};
-
 typedef struct Decoder {
     AVPacket *pkt;
     PacketQueue *queue;
@@ -113,13 +96,12 @@ typedef struct Decoder {
     SDL_Thread *decoder_tid;
 } Decoder;
 
-
 typedef struct AudioState {
     SDL_Thread *read_tid;
     const AVInputFormat *iformat;
     int abort_request;
     AVFormatContext *ic;
-    int realtime;
+//    int realtime;
 
     Clock audclk;
 
@@ -128,8 +110,6 @@ typedef struct AudioState {
     Decoder auddec;
 
     int audio_stream;
-
-    int av_sync_type;
 
     double audio_clock;
     int audio_clock_serial;
@@ -170,20 +150,23 @@ int64_t audio_callback_time;
 
 int packet_queue_init(PacketQueue *q){
     memset(q, 0, sizeof(PacketQueue));
+
     q->pkt_list = av_fifo_alloc(sizeof(MyAVPacketList));
-    if(!q->pkt_list)
-        return AVERROR(ENOMEM);
+    if(!q->pkt_list) {
+        return -1;
+    }
     q->mutex = SDL_CreateMutex();
     if (!q->mutex) {
-        av_log(NULL, AV_LOG_FATAL, "SDL_CreateMutex(): %s\n", SDL_GetError());
-        return AVERROR(ENOMEM);
+        fprintf(stderr, "SDL_CreateMutex(): %s\n", SDL_GetError());
+        return -1;
     }
     q->cond = SDL_CreateCond();
     if (!q->cond) {
-        av_log(NULL, AV_LOG_FATAL, "SDL_CreateCond(): %s\n", SDL_GetError());
-        return AVERROR(ENOMEM);
+        fprintf(stderr, "SDL_CreateCond(): %s\n", SDL_GetError());
+        return -1;
     }
     q->abort_request = 1;
+
     return 0;
 }
 
@@ -315,22 +298,25 @@ void frame_queue_unref_item(Frame *vp){
 int frame_queue_init(FrameQueue *f, PacketQueue *pktq, int max_size, int keep_last){
     int i;
     memset(f, 0, sizeof(FrameQueue));
+
     if(!(f->mutex = SDL_CreateMutex())){
         fprintf(stderr, "SDL_CreateMutex(): %s\n", SDL_GetError());
-        return AVERROR(ENOMEM);
+        return -1;
     }
     if (!(f->cond = SDL_CreateCond())) {
         fprintf(stderr, "SDL_CreateCond(): %s\n", SDL_GetError());
-        av_log(NULL, AV_LOG_FATAL, "SDL_CreateCond(): %s\n", SDL_GetError());
-        return AVERROR(ENOMEM);
+        return -1;
     }
+
     f->pktq = pktq;
     f->max_size = FFMIN(max_size, FRAME_QUEUE_SIZE);
-    f->keep_last = !!keep_last;
+    f->keep_last = keep_last;
+
     for(i = 0; i < f->max_size; i++){
         if(!(f->queue[i].frame = av_frame_alloc()))
-            return AVERROR(ENOMEM);
+            return -1;
     }
+
     return 0;
 }
 
@@ -503,56 +489,13 @@ int decoder_decode_frame(Decoder *d, AVFrame *frame, AVSubtitle *sub){
     }
 }
 
-void set_clock_at(Clock *c, double pts, int serial, double time){
-    c->pts = pts;
-    c->last_updated = time;
-    c->pts_drift = c->pts - time;
-    c->serial = serial;
-}
-
-void set_clock(Clock* c, double pts, int serial){
-    double time = av_gettime_relative() / 1000000.0;
-    set_clock_at(c, pts, serial, time);
- }
-
-void init_clock(Clock* c, int* queue_serial){
-    c->speed = 1.0;
-    c->paused = 0;
-    c->queue_serial = queue_serial;
-    set_clock(c, NAN, -1);
-}
-
 double get_clock(Clock *c){
     if (*c->queue_serial != c->serial)
         return NAN;
-    if (c->paused) {
-        return c->pts;
-    } else {
+    else {
         double time = av_gettime_relative() / 1000000.0;
         return c->pts_drift + time - (time - c->last_updated) * (1.0 - c->speed);
     }
-}
-
-void sync_clock_to_slave(Clock *c, Clock *slave){
-    double clock = get_clock(c);
-    double slave_clock = get_clock(slave);
-    if (!isnan(slave_clock) && (isnan(clock) || fabs(clock - slave_clock) > AV_NOSYNC_THRESHOLD))
-        set_clock(c, slave_clock, slave->serial);
-}
-
-int is_realtime(AVFormatContext* s){
-    if(   !strcmp(s->iformat->name, "rtp")
-          || !strcmp(s->iformat->name, "rtsp")
-          || !strcmp(s->iformat->name, "sdp")
-            )
-        return 1;
-
-    if(s->pb && (   !strncmp(s->url, "rtp:", 4)
-                    || !strncmp(s->url, "udp:", 4)
-    )
-            )
-        return 1;
-    return 0;
 }
 
 int synchronize_audio(AudioState *is, int nb_samples){
@@ -811,11 +754,67 @@ int stream_has_enough_packets(AVStream *st, int stream_id, PacketQueue *queue) {
            queue->nb_packets > MIN_FRAMES && (!queue->duration || av_q2d(st->time_base) * queue->duration > 1.0);
 }
 
+int check_stream_specifier(AVFormatContext *s, AVStream *st, const char *spec)
+{
+    int ret = avformat_match_stream_specifier(s, st, spec);
+    if (ret < 0)
+        av_log(s, AV_LOG_ERROR, "Invalid stream specifier: %s.\n", spec);
+    return ret;
+}
+
+AVDictionary *filter_codec_opts(AVDictionary *opts, enum AVCodecID codec_id,
+                                AVFormatContext *s, AVStream *st, const AVCodec *codec)
+{
+    AVDictionary    *ret = NULL;
+    const AVDictionaryEntry *t = NULL;
+    int            flags = s->oformat ? AV_OPT_FLAG_ENCODING_PARAM
+                                      : AV_OPT_FLAG_DECODING_PARAM;
+    char          prefix;
+    const AVClass    *cc = avcodec_get_class();
+
+    if (!codec)
+        codec            = s->oformat ? avcodec_find_encoder(codec_id)
+                                      : avcodec_find_decoder(codec_id);
+
+
+    prefix  = 'a';
+    flags  |= AV_OPT_FLAG_AUDIO_PARAM;
+
+
+
+    while (t = av_dict_get(opts, "", t, AV_DICT_IGNORE_SUFFIX)) {
+        const AVClass *priv_class;
+        char *p = strchr(t->key, ':');
+
+        /* check stream specification in opt name */
+        if (p)
+            switch (check_stream_specifier(s, st, p + 1)) {
+                case  1: *p = 0; break;
+                case  0:         continue;
+                default:         exit(1);
+            }
+
+        if (av_opt_find(&cc, t->key, NULL, flags, AV_OPT_SEARCH_FAKE_OBJ) ||
+            !codec ||
+            ((priv_class = codec->priv_class) &&
+             av_opt_find(&priv_class, t->key, NULL, flags,
+                         AV_OPT_SEARCH_FAKE_OBJ)))
+            av_dict_set(&ret, t->key, t->value, 0);
+        else if (t->key[0] == prefix &&
+                 av_opt_find(&cc, t->key + 1, NULL, flags,
+                             AV_OPT_SEARCH_FAKE_OBJ))
+            av_dict_set(&ret, t->key + 1, t->value, 0);
+
+        if (p)
+            *p = ':';
+    }
+    return ret;
+}
+
 int stream_component_open(AudioState* is, int stream_index){
     AVFormatContext *ic = is->ic;
     AVCodecContext *avctx;
     const AVCodec *codec;
-    const char *forced_codec_name = NULL;
     AVDictionary *opts = NULL;
     const AVDictionaryEntry *t = NULL;
     int sample_rate, nb_channels;
@@ -826,12 +825,14 @@ int stream_component_open(AudioState* is, int stream_index){
         return -1;
 
     avctx = avcodec_alloc_context3(NULL);
-    if (!avctx)
-        return AVERROR(ENOMEM);
+    if (!avctx) {
+        return -1;
+    }
 
     ret = avcodec_parameters_to_context(avctx, ic->streams[stream_index]->codecpar);
-    if(ret < 0)
+    if(ret < 0) {
         goto fail;
+    }
     avctx->pkt_timebase = ic->streams[stream_index]->time_base;
 
     codec = avcodec_find_decoder(avctx->codec_id);
@@ -839,13 +840,13 @@ int stream_component_open(AudioState* is, int stream_index){
     is->last_audio_stream = stream_index;
     if(!codec){
         fprintf(stderr, "No decoder could be found for codec %s\n", avcodec_get_name(avctx->codec_id));
-        ret = AVERROR(EINVAL);
+        ret = -1;
         goto fail;
     }
 
     avctx->codec_id = codec->id;
 
-    opts = filter_codec_opts(codec_opts, avctx->codec_id, ic, ic->streams[stream_index], codec);
+    opts = filter_codec_opts(NULL, avctx->codec_id, ic, ic->streams[stream_index], codec);
 
     if (!av_dict_get(opts, "threads", NULL, 0))
         av_dict_set(&opts, "threads", "auto", 0);
@@ -901,55 +902,36 @@ int read_thread(void *arg){
     int err, i, ret;
     int audio_index = -1;
     AVPacket *pkt = NULL;
-    int64_t stream_start_time;
-    int pkt_in_play_range = 0;
     const AVDictionaryEntry *t;
     SDL_mutex *wait_mutex = SDL_CreateMutex();
-    int scan_all_pmts_set = 0;
-    int64_t pkt_ts;
 
     if(!wait_mutex){
         fprintf(stderr, "SDL_CreateMutex(): %s\n", SDL_GetError());
-        ret = AVERROR(ENOMEM);
+        ret = -1;
         goto fail;
     }
 
-//    memset(st_index, -1, sizeof(st_index));
     is->eof = 0;
 
     pkt = av_packet_alloc();
     if(!pkt){
         fprintf(stderr, "Could not allocate packet\n");
-        ret = AVERROR(ENOMEM);
+        ret = -1;
         goto fail;
     }
     ic = avformat_alloc_context();
     if(!ic){
         fprintf(stderr, "COuld not allocate context");
-        ret = AVERROR(ENOMEM);
+        ret = -1;
         goto fail;
     }
     ic->interrupt_callback.callback = decode_interrupt_cb;
     ic->interrupt_callback.opaque = is;
 
-    if (!av_dict_get(format_opts, "scan_all_pmts", NULL, AV_DICT_MATCH_CASE)) {
-        av_dict_set(&format_opts, "scan_all_pmts", "1", AV_DICT_DONT_OVERWRITE);
-        scan_all_pmts_set = 1;
-    }
-
-    err = avformat_open_input(&ic, is->filename, NULL, &format_opts);
+    err = avformat_open_input(&ic, is->filename, NULL, NULL);
     if(err < 0){
         fprintf(stderr, is->filename, err);
         ret = -1;
-        goto fail;
-    }
-
-    if (scan_all_pmts_set)
-        av_dict_set(&format_opts, "scan_all_pmts", NULL, AV_DICT_MATCH_CASE);
-
-    if ((t = av_dict_get(format_opts, "", NULL, AV_DICT_IGNORE_SUFFIX))) {
-        av_log(NULL, AV_LOG_ERROR, "Option %s not found.\n", t->key);
-        ret = AVERROR_OPTION_NOT_FOUND;
         goto fail;
     }
 
@@ -957,34 +939,19 @@ int read_thread(void *arg){
 
     av_format_inject_global_side_data(ic);
 
-    AVDictionary **opts = setup_find_stream_info_opts(ic, codec_opts);
-    int orig_nb_streams = ic->nb_streams;
-
-    err = avformat_find_stream_info(ic, opts);
-
-    for (i = 0; i < orig_nb_streams; i++)
-        av_dict_free(&opts[i]);
-    av_freep(&opts);
+    err = avformat_find_stream_info(ic, NULL);
 
     if (err < 0) {
-        av_log(NULL, AV_LOG_WARNING,
-               "%s: could not find codec parameters\n", is->filename);
+        fprintf(stderr, "%s: could not find codec parameters\n", is->filename);
         ret = -1;
         goto fail;
     }
 
-    if (ic->pb)
-        ic->pb->eof_reached = 0; // FIXME hack, ffplay maybe should not use avio_feof() to test for the end
+    if (ic->pb) {
+        ic->pb->eof_reached = 0;
+    }
 
     is->max_frame_duration = (ic->iformat->flags & AVFMT_TS_DISCONT) ? 10.0 : 3600.0;
-
-    is->realtime = is_realtime(ic);
-    fprintf(stderr, "t : %d\n", is->realtime);
-
-//    av_dump_format(ic, 0, is->filename, 0);
-
-
-    fprintf(stderr, "nb stream : %d\n", ic->nb_streams);
 
     for(i = 0; i < ic->nb_streams; i++){
         if(ic->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && audio_index < 0)
@@ -1004,10 +971,6 @@ int read_thread(void *arg){
         fprintf(stderr, "Failed to open file %s", is->filename);
         ret = -1;
         goto fail;
-    }
-
-    if(infinite_buffer < 0 && is->realtime){
-        infinite_buffer = 1;
     }
 
     for(;;){
@@ -1096,9 +1059,9 @@ void stream_close(AudioState* is){
     is->abort_request = 1;
     SDL_WaitThread(is->read_tid, NULL);
 
-    if(is->audio_stream >= 0)
+    if(is->audio_stream >= 0) {
         stream_component_close(is, is->audio_stream);
-
+    }
     avformat_close_input(&is->ic);
 
     packet_queue_destroy(&is->audioq);
@@ -1107,7 +1070,6 @@ void stream_close(AudioState* is){
     SDL_DestroyCond(is->continue_read_thread);
 
     av_free(is);
-
 }
 
 void do_exit(AudioState *is)
@@ -1115,14 +1077,13 @@ void do_exit(AudioState *is)
     if (is) {
         stream_close(is);
     }
-
-    uninit_opts();
     avformat_network_deinit();
     printf("\n");
     SDL_Quit();
     av_log(NULL, AV_LOG_QUIET, "%s", "");
     exit(0);
 }
+
 AudioState* stream_open(const char * filename){
     AudioState *is;
 
@@ -1152,18 +1113,17 @@ AudioState* stream_open(const char * filename){
         stream_close(is);
         return NULL;
     }
-
-    init_clock(&is->audclk, &is->audioq.serial);
     is->audio_clock_serial = -1;
 
     is->audio_volume = 128;
-    is->av_sync_type = AV_SYNC_AUDIO_MASTER;
+
     is->read_tid = SDL_CreateThread(read_thread, "read_thread", is);
     if(!is->read_tid){
         fprintf(stderr, "SDL_CreateThread(): %s\n", SDL_GetError());
         stream_close(is);
         return NULL;
     }
+
     return is;
 }
 
