@@ -359,5 +359,4 @@ void setRectSelected(SDL_Rect* size, int y)
 
 void setXVolume(int x){
     xVolume = x;
-    Mix_Volume(1, x-1000);
 }

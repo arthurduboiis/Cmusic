@@ -133,7 +133,6 @@ void closee(void)
 
     //Quit SDL subsystems
     IMG_Quit();
-    Mix_Quit();
     TTF_Quit();
     SDL_Quit();
 }

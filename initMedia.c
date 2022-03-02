@@ -95,13 +95,7 @@ _Bool init(void)
                    printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
                    success = 0;
                }
-                
-                //Initialize SDL_mixer
-               if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
-               {
-                   printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
-                   success = 0;
-               }
+
             }
            
         }
