@@ -52,56 +52,43 @@ void die(const char *format, ...)
 
 _Bool init(void)
 {
-    //Initialization flag
-    _Bool success = 1;
-
-    //Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0 )
+    if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0 )
     {
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
-        success = 0;
-    }
-    else
-    {
-        IMG_Init(IMG_INIT_JPG);
-        //Create window
-        window = SDL_CreateWindow( "CMusic", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-        if( window == NULL )
-        {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-            success = 0;
-        }
-        else
-        { //Create renderer for window<
-            renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
-            if( renderer == NULL )
-            {
-                printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
-                success = 0;
-            }else {
-                //Initialize renderer color
-                //SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-                
-                //Initialize PNG loading
-                int imgFlags = IMG_INIT_PNG;
-                if( !( IMG_Init( imgFlags ) & imgFlags ) )
-                {
-                    printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
-                    success = 0;
-                }
-                //Initialize SDL_ttf
-               if( TTF_Init() == -1 )
-               {
-                   printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
-                   success = 0;
-               }
-
-            }
-           
-        }
+        fprintf( stderr, "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+        return 0;
     }
 
-    return success;
+    IMG_Init(IMG_INIT_JPG);
+    //Create window
+    window = SDL_CreateWindow( "CMusic", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+    if( window == NULL )
+    {
+        fprintf( stderr, "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+        return 0;
+    }
+
+    renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+    if( renderer == NULL )
+    {
+        fprintf( stderr, "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
+        return 0;
+    }
+
+    //Initialize PNG loading
+    int imgFlags = IMG_INIT_PNG;
+    if( !( IMG_Init( imgFlags ) & imgFlags ) )
+    {
+        fprintf( stderr, "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+        return 0;
+    }
+    //Initialize SDL_ttf
+    if( TTF_Init() == -1 )
+    {
+        fprintf( stderr, "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        return 0;
+    }
+
+    return 1;
 }
 
 
