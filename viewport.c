@@ -8,7 +8,7 @@
 #include "viewport.h"
 
 int selectedButton = 0;
-int xVolume = 1038;
+int xVolume=1098;
 
 
 _Bool createLeftMenu(void)
@@ -140,7 +140,7 @@ _Bool createBottomMenu(void)
     renderLTexture(sound,978,27.5, NULL);
     
     
-    SDL_RenderDrawLine(renderer, 1008,40, 1108, 40);
+    SDL_RenderDrawLine(renderer, 1008,40, 1136, 40);
     point.mHeight = 16;
     point.mWidth = 16;
     

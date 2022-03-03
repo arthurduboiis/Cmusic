@@ -971,6 +971,8 @@ int read_thread(void *arg){
     }
 
     for(;;){
+        is->audio_volume = volume;
+
         if(is->abort_request){
             break;
         }
@@ -1115,7 +1117,7 @@ AudioState* stream_open(const char* filename){
     }
     is->audio_clock_serial = -1;
 
-    is->audio_volume = 128;
+    is->audio_volume = volume;
 
     is->read_tid = SDL_CreateThread(read_thread, "read_thread", is);
     if(!is->read_tid){
