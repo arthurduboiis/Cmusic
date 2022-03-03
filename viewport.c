@@ -8,7 +8,7 @@
 #include "viewport.h"
 
 int selectedButton = 0;
-int xVolume = 1038;
+int xVolume=1098;
 
 int xScrolling = 50;
 
@@ -141,7 +141,7 @@ _Bool createBottomMenu(void)
     renderLTexture(sound,978,27.5, NULL);
     
     
-    SDL_RenderDrawLine(renderer, 1008,40, 1108, 40);
+    SDL_RenderDrawLine(renderer, 1008,40, 1136, 40);
     point.mHeight = 16;
     point.mWidth = 16;
     
@@ -357,7 +357,6 @@ void setRectSelected(SDL_Rect* size, int y)
 
 void setXVolume(int x){
     xVolume = x;
-    Mix_Volume(1, x-1000);
 }
 
 void setXScrolling(int x){

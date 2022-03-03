@@ -6,7 +6,9 @@
 //
 
 #include "mouseButton.h"
+#include "lecteur_audio.h"
 
+int volume = 128;
 
 void initLButton(LButton *button){
     button->mPosition.x = 0;
@@ -149,6 +151,9 @@ void dragButtonVolume(SDL_Event *event)
     if(volumeButton.mCurrentButton == 2)
     {
         setXVolume(event->motion.x - BUTTON_VOLUME_SIZE/2);
+        volume = event->motion.x - 1008;
+
+        fprintf(stderr, "volume : %d\n", volume);
     }
 }
 
