@@ -18,5 +18,5 @@ Serveur en nodeJS : se lance avec la commande :
 
 Lancement de la musique avec :
 
-```ffmpeg -re -i {fichier audio} -c flv rtmp://localhost/live/STREAM_NAME```
+```ffmpeg -i {fichier audio} -f flv -vn rtmp://localhost/live/STREAM_NAME```
 
