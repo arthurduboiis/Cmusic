@@ -92,7 +92,7 @@ void initButtonMenu(SDL_Event *e)
         handleEvent(&gButtonsBottomMenu[i], e,BUTTON_BOTTOM_WIDTH,BUTTON_BOTTOM_HEIGHT);
     }
     handleEvent(&volumeButton, e, 100, BUTTON_VOLUME_SIZE);
-    
+
 }
 
 void dragButtonVolume(SDL_Event *event)

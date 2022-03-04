@@ -12,7 +12,6 @@
 #include <libavutil/dict.h>
 #include <libavutil/fifo.h>
 #include <libavutil/samplefmt.h>
-#include <libavutil/time.h>
 #include <libavutil/opt.h>
 #include <libavformat/avformat.h>
 #include <libavcodec/avfft.h>
@@ -23,7 +22,6 @@
 #define MIN_FRAMES 25
 #define SDL_AUDIO_MIN_BUFFER_SIZE 512
 #define SDL_AUDIO_MAX_CALLBACKS_PER_SEC 30
-#define AUDIO_DIFF_AVG_NB   20
 
 #define SAMPLE_QUEUE_SIZE 9
 #define FRAME_QUEUE_SIZE 9
@@ -53,20 +51,10 @@ typedef struct AudioParams {
     int bytes_per_sec;
 } AudioParams;
 
-//typedef struct Clock {
-//    double pts_drift;     /* clock base minus time at which we updated the clock */
-//    double last_updated;
-//    double speed;
-//    int serial;           /* clock is based on a packet with this serial */
-//    int *queue_serial;    /* pointer to the current packet queue serial, used for obsolete clock detection */
-//} Clock;
-
 typedef struct Frame {
     AVFrame *frame;
     int serial;
     double pts;           /* presentation timestamp for the frame */
-    double duration;      /* estimated duration of the frame */
-    int64_t pos;          /* byte position of the frame in the input file */
 } Frame;
 
 typedef struct FrameQueue {
@@ -87,7 +75,6 @@ typedef struct Decoder {
     PacketQueue *queue;
     AVCodecContext *avctx;
     int pkt_serial;
-    int finished;
     int packet_pending;
     SDL_cond *empty_queue_cond;
     int64_t start_pts;
@@ -99,51 +86,31 @@ typedef struct Decoder {
 
 typedef struct AudioState {
     SDL_Thread *read_tid;
-    const AVInputFormat *iformat;
     int abort_request;
     AVFormatContext *ic;
-
     FrameQueue sampq;
-
     Decoder auddec;
-
     int audio_stream;
-
     double audio_clock;
-    int audio_clock_serial;
-    double audio_diff_avg_coef;
-    double audio_diff_threshold;
-    int audio_diff_avg_count;
     AVStream *audio_st;
     PacketQueue audioq;
-    int audio_hw_buf_size;
     uint8_t *audio_buf;
     uint8_t *audio_buf1;
     unsigned int audio_buf_size; /* in bytes */
     unsigned int audio_buf1_size;
     int audio_buf_index; /* in bytes */
-    int audio_write_buf_size;
     int audio_volume;
     struct AudioParams audio_src;
-
     struct AudioParams audio_tgt;
     struct SwrContext *swr_ctx;
-
     RDFTContext *rdft;
-    int rdft_bits;
     FFTSample *rdft_data;
-
-    double max_frame_duration;      // maximum duration of a frame - above this, we consider the jump a timestamp discontinuity
     int eof;
-
     char *filename;
-    int last_audio_stream;
-
     SDL_cond *continue_read_thread;
 } AudioState;
 
 SDL_AudioDeviceID audio_dev;
-int64_t audio_callback_time;
 
 int packet_queue_init(PacketQueue *q){
     memset(q, 0, sizeof(PacketQueue));
@@ -456,7 +423,6 @@ int decoder_decode_frame(Decoder *d, AVFrame *frame, AVSubtitle *sub){
                     }
                 }
                 if (ret == AVERROR_EOF) {
-                    d->finished = d->pkt_serial;
                     avcodec_flush_buffers(d->avctx);
                     return 0;
                 }
@@ -478,7 +444,6 @@ int decoder_decode_frame(Decoder *d, AVFrame *frame, AVSubtitle *sub){
                 }
                 if (old_serial != d->pkt_serial) {
                     avcodec_flush_buffers(d->avctx);
-                    d->finished = 0;
                     d->next_pts = d->start_pts;
                     d->next_pts_tb = d->start_pts_tb;
                 }
@@ -585,7 +550,6 @@ int audio_decode_frame(AudioState* is){
         is->audio_clock = af->pts + (double) af->frame->nb_samples / af->frame->sample_rate;
     else
         is->audio_clock = NAN;
-    is->audio_clock_serial = af->serial;
 
 #ifdef DEBUG
     {
@@ -604,13 +568,11 @@ void sdl_audio_callback(void *opaque, Uint8 *stream, int len){
     AudioState *is = opaque;
     int audio_size, len1;
 
-    audio_callback_time = av_gettime_relative();
 
     while(len > 0){
         if (is->audio_buf_index >= is->audio_buf_size) {
             audio_size = audio_decode_frame(is);
             if (audio_size < 0) {
-                // if error, just output silence
                 is->audio_buf = NULL;
                 is->audio_buf_size = SDL_AUDIO_MIN_BUFFER_SIZE / is->audio_tgt.frame_size * is->audio_tgt.frame_size;
             }
@@ -636,7 +598,6 @@ void sdl_audio_callback(void *opaque, Uint8 *stream, int len){
         stream += len1;
         is->audio_buf_index += len1;
     }
-    is->audio_write_buf_size = is->audio_buf_size - is->audio_buf_index;
 }
 
 int audio_thread(void *arg){
@@ -663,9 +624,7 @@ int audio_thread(void *arg){
                 goto the_end;
 
             af->pts = (frame->pts == AV_NOPTS_VALUE) ? NAN : frame->pts * av_q2d(tb);
-            af->pos = frame->pkt_pos;
             af->serial = is->auddec.pkt_serial;
-            af->duration = av_q2d((AVRational) {frame->nb_samples, frame->sample_rate});
 
             av_frame_move_ref(af->frame, frame);
             frame_queue_push(&is->sampq);
@@ -834,7 +793,6 @@ int stream_component_open(AudioState* is, int stream_index){
 
     codec = avcodec_find_decoder(avctx->codec_id);
 
-    is->last_audio_stream = stream_index;
     if(!codec){
         fprintf(stderr, "No decoder could be found for codec %s\n", avcodec_get_name(avctx->codec_id));
         ret = -1;
@@ -866,15 +824,9 @@ int stream_component_open(AudioState* is, int stream_index){
     if ((ret = audio_open(is, channel_layout, nb_channels, sample_rate, &is->audio_tgt)) < 0) {
         goto fail;
     }
-    is->audio_hw_buf_size = ret;
     is->audio_src = is->audio_tgt;
     is->audio_buf_size = 0;
     is->audio_buf_index = 0;
-
-    is->audio_diff_avg_coef = exp(log(0.01) / AUDIO_DIFF_AVG_NB);
-    is->audio_diff_avg_count = 0;
-
-    is->audio_diff_threshold = (double)(is->audio_hw_buf_size) / is->audio_tgt.bytes_per_sec;
 
     is->audio_stream = stream_index;
     is->audio_st = ic->streams[stream_index];
@@ -949,8 +901,6 @@ int read_thread(void *arg){
     if (ic->pb) {
         ic->pb->eof_reached = 0;
     }
-
-    is->max_frame_duration = (ic->iformat->flags & AVFMT_TS_DISCONT) ? 10.0 : 3600.0;
 
     for(i = 0; i < ic->nb_streams; i++){
         if(ic->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && audio_index < 0)
@@ -1046,7 +996,6 @@ static void stream_component_close(AudioState* is, int stream_index){
         av_rdft_end(is->rdft);
         av_freep(&is->rdft_data);
         is->rdft = NULL;
-        is->rdft_bits = 0;
     }
 
     ic->streams[stream_index]->discard = AVDISCARD_ALL;
@@ -1091,14 +1040,13 @@ AudioState* stream_open(const char* filename){
         fprintf(stderr, "malloc audiostate failed\n");
         return NULL;
     }
-    is->last_audio_stream = is->audio_stream = -1;
+    is->audio_stream = -1;
     is->filename = av_strdup(filename);
     if(!is->filename)
     {
         stream_close(is);
         return NULL;
     }
-    is->iformat = NULL;
 
     if(frame_queue_init(&is->sampq, &is->audioq, SAMPLE_QUEUE_SIZE, 1) < 0){
         stream_close(is);
@@ -1115,7 +1063,6 @@ AudioState* stream_open(const char* filename){
         stream_close(is);
         return NULL;
     }
-    is->audio_clock_serial = -1;
 
     is->audio_volume = volume;
 
