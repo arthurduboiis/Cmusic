@@ -91,7 +91,6 @@ typedef struct AudioState {
     FrameQueue sampq;
     Decoder auddec;
     int audio_stream;
-    double audio_clock;
     AVStream *audio_st;
     PacketQueue audioq;
     uint8_t *audio_buf;
@@ -399,7 +398,7 @@ int decoder_start(Decoder *d, int (*fn)(void *), const char *thread_name, void* 
     return 0;
 }
 
-int decoder_decode_frame(Decoder *d, AVFrame *frame, AVSubtitle *sub){
+int decoder_decode_frame(Decoder *d, AVFrame *frame){
     int ret;
 
     for (;;) {
@@ -464,7 +463,6 @@ int decoder_decode_frame(Decoder *d, AVFrame *frame, AVSubtitle *sub){
 int audio_decode_frame(AudioState* is){
     int data_size, resampled_data_size;
     int64_t dec_channel_layout;
-    av_unused double audio_clock0;
     int wanted_nb_samples;
     Frame *af;
 
@@ -493,8 +491,7 @@ int audio_decode_frame(AudioState* is){
                                          dec_channel_layout, af->frame->format, af->frame->sample_rate,
                                          0, NULL);
         if (!is->swr_ctx || swr_init(is->swr_ctx) < 0) {
-            fprintf(stderr,
-                    "Cannot create sample rate converter for conversion of %d Hz %s %d channels to %d Hz %s %d channels!\n",
+            fprintf(stderr,"Cannot create sample rate converter for conversion of %d Hz %s %d channels to %d Hz %s %d channels!\n",
                     af->frame->sample_rate, av_get_sample_fmt_name(af->frame->format), af->frame->channels,
                     is->audio_tgt.freq, av_get_sample_fmt_name(is->audio_tgt.fmt), is->audio_tgt.channels);
             swr_free(&is->swr_ctx);
@@ -517,9 +514,7 @@ int audio_decode_frame(AudioState* is){
             return -1;
         }
         if (wanted_nb_samples != af->frame->nb_samples) {
-            if (swr_set_compensation(is->swr_ctx, (wanted_nb_samples - af->frame->nb_samples) * is->audio_tgt.freq /
-                                                  af->frame->sample_rate,
-                                     wanted_nb_samples * is->audio_tgt.freq / af->frame->sample_rate) < 0) {
+            if (swr_set_compensation(is->swr_ctx, (wanted_nb_samples - af->frame->nb_samples) * is->audio_tgt.freq / af->frame->sample_rate,wanted_nb_samples * is->audio_tgt.freq / af->frame->sample_rate) < 0) {
                 fprintf(stderr, "swr_set_compensation() failed\n");
                 return -1;
             }
@@ -544,22 +539,6 @@ int audio_decode_frame(AudioState* is){
         is->audio_buf = af->frame->data[0];
         resampled_data_size = data_size;
     }
-    audio_clock0 = is->audio_clock;
-
-    if (!isnan(af->pts))
-        is->audio_clock = af->pts + (double) af->frame->nb_samples / af->frame->sample_rate;
-    else
-        is->audio_clock = NAN;
-
-#ifdef DEBUG
-    {
-        static double last_clock;
-        printf("audio: delay=%0.3f clock=%0.3f clock0=%0.3f\n",
-               is->audio_clock - last_clock,
-               is->audio_clock, audio_clock0);
-        last_clock = is->audio_clock;
-    }
-#endif
 
     return resampled_data_size;
 }
@@ -613,7 +592,7 @@ int audio_thread(void *arg){
     }
 
     do {
-        if ((got_frame = decoder_decode_frame(&is->auddec, frame, NULL)) < 0) {
+        if ((got_frame = decoder_decode_frame(&is->auddec, frame)) < 0) {
             goto the_end;
         }
 
@@ -720,12 +699,12 @@ int check_stream_specifier(AVFormatContext *s, AVStream *st, const char *spec)
 AVDictionary *filter_codec_opts(AVDictionary *opts, enum AVCodecID codec_id,
                                 AVFormatContext *s, AVStream *st, const AVCodec *codec)
 {
-    AVDictionary    *ret = NULL;
+    AVDictionary *ret = NULL;
     const AVDictionaryEntry *t = NULL;
-    int            flags = s->oformat ? AV_OPT_FLAG_ENCODING_PARAM
+    int flags = s->oformat ? AV_OPT_FLAG_ENCODING_PARAM
                                       : AV_OPT_FLAG_DECODING_PARAM;
-    char          prefix;
-    const AVClass    *cc = avcodec_get_class();
+    char prefix;
+    const AVClass *cc = avcodec_get_class();
 
     if (!codec)
         codec            = s->oformat ? avcodec_find_encoder(codec_id)
