@@ -110,6 +110,8 @@ typedef struct AudioState {
 } AudioState;
 
 SDL_AudioDeviceID audio_dev;
+extern int volume;
+
 
 int packet_queue_init(PacketQueue *q){
     memset(q, 0, sizeof(PacketQueue));
