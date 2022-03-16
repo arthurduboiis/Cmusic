@@ -8,7 +8,7 @@
 #include "viewport.h"
 
 int selectedButton = 0;
-int xVolume=1098;
+int xVolume=1072;
 
 int xScrolling = 50;
 
