@@ -135,28 +135,7 @@ SELECT * FROM musique;
 INSERT INTO playlist (url, etat) VALUES (?, ?, ?);
 
 
--- #vérifier qu'un tweet si un tweet a déjà été signalé:
--- #renvoi l'id si il a déjà été signalé sinon rien
--- SELECT id FROM tweets
--- WHERE tweets.url = "https://twitter.com/Visa_Fr/status/14501268814461050920"
--- ;
-/*
-SELECT * FROM tweets
-WHERE tweets.url = ?;
-*/
 
-
-
-
-
--- #ajouter un signalement à un tweet:
--- #INSERT INTO signalements (idTweet, sujet, description) VALUES (1, "politique", "Marine le Pen dit qu'elle est intelligente");
-/*
-INSERT INTO signalements (url, etat) VALUES (?, ?, ?);
-*/
-
--- SE FAIRE UN COMPTE ADMIN:
---  UPDATE utilisateurs SET type = 'admin' WHERE email = 'admin@gmail.com';
 
 
 
