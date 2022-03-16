@@ -190,10 +190,9 @@ _Bool createCenterMenu(void){
         mp3Texture.mWidth = 100;
         renderLTexture(mp3Texture, xScrolling + spacing, 10, NULL);
         char test[100];
-        char *num;
-        strcat(strcpy(test, "Test "), (const char *) i);
+        sprintf(test, "Test %d", i);
         loadFromRenderedText(&textTexture, test);
-        renderLTexture(textTexture, xScrolling + spacing + 30, 120, NULL);
+        renderLTexture(textTexture, xScrolling + spacing + 25, 120, NULL);
 
         spacing+=250;
     }

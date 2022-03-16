@@ -165,13 +165,11 @@ void scrollingEvent()
 {
     if(scrollingArea.mCurrentButton == 4 && xScrolling < 10)
     {
-        setXScrolling(xScrolling+=995);
-        fprintf(stdout, "max xScrolling : %d\n", xScrolling);
+        setXScrolling(xScrolling+= 60);
     }
-    else if (scrollingArea.mCurrentButton == 5 )
+    else if (scrollingArea.mCurrentButton == 5 && xScrolling > -1930)
     {
-        setXScrolling(xScrolling-=995);
-        fprintf(stdout, "max xScrolling : %d\n", xScrolling);
+        setXScrolling(xScrolling-= 60);
     }
 }
 

@@ -14,7 +14,6 @@
 #include "initMedia.h"
 #include "mouseButton.h"
 #include "dropEvent.h"
-#include <string.h>
 
 
 
