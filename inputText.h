@@ -10,8 +10,8 @@
 #include "common.h"
 #include "initMedia.h"
 
-char* startInput(char*, LTexture);
+void startInput(void);
 void handleInputEvent(SDL_Event*, char*);
-
+void stopInput(void);
 
 #endif /* inputText_h */

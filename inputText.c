@@ -7,14 +7,8 @@
 
 #include "inputText.h"
 
-char* startInput(char *textFromInput, LTexture inputTextTexture){
-    textFromInput = malloc(100 * sizeof(char*));
-
-    
-
+void startInput(void){
     SDL_StartTextInput();
-    
-    return textFromInput;
 }
 
 void handleInputEvent(SDL_Event *e, char *textFromInput)
@@ -60,4 +54,8 @@ void handleInputEvent(SDL_Event *e, char *textFromInput)
             
         }
     }
+}
+
+void stopInput(void){
+    SDL_StopTextInput();
 }

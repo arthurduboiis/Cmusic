@@ -46,7 +46,7 @@ SDL_Texture* loadMediaTexture(char path[]);
 
 // Texture & char for text input
 LTexture inputTextTexture;
-char *textFromInput;
+char *textFromInput, *textAddTagInput, *textAddPlaylistInput;
 
 
 // Texture for center menu

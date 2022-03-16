@@ -79,6 +79,7 @@ _Bool createLeftMenu(void)
             createCenterMenu();
             break;
         case 1:
+            
             createViewportNew();
             break;
         case 2:
@@ -90,8 +91,6 @@ _Bool createLeftMenu(void)
         case 4:
             createViewportSetting();
             break;
-       
-            
         default:
             break;
     }
@@ -218,7 +217,7 @@ _Bool createCenterMenu(void){
     renderLTexture(textTexture, 210, 210, NULL);
 
     //implémentation barre de recherche (encore à améliorer)
-    SDL_Rect inputText;
+    
     inputText.h = 35;
     inputText.w = 500;
     inputText.x = 210;
@@ -226,12 +225,15 @@ _Bool createCenterMenu(void){
 
     SDL_RenderDrawRect(renderer, &inputText);
     
+    
     if(textFromInput[0] != '\0'){
         loadFromRenderedText(&inputTextTexture, textFromInput);
     }
     else{
         loadFromRenderedText(&inputTextTexture, " ");
     }
+    
+    startInput();
     
    
     renderLTexture(inputTextTexture, 215, 255, NULL);
@@ -375,6 +377,36 @@ void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture 
     addTag.mWidth = 25;
     //printf(" : %d %d ", addTag.mWidth, addTag.mHeight);
     renderLTexture(addTag, xText, yAddButton, NULL);
+    
+    
+    inputText.w = 200;
+    inputText.x = xText+35;
+    inputText.y = yAddButton-5;
+
+    SDL_RenderDrawRect(renderer, &inputText);
+    if(textAddTagInput[0] != '\0'){
+        loadFromRenderedText(&inputTextTexture, textAddTagInput);
+    }else {
+        loadFromRenderedText(&inputTextTexture, " ");
+    }
+    
+    renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
+
+    
+    renderLTexture(addTag, xText, yAddButton+45, NULL);
+    
+    inputText.y = yAddButton + 40;
+
+    SDL_RenderDrawRect(renderer, &inputText);
+    
+
+    if(textAddPlaylistInput[0] != '\0'){
+        loadFromRenderedText(&inputTextTexture, textAddTagInput);
+    }else {
+        loadFromRenderedText(&inputTextTexture, " ");
+    }
+    
+    renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
     //renderLTexture(textTags, xText, 174, NULL);
     //renderLTexture(imgTag, xTag, 166, NULL);
     //renderLTexture(nameTag, xTextTag, 174, NULL);
@@ -406,4 +438,8 @@ void setRectSelected(SDL_Rect* size, int y)
 
 void setXVolume(int x){
     xVolume = x;
+}
+
+int getSelectedPage(void){
+    return selectedButton;
 }
