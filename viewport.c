@@ -153,13 +153,15 @@ _Bool createBottomMenu(void)
     
 }
 
+// Définition des éléments graphiques de la partie centrale
 _Bool createCenterMenu(void){
 
     _Bool success = 1;
 
+    // Viewport affichant les éléments
     SDL_SetRenderDrawColor(renderer, 0,0,0,0);
     SDL_Rect viewportSize;
-    viewportSize.h = 568;
+    viewportSize.h = 40;
     viewportSize.w = 952;
     viewportSize.x = 200;
     viewportSize.y = 0;
@@ -168,64 +170,77 @@ _Bool createCenterMenu(void){
     loadFromRenderedText(&textTexture, "Récents");
     renderLTexture(textTexture, 10, 10, NULL);
 
-
+    // Nouveau viewport définie pour le scrolling
     SDL_Rect scrolling;
     scrolling.h = 150;
     scrolling.w = 932;
-    scrolling.x = 10;
+    scrolling.x = 210;
     scrolling.y = 40;
 
+    SDL_RenderSetViewport(renderer, &scrolling);
+
+    scrolling.x = 0;
+    scrolling.y = 0;
     SDL_RenderDrawRect(renderer, &scrolling);
 
-    loadFromFile(CHEMIN"Ressources/img/mp3.png", &mp3Texture);
-    mp3Texture.mHeight = 60;
-    mp3Texture.mWidth = 60;
-    renderLTexture(mp3Texture, xScrolling, 60, NULL);
+    spacing = 0;
+    for (int i = 0; i < TOTAL_BUTTON_SCROLLING_AREA; ++i) {
+        loadFromFile(CHEMIN"Ressources/img/mp3.png", &mp3Texture);
+        mp3Texture.mHeight = 100;
+        mp3Texture.mWidth = 100;
+        renderLTexture(mp3Texture, xScrolling + spacing, 10, NULL);
+        char test[100];
+        char *num;
+        strcat(strcpy(test, "Test "), (const char *) i);
+        loadFromRenderedText(&textTexture, test);
+        renderLTexture(textTexture, xScrolling + spacing + 30, 120, NULL);
 
-    loadFromRenderedText(&textTexture, "Test");
-    renderLTexture(textTexture, xScrolling, 130, NULL);
+        spacing+=250;
+    }
 
+    viewportSize.h = 378;
+    viewportSize.y = 190;
+    SDL_RenderSetViewport(renderer, &viewportSize);
 
-    SDL_RenderDrawLine(renderer, 0, 200, 1152, 200);
+    SDL_RenderDrawLine(renderer, 0, 10, 1152, 10);
 
-    //optimisation (si possible)
     loadFromRenderedText(&textTexture, "Ajouter");
-    renderLTexture(textTexture, 10, 210, NULL);
+    renderLTexture(textTexture, 10, 20, NULL);
     loadFromRenderedText(&textTexture, "un");
-    renderLTexture(textTexture, 10, 240, NULL);
+    renderLTexture(textTexture, 10, 50, NULL);
     loadFromRenderedText(&textTexture, "fichier :");
-    renderLTexture(textTexture, 10, 270, NULL);
+    renderLTexture(textTexture, 10, 80, NULL);
 
     loadFromFile(CHEMIN"Ressources/img/mp3.png", &mp3Texture);
     mp3Texture.mHeight = 90;
     mp3Texture.mWidth = 90;
-    renderLTexture(mp3Texture, 100, 210, NULL);
-    setDropButton(90, 90, 300, 210);
+    renderLTexture(mp3Texture, 100, 20, NULL);
+    setDropButton(90, 90, 300, 20);
     
 
     loadFromRenderedText(&textTexture, "Télécharger par un lien YouTube :");
-    renderLTexture(textTexture, 210, 210, NULL);
+    renderLTexture(textTexture, 210, 20, NULL);
 
-    //implémentation barre de recherche (encore à améliorer)
+
     SDL_Rect inputText;
     inputText.h = 35;
     inputText.w = 500;
     inputText.x = 210;
-    inputText.y = 250;
+    inputText.y = 60;
 
     SDL_RenderDrawRect(renderer, &inputText);
     loadFromRenderedText(&inputTextTexture, textFromInput);
-    renderLTexture(inputTextTexture, 215, 255, NULL);
+    renderLTexture(inputTextTexture, 215, 65, NULL);
 
-    SDL_RenderDrawLine(renderer, 0, 310, 1100, 310);
+    SDL_RenderDrawLine(renderer, 0, 120, 1100, 120);
 
     loadFromRenderedText(&textTexture, "Playlists");
-    renderLTexture(textTexture, 10, 320, NULL);
+    renderLTexture(textTexture, 10, 130, NULL);
 
-    SDL_RenderDrawLine(renderer, 0, 470, 1100, 470);
+    SDL_RenderDrawLine(renderer, 0, 280, 1100, 280);
 
     loadFromRenderedText(&textTexture, "Tags");
-    renderLTexture(textTexture, 10, 480, NULL);
+    renderLTexture(textTexture, 10, 290, NULL);
 
 
     return success;

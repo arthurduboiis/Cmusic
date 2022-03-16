@@ -37,6 +37,9 @@
 #define SCROLLING_AREA_WIDTH 932
 #define SCROLLING_AREA_HEIGHT 150
 
+#define TOTAL_BUTTON_SCROLLING_AREA 12
+#define SCROLLING_BUTTON_MUSIC_WIDTH 60
+#define SCROLLING_BUTTON_MUSIC_HEIGHT 60
 
 
 typedef enum LButtonEvent
@@ -58,7 +61,7 @@ typedef struct LButton{
 
 LButton gButtonsLeftMenu[ TOTAL_BUTTONS_LEFT_MENU];
 LButton gButtonsBottomMenu[ TOTAL_BUTTONS_LEFT_MENU];
-LButton volumeButton, scrollingArea;
+LButton volumeButton, scrollingArea, scrollingButton[ TOTAL_BUTTON_SCROLLING_AREA];
 
 int xScrolling;
 

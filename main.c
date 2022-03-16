@@ -38,6 +38,7 @@ int main(int argc,char * argv[]) {
             
             setPositionButtonLeftMenu();
             setPositionButtonBottomMenu();
+            setPositionScrollingArea();
 
             SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
             
@@ -98,6 +99,7 @@ int main(int argc,char * argv[]) {
 
                     initButtonMenu(&e);
                     dragButtonVolume(&e);
+                    scrollingEvent();
                 }
                 
                
@@ -133,7 +135,7 @@ void closee(void)
 
     //Quit SDL subsystems
     IMG_Quit();
-    Mix_Quit();
+//    Mix_Quit();
     TTF_Quit();
     SDL_Quit();
 }

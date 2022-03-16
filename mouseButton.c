@@ -120,7 +120,7 @@ void handleEvent( LButton *button, SDL_Event* e ,int width, int height)
                     printf("clicked");
                 }
 
-                if (e->type == SDL_MOUSEWHEEL) {
+                if (e->type == SDL_MOUSEWHEEL ) {
 
                     if (e->wheel.y > 0 ){
                         button->mCurrentButton = WHEEL_UP;
@@ -144,6 +144,10 @@ void initButtonMenu(SDL_Event *e)
     }
     handleEvent(&volumeButton, e, 100, BUTTON_VOLUME_SIZE);
     handleEvent(&scrollingArea, e, SCROLLING_AREA_WIDTH, SCROLLING_AREA_HEIGHT);
+    for(int i = 0; i < TOTAL_BUTTON_SCROLLING_AREA; i++)
+    {
+        handleEvent(&scrollingButton[i], e, SCROLLING_BUTTON_MUSIC_WIDTH, SCROLLING_BUTTON_MUSIC_HEIGHT);
+    }
 }
 
 void dragButtonVolume(SDL_Event *event)
@@ -159,13 +163,15 @@ void dragButtonVolume(SDL_Event *event)
 
 void scrollingEvent()
 {
-    if(scrollingArea.mCurrentButton == 4)
+    if(scrollingArea.mCurrentButton == 4 && xScrolling < 10)
     {
-        setXScrolling(xScrolling+=15);
+        setXScrolling(xScrolling+=995);
+        fprintf(stdout, "max xScrolling : %d\n", xScrolling);
     }
-    else if (scrollingArea.mCurrentButton == 5)
+    else if (scrollingArea.mCurrentButton == 5 )
     {
-        setXScrolling(xScrolling-=15);
+        setXScrolling(xScrolling-=995);
+        fprintf(stdout, "max xScrolling : %d\n", xScrolling);
     }
 }
 
@@ -193,6 +199,10 @@ void setPositionButtonBottomMenu(void)
 void setPositionScrollingArea(void)
 {
     setPosition(&scrollingArea, 210, 40);
+    for (int i = 0; i < TOTAL_BUTTON_SCROLLING_AREA; ++i) {
+        setPosition(&scrollingButton[i], xScrolling, 60);
+    }
+
 }
 
 

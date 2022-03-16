@@ -14,6 +14,7 @@
 #include "initMedia.h"
 #include "mouseButton.h"
 #include "dropEvent.h"
+#include <string.h>
 
 
 
@@ -33,6 +34,8 @@ void setRectSelected(SDL_Rect* size, int y);
 void setXVolume(int);
 void setXScrolling(int);
 SDL_Rect recSelectedSize;
+
+int spacing;
 
 
 
