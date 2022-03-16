@@ -14,6 +14,7 @@
 #include "initMedia.h"
 #include "mouseButton.h"
 #include "dropEvent.h"
+#include "inputText.h"
 
 
 
@@ -25,6 +26,8 @@ void createViewportTop(void);
 void createViewportNew(void);
 void createViewportPlaylist(void);
 void createViewportSetting(void);
+
+void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture musicDuration, LTexture addTag);
 
 void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);

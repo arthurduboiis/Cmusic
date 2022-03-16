@@ -6,7 +6,7 @@
 //
 
 #include "mouseButton.h"
-#include "lecteur_audio.h"
+
 
 int volume = 128;
 
@@ -91,7 +91,12 @@ void initButtonMenu(SDL_Event *e)
         handleEvent(&gButtonsLeftMenu[i], e, BUTTON_WIDTH, BUTTON_HEIGHT);
         handleEvent(&gButtonsBottomMenu[i], e,BUTTON_BOTTOM_WIDTH,BUTTON_BOTTOM_HEIGHT);
     }
-    handleEvent(&volumeButton, e, 100, BUTTON_VOLUME_SIZE);
+    handleEvent(&volumeButton, e, 128, BUTTON_VOLUME_SIZE);
+    /*for(int i = 0; i < TOTAL_ADD_BUTTONS; i++)
+    {
+        handleEvent(&addButtons[i], e, BUTTON_WIDTH, BUTTON_HEIGHT);
+    }*/
+    handleEvent(&addButtons[0], e, BUTTON_BOTTOM_WIDTH, BUTTON_BOTTOM_HEIGHT);
 
 }
 
@@ -127,6 +132,11 @@ void setPositionButtonBottomMenu(void)
     setPosition(&gButtonsBottomMenu[4], X_BUTTON_REPEAT,Y_BUTTON_BOTTOM_MENU);
     setPosition(&volumeButton, 1008, 600);
     
+}
+
+void setPositionButtonViewportNew(void)
+{
+    setPosition(&addButtons[0], 518, 174);
 }
 
 

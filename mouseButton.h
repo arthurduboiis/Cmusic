@@ -34,6 +34,8 @@
 
 #define BUTTON_VOLUME_SIZE 16
 
+#define TOTAL_ADD_BUTTONS 3
+
 
 
 typedef enum LButtonEvent
@@ -54,7 +56,7 @@ typedef struct LButton{
 LButton gButtonsLeftMenu[ TOTAL_BUTTONS_LEFT_MENU];
 LButton gButtonsBottomMenu[ TOTAL_BUTTONS_LEFT_MENU];
 LButton volumeButton;
-
+LButton addButtons[TOTAL_ADD_BUTTONS];
 
 extern LTexture recSelected;
 extern SDL_Rect recSelectedSize;
@@ -69,5 +71,6 @@ void dragButtonVolume(SDL_Event*);
 
 void setPositionButtonLeftMenu(void);
 void setPositionButtonBottomMenu(void);
+void setPositionButtonViewportNew(void);
 
 #endif /* mouseButton_h */

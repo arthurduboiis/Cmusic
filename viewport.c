@@ -9,6 +9,12 @@
 
 int selectedButton = 0;
 int xVolume=1098;
+int yImgOfMusic = 80;
+int yTitleOfMusic = 94;
+int yTitleOfArtiste = 124;
+int yMusicDuration = 135;
+int yAddButton = 174;
+int indexAddButton = 0;
 
 
 _Bool createLeftMenu(void)
@@ -154,6 +160,9 @@ _Bool createBottomMenu(void)
 
 _Bool createCenterMenu(void){
 
+    
+    
+    
     _Bool success = 1;
 
     SDL_SetRenderDrawColor(renderer, 0,0,0,0);
@@ -168,11 +177,11 @@ _Bool createCenterMenu(void){
     renderLTexture(textTexture, 10, 10, NULL);
 
     // EN COURS
-    const int width_Scrolling = 1100;
-    const int height_Scrolling = 568;
+    //const int width_Scrolling = 1100;
+    //const int height_Scrolling = 568;
 
-    const int width_Affichage = 952;
-    const int height_Affichage = 180;
+    //const int width_Affichage = 952;
+    //const int height_Affichage = 180;
 
 //  x_scrolling = 10, y_scrolling = 20
 //
@@ -216,9 +225,18 @@ _Bool createCenterMenu(void){
     inputText.y = 250;
 
     SDL_RenderDrawRect(renderer, &inputText);
-    loadFromRenderedText(&inputTextTexture, textFromInput);
+    
+    if(textFromInput[0] != '\0'){
+        loadFromRenderedText(&inputTextTexture, textFromInput);
+    }
+    else{
+        loadFromRenderedText(&inputTextTexture, " ");
+    }
+    
+   
     renderLTexture(inputTextTexture, 215, 255, NULL);
-
+    
+    
     SDL_RenderDrawLine(renderer, 0, 310, 1100, 310);
 
     loadFromRenderedText(&textTexture, "Playlists");
@@ -229,7 +247,7 @@ _Bool createCenterMenu(void){
     loadFromRenderedText(&textTexture, "Tags");
     renderLTexture(textTexture, 10, 480, NULL);
 
-
+    
     return success;
 
 }
@@ -271,16 +289,13 @@ void createViewportNew(void)
     viewportSize.y = 0;
     SDL_RenderSetViewport( renderer, &viewportSize );
     
-    int xImg = 126;
-    int xText = 318;
-    int xDuration = 570;
-    int xTime = 670;
-    int xTag = 383;
-    int xTextTag = 400;
+    
     
     renderLTexture(addNewText, 300, 22, NULL);
     
-    //first
+    createMusicDisplay(voidImg,musicTitle,musicArtiste,musicDuration, addTagOrPlaylist);
+    
+    /*//first
     renderLTexture(voidImg, xImg, 80, NULL);
     renderLTexture(musicTitle, xText, 94, NULL);
     renderLTexture(musicArtiste, xText, 124, NULL);
@@ -289,6 +304,8 @@ void createViewportNew(void)
     renderLTexture(textTags, xText, 174, NULL);
     renderLTexture(imgTag, xTag, 166, NULL);
     renderLTexture(nameTag, xTextTag, 174, NULL);
+     
+    
     
     //second
     renderLTexture(voidImg, xImg, 239, NULL);
@@ -308,7 +325,7 @@ void createViewportNew(void)
     renderLTexture(timeAdd, xTime, 453, NULL);
     renderLTexture(textTags, xText, 490, NULL);
     renderLTexture(imgTag, xTag, 483, NULL);
-    renderLTexture(nameTag, xTextTag, 490, NULL);
+    renderLTexture(nameTag, xTextTag, 490, NULL);*/
     
     
     
@@ -337,6 +354,34 @@ void createViewportSetting()
     SDL_RenderSetViewport( renderer, &viewportSize );
 }
 
+void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture musicDuration, LTexture addTag){
+    
+    
+    int xImg = 126;
+    int xText = 318;
+    int xDuration = 570;
+    //int xTime = 670;
+    //int xTag = 383;
+    //int xTextTag = 400;
+
+    //first
+    renderLTexture(img, xImg, yImgOfMusic, NULL);
+    renderLTexture(title, xText, yTitleOfMusic, NULL);
+    renderLTexture(artiste, xText, yTitleOfArtiste, NULL);
+    renderLTexture(musicDuration, xDuration, yMusicDuration, NULL);
+    
+    setPositionButtonViewportNew();
+    addTag.mHeight = 25;
+    addTag.mWidth = 25;
+    //printf(" : %d %d ", addTag.mWidth, addTag.mHeight);
+    renderLTexture(addTag, xText, yAddButton, NULL);
+    //renderLTexture(textTags, xText, 174, NULL);
+    //renderLTexture(imgTag, xTag, 166, NULL);
+    //renderLTexture(nameTag, xTextTag, 174, NULL);
+    
+    indexAddButton++;
+}
+
 void buttonSelected(void){
     int i;
     for(i=0; i < TOTAL_BUTTONS_LEFT_MENU; i++){
@@ -344,6 +389,8 @@ void buttonSelected(void){
             selectedButton = i;
         }
     }
+    
+    
 }
 
 void setRectSelected(SDL_Rect* size, int y)

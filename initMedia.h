@@ -28,6 +28,7 @@ typedef struct LTexture {
 
 _Bool init(void);
 
+void displayIcon(void);
 
 _Bool loadMediaText(void);
 
@@ -63,6 +64,8 @@ LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, 
 // Texture for viewport top
 LTexture listenText, hashtag, title, artist, duration, views;
 
+
+LTexture addTagOrPlaylist;
 
 void initAllLTexture(void);
 
