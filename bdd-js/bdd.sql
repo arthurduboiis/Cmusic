@@ -72,3 +72,98 @@ FROM appartient
 INNER JOIN tag as t ON appartient.tag_id = t.tag_id
 INNER JOIN musique as m ON appartient.music_id = m.music_id
 WHERE t.tag_id = "3";
+
+
+
+CREATE DATABASE IF NOT EXISTS bdd_CMusic;
+USE bdd_CMusic;
+
+DROP TABLE IF EXISTS artiste;
+DROP TABLE IF EXISTS musique;
+DROP TABLE IF EXISTS playlist;
+DROP TABLE IF EXISTS tag;
+
+
+CREATE TABLE artiste (
+                         id_Artiste INT AUTO_INCREMENT PRIMARY KEY NOT NULL
+                        ,nom_artiste VARCHAR(100)
+                        ,prenom_artiste VARCHAR(100)
+                        ,sexe_artiste VARCHAR(10)
+                        ,date_naissance DATE
+                        ,id_Musique             INT
+                        ,FOREIGN KEY (id_Musique) REFERENCES musique(id_Musique)
+);
+
+
+
+CREATE TABLE tag (
+                        id_tag             INT AUTO_INCREMENT PRIMARY KEY NOT NULL
+                        ,CategorieTag       VARCHAR(150)
+
+);
+
+CREATE TABLE playlist (
+                          id_Playlist          INT AUTO_INCREMENT PRIMARY KEY NOT NULL
+    ,NomPlaylist          VARCHAR(200)
+    ,CategoriePlaylist     VARCHAR(200)
+    ,id_Tag            INT
+    ,FOREIGN KEY (id_tag) REFERENCES tag(id_tag)
+
+);
+
+CREATE TABLE musique (
+                        id_Musique            INT AUTO_INCREMENT PRIMARY KEY NOT NULL
+                        ,titreMusique          VARCHAR(200)
+                        ,DureeMusique          TIME
+                        ,DateMusique           DATE
+                        ,id_tag                INT
+                        ,id_Artiste             INT
+                        ,id_Playlist             INT
+                        ,FOREIGN KEY (id_tag) REFERENCES tag(id_tag)
+                        ,FOREIGN KEY (id_Artiste) REFERENCES artiste(id_Artiste)
+                        ,FOREIGN KEY (id_Playlist) REFERENCES playlist(id_Playlist)
+);
+
+
+INSERT INTO musique (titreMusique,DureeMusique,DateMusique) values (?,?,?,?);
+
+#Requête affichage des musiques:
+SELECT * FROM musique;
+
+
+
+INSERT INTO playlist (url, etat) VALUES (?, ?, ?);
+
+
+-- #vérifier qu'un tweet si un tweet a déjà été signalé:
+-- #renvoi l'id si il a déjà été signalé sinon rien
+-- SELECT id FROM tweets
+-- WHERE tweets.url = "https://twitter.com/Visa_Fr/status/14501268814461050920"
+-- ;
+/*
+SELECT * FROM tweets
+WHERE tweets.url = ?;
+*/
+
+
+
+
+
+-- #ajouter un signalement à un tweet:
+-- #INSERT INTO signalements (idTweet, sujet, description) VALUES (1, "politique", "Marine le Pen dit qu'elle est intelligente");
+/*
+INSERT INTO signalements (url, etat) VALUES (?, ?, ?);
+*/
+
+-- SE FAIRE UN COMPTE ADMIN:
+--  UPDATE utilisateurs SET type = 'admin' WHERE email = 'admin@gmail.com';
+
+
+
+
+
+
+
+
+
+
