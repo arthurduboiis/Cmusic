@@ -17,6 +17,7 @@ int yAddButton = 174;
 int indexAddButton = 0;
 
 
+
 _Bool createLeftMenu(void)
 {
     
@@ -385,6 +386,7 @@ void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture 
 
     SDL_RenderDrawRect(renderer, &inputText);
     if(textAddTagInput[0] != '\0'){
+        startInput();
         loadFromRenderedText(&inputTextTexture, textAddTagInput);
     }else {
         loadFromRenderedText(&inputTextTexture, " ");
@@ -392,6 +394,8 @@ void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture 
     
     renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
 
+    if(wantInputButtons[0].mCurrentButton == 3) setActiveInputTag(1);
+    
     
     renderLTexture(addTag, xText, yAddButton+45, NULL);
     
@@ -399,14 +403,19 @@ void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture 
 
     SDL_RenderDrawRect(renderer, &inputText);
     
+    
+    
 
     if(textAddPlaylistInput[0] != '\0'){
-        loadFromRenderedText(&inputTextTexture, textAddTagInput);
+        startInput();
+        loadFromRenderedText(&inputTextTexture, textAddPlaylistInput);
     }else {
         loadFromRenderedText(&inputTextTexture, " ");
     }
     
     renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
+    
+    if(wantInputButtons[1].mCurrentButton == 3) setActiveInputPlaylist(1);
     //renderLTexture(textTags, xText, 174, NULL);
     //renderLTexture(imgTag, xTag, 166, NULL);
     //renderLTexture(nameTag, xTextTag, 174, NULL);
@@ -421,9 +430,9 @@ void buttonSelected(void){
             selectedButton = i;
         }
     }
-    
-    
 }
+
+
 
 void setRectSelected(SDL_Rect* size, int y)
 {

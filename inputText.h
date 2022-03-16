@@ -10,6 +10,7 @@
 #include "common.h"
 #include "initMedia.h"
 
+
 void startInput(void);
 void handleInputEvent(SDL_Event*, char*);
 void stopInput(void);

@@ -37,6 +37,9 @@ void handleInputEvent(SDL_Event *e, char *textFromInput)
         // Press enter to end input text
         else if(e->key.keysym.sym == SDLK_RETURN)
         {
+            if(getInputTag() == 1) setActiveInputTag(0);
+            if(getInputPlaylist() == 1) setActiveInputPlaylist(0);
+            if(getInputHome() == 1) setActiveInputHome(0);
             SDL_StopTextInput();
             printf("%s", textFromInput);
         }

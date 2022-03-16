@@ -32,6 +32,9 @@ void displayIcon(void);
 
 _Bool loadMediaText(void);
 
+
+
+
 #if defined(SDL_TTF_MAJOR_VERSION)
 _Bool loadFromRenderedText(LTexture *ltexture, char textureText[]);
 #endif
@@ -73,5 +76,13 @@ void freeAllTexture(void);
 //Gets LTexture dimensions
 int getWidth(LTexture *texture);
 int getHeight(LTexture *texture);
+
+void setActiveInputTag(_Bool);
+void setActiveInputPlaylist(_Bool);
+void setActiveInputHome(_Bool);
+_Bool getInputTag(void);
+_Bool getInputPlaylist(void);
+_Bool getInputHome(void);
+
 
 #endif /* initMedia_h */

@@ -19,6 +19,7 @@
 
 SDL_Rect inputText;
 
+
 _Bool createLeftMenu(void);
 _Bool createBottomMenu(void);
 _Bool createCenterMenu(void);
@@ -31,6 +32,8 @@ void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture 
 
 void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);
+
+
 void setXVolume(int);
 
 int getSelectedPage(void);

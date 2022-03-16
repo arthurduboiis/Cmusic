@@ -8,6 +8,10 @@
 #include <string.h>
 #include "initMedia.h"
 
+_Bool inputTag = 0;
+_Bool inputPlaylist = 0;
+_Bool inputHome = 0;
+
 static void vmsg(const char *prefix, const char *sep, const char *suffix,
                  const char *format, va_list ap)
 {
@@ -369,3 +373,31 @@ int getWidth(LTexture *texture){
 int getHeight(LTexture *texture){
     return texture->mHeight;
 }
+
+void setActiveInputTag(_Bool active)
+{
+    inputTag = active;
+}
+
+void setActiveInputPlaylist(_Bool active)
+{
+    inputPlaylist = active;
+}
+
+void setActiveInputHome(_Bool active)
+{
+    inputHome = active;
+}
+
+_Bool getInputTag(void){
+    return inputTag;
+}
+
+_Bool getInputPlaylist(void){
+    return inputPlaylist;
+}
+
+_Bool getInputHome(void){
+    return inputHome;
+}
+

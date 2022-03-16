@@ -27,7 +27,6 @@ int main(int argc, char* argv[]){
     initAllLTexture();
     //Main loop flag
     _Bool quit = 0;
-
     //Event handler
     SDL_Event e;
 
@@ -65,11 +64,12 @@ int main(int argc, char* argv[]){
             
             switch (getSelectedPage()) {
                 case 0:
+                    
                     handleInputEvent(&e, textFromInput);
                     break;
                 case 1:
-                    handleInputEvent(&e, textAddTagInput);
-                    handleInputEvent(&e, textAddPlaylistInput);
+                    if(getInputTag())handleInputEvent(&e, textAddTagInput);
+                    if(getInputPlaylist())handleInputEvent(&e, textAddPlaylistInput);
                 default:
                     break;
             }
