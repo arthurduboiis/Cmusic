@@ -62,13 +62,13 @@ LTexture logoTexture,recSelected,homeTxt, homePng, newTxt, newPng, topTxt, topPn
 LTexture background, play, stop, nextRight, nextLeft, randomMusic, replay, sound, point;
 
 // Texture for viewport news
-LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, nameTag, imgTag,timeAdd;
+LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, nameTag, imgTag,textPlaylist, textVarTag;
 
 // Texture for viewport top
 LTexture listenText, hashtag, title, artist, duration, views;
 
 
-LTexture addTagOrPlaylist;
+
 
 void initAllLTexture(void);
 

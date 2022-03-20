@@ -56,7 +56,7 @@ typedef struct LButton{
 LButton gButtonsLeftMenu[ TOTAL_BUTTONS_LEFT_MENU];
 LButton gButtonsBottomMenu[ TOTAL_BUTTONS_LEFT_MENU];
 LButton volumeButton;
-LButton addButtons[TOTAL_ADD_BUTTONS];
+
 LButton wantInputButtons[TOTAL_ADD_BUTTONS];
 
 extern LTexture recSelected;

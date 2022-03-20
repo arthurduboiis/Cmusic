@@ -64,7 +64,6 @@ int main(int argc, char* argv[]){
             
             switch (getSelectedPage()) {
                 case 0:
-                    
                     handleInputEvent(&e, textFromInput);
                     break;
                 case 1:
@@ -75,7 +74,7 @@ int main(int argc, char* argv[]){
             }
             
             dropEvent(&e);
-
+                
             initButtonMenu(&e);
             dragButtonVolume(&e);
         }

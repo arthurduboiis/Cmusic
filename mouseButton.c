@@ -96,8 +96,6 @@ void initButtonMenu(SDL_Event *e)
     {
         handleEvent(&addButtons[i], e, BUTTON_WIDTH, BUTTON_HEIGHT);
     }*/
-    handleEvent(&addButtons[0], e, BUTTON_BOTTOM_WIDTH, BUTTON_BOTTOM_HEIGHT);
-    handleEvent(&addButtons[1], e, BUTTON_BOTTOM_WIDTH, BUTTON_BOTTOM_HEIGHT);
     
     handleEvent(&wantInputButtons[0], e, 200, 50);
     handleEvent(&wantInputButtons[1], e, 200, 50);
@@ -140,10 +138,8 @@ void setPositionButtonBottomMenu(void)
 
 void setPositionButtonViewportNew(void)
 {
-    setPosition(&addButtons[0], 518, 174);
-    setPosition(&addButtons[1], 518, 219);
-    setPosition(&wantInputButtons[0], 543, 169);
-    setPosition(&wantInputButtons[1], 543, 214);
+    setPosition(&wantInputButtons[0], 598, 169);
+    setPosition(&wantInputButtons[1], 598, 214);
 }
 
 

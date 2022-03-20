@@ -287,8 +287,8 @@ void initAllLTexture(void){
     die_if(!loadFromRenderedText(&musicTitle, "Titre de la musique"), "Can't load text : Titre de la musique");
     die_if(!loadFromRenderedText(&musicArtiste, "Artiste"), "Can't load text : Artiste");
     die_if(!loadFromRenderedText(&musicDuration, "04:34"), "Can't load text : Music duration");
-    die_if(!loadFromRenderedText(&timeAdd, "Il y a X minutes"), "Can't load text : Il y a X minutes");
-    die_if(!loadFromRenderedText(&textTags, "tags : "), "Can't load text : tags :");
+    die_if(!loadFromRenderedText(&textPlaylist, "Playlist : "), "Can't load text : Playlist : ");
+    die_if(!loadFromRenderedText(&textTags, "Tags : "), "Can't load text : tags :");
     die_if(!loadFromRenderedText(&nameTag, "Hip-Hop"), "Can't load text : nameTag");
     die_if(!loadFromFile(CHEMIN"Ressources/img/imgTag.png", &imgTag), "Can't load imgTag");
     
@@ -301,8 +301,8 @@ void initAllLTexture(void){
     die_if(!loadFromRenderedText(&views, "Vues"), "Can't load text : Vues");
     
     
-    //int add button
-    die_if(!loadFromFile(CHEMIN"Ressources/img/add.png", &addTagOrPlaylist), "Can't load add img");
+   
+    
     
     
 }
@@ -353,8 +353,8 @@ void freeAllTexture(void){
     freeLtexture(&textTags);
     freeLtexture(&nameTag);
     freeLtexture(&imgTag);
-    freeLtexture(&timeAdd);
-
+    freeLtexture(&textPlaylist);
+    freeLtexture(&textVarTag);
     // free viewport top
     freeLtexture(&listenText);
     freeLtexture(&hashtag);
@@ -364,7 +364,7 @@ void freeAllTexture(void){
     freeLtexture(&views);
     
     
-    freeLtexture(&addTagOrPlaylist);
+    
 }
 
 int getWidth(LTexture *texture){

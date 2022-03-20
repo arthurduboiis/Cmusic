@@ -28,7 +28,7 @@ void createViewportNew(void);
 void createViewportPlaylist(void);
 void createViewportSetting(void);
 
-void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture musicDuration, LTexture addTag);
+void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture musicDuration);
 
 void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);
