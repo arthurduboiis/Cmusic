@@ -1,0 +1,29 @@
+{
+  "name": "cmusic",
+  "version": "1.0.0",
+  "description": "CMusic",
+  "main": "temp.js",
+  "scripts": {
+    "start": "npm temp.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthurduboiis/Cmusic.git"
+  },
+  "author": "Tanguy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arthurduboiis/Cmusic/issues"
+  },
+  "homepage": "https://github.com/arthurduboiis/Cmusic#readme",
+  "dependencies": {
+    "basic-auth-connect": "^1.0.0",
+    "chalk": "^5.0.1",
+    "dateformat": "^5.0.3",
+    "express": "^4.17.3",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.5",
+    "mkdirp": "^1.0.4",
+    "ws": "^8.5.0"
+  }
+}
