@@ -8,16 +8,9 @@
 #include "viewport.h"
 
 int selectedButton = 0;
-int xVolume=1098;
-int yImgOfMusic = 80;
-int yTitleOfMusic = 94;
-int yTitleOfArtiste = 124;
-int yMusicDuration = 135;
-int yAddButton = 174;
-int yAddPlaylist = 224;
-int indexAddButton = 0;
+int xVolume=1072;
 
-
+int xScrolling = 50;
 
 _Bool createLeftMenu(void)
 {
@@ -81,7 +74,6 @@ _Bool createLeftMenu(void)
             createCenterMenu();
             break;
         case 1:
-            
             createViewportNew();
             break;
         case 2:
@@ -93,6 +85,8 @@ _Bool createLeftMenu(void)
         case 4:
             createViewportSetting();
             break;
+       
+            
         default:
             break;
     }
@@ -159,16 +153,15 @@ _Bool createBottomMenu(void)
     
 }
 
+// Définition des éléments graphiques de la partie centrale
 _Bool createCenterMenu(void){
 
-    
-    
-    
     _Bool success = 1;
 
+    // Viewport affichant les éléments
     SDL_SetRenderDrawColor(renderer, 0,0,0,0);
     SDL_Rect viewportSize;
-    viewportSize.h = 568;
+    viewportSize.h = 40;
     viewportSize.w = 952;
     viewportSize.x = 200;
     viewportSize.y = 0;
@@ -177,81 +170,78 @@ _Bool createCenterMenu(void){
     loadFromRenderedText(&textTexture, "Récents");
     renderLTexture(textTexture, 10, 10, NULL);
 
-    // EN COURS
-    //const int width_Scrolling = 1100;
-    //const int height_Scrolling = 568;
-
-    //const int width_Affichage = 952;
-    //const int height_Affichage = 180;
-
-//  x_scrolling = 10, y_scrolling = 20
-//
+    // Nouveau viewport définie pour le scrolling
     SDL_Rect scrolling;
     scrolling.h = 150;
     scrolling.w = 932;
-    scrolling.x = 10;
+    scrolling.x = 210;
     scrolling.y = 40;
 
+    SDL_RenderSetViewport(renderer, &scrolling);
+
+    scrolling.x = 0;
+    scrolling.y = 0;
     SDL_RenderDrawRect(renderer, &scrolling);
-    loadFromRenderedText(&textTexture, "Test");
-    renderLTexture(textTexture, 10, 40, NULL);
-//
-//    SDL_RenderGetClipRect(renderer, &scrolling);
 
-    SDL_RenderDrawLine(renderer, 0, 200, 1152, 200);
+    spacing = 0;
+    for (int i = 0; i < TOTAL_BUTTON_SCROLLING_AREA; ++i) {
+        loadFromFile(CHEMIN"Ressources/img/mp3.png", &mp3Texture);
+        mp3Texture.mHeight = 100;
+        mp3Texture.mWidth = 100;
+        renderLTexture(mp3Texture, xScrolling + spacing, 10, NULL);
+        char test[100];
+        sprintf(test, "Test %d", i);
+        loadFromRenderedText(&textTexture, test);
+        renderLTexture(textTexture, xScrolling + spacing + 25, 120, NULL);
 
-    //optimisation (si possible)
+        spacing+=250;
+    }
+
+    viewportSize.h = 378;
+    viewportSize.y = 190;
+    SDL_RenderSetViewport(renderer, &viewportSize);
+
+    SDL_RenderDrawLine(renderer, 0, 10, 1152, 10);
+
     loadFromRenderedText(&textTexture, "Ajouter");
-    renderLTexture(textTexture, 10, 210, NULL);
+    renderLTexture(textTexture, 10, 20, NULL);
     loadFromRenderedText(&textTexture, "un");
-    renderLTexture(textTexture, 10, 240, NULL);
+    renderLTexture(textTexture, 10, 50, NULL);
     loadFromRenderedText(&textTexture, "fichier :");
-    renderLTexture(textTexture, 10, 270, NULL);
+    renderLTexture(textTexture, 10, 80, NULL);
 
     loadFromFile(CHEMIN"Ressources/img/mp3.png", &mp3Texture);
     mp3Texture.mHeight = 90;
     mp3Texture.mWidth = 90;
-    renderLTexture(mp3Texture, 100, 210, NULL);
-    setDropButton(90, 90, 300, 210);
+    renderLTexture(mp3Texture, 100, 20, NULL);
+    setDropButton(90, 90, 300, 20);
     
 
     loadFromRenderedText(&textTexture, "Télécharger par un lien YouTube :");
-    renderLTexture(textTexture, 210, 210, NULL);
+    renderLTexture(textTexture, 210, 20, NULL);
 
-    //implémentation barre de recherche (encore à améliorer)
-    
+
+    SDL_Rect inputText;
     inputText.h = 35;
     inputText.w = 500;
     inputText.x = 210;
-    inputText.y = 250;
+    inputText.y = 60;
 
     SDL_RenderDrawRect(renderer, &inputText);
-    
-    
-    if(textFromInput[0] != '\0'){
-        loadFromRenderedText(&inputTextTexture, textFromInput);
-    }
-    else{
-        loadFromRenderedText(&inputTextTexture, " ");
-    }
-    
-    startInput();
-    
-   
-    renderLTexture(inputTextTexture, 215, 255, NULL);
-    
-    
-    SDL_RenderDrawLine(renderer, 0, 310, 1100, 310);
+    loadFromRenderedText(&inputTextTexture, textFromInput);
+    renderLTexture(inputTextTexture, 215, 65, NULL);
+
+    SDL_RenderDrawLine(renderer, 0, 120, 1100, 120);
 
     loadFromRenderedText(&textTexture, "Playlists");
-    renderLTexture(textTexture, 10, 320, NULL);
+    renderLTexture(textTexture, 10, 130, NULL);
 
-    SDL_RenderDrawLine(renderer, 0, 470, 1100, 470);
+    SDL_RenderDrawLine(renderer, 0, 280, 1100, 280);
 
     loadFromRenderedText(&textTexture, "Tags");
-    renderLTexture(textTexture, 10, 480, NULL);
+    renderLTexture(textTexture, 10, 290, NULL);
 
-    
+
     return success;
 
 }
@@ -293,13 +283,16 @@ void createViewportNew(void)
     viewportSize.y = 0;
     SDL_RenderSetViewport( renderer, &viewportSize );
     
-    
+    int xImg = 126;
+    int xText = 318;
+    int xDuration = 570;
+    int xTime = 670;
+    int xTag = 383;
+    int xTextTag = 400;
     
     renderLTexture(addNewText, 300, 22, NULL);
     
-    createMusicDisplay(voidImg,musicTitle,musicArtiste,musicDuration);
-    
-    /*//first
+    //first
     renderLTexture(voidImg, xImg, 80, NULL);
     renderLTexture(musicTitle, xText, 94, NULL);
     renderLTexture(musicArtiste, xText, 124, NULL);
@@ -308,8 +301,6 @@ void createViewportNew(void)
     renderLTexture(textTags, xText, 174, NULL);
     renderLTexture(imgTag, xTag, 166, NULL);
     renderLTexture(nameTag, xTextTag, 174, NULL);
-     
-    
     
     //second
     renderLTexture(voidImg, xImg, 239, NULL);
@@ -329,7 +320,7 @@ void createViewportNew(void)
     renderLTexture(timeAdd, xTime, 453, NULL);
     renderLTexture(textTags, xText, 490, NULL);
     renderLTexture(imgTag, xTag, 483, NULL);
-    renderLTexture(nameTag, xTextTag, 490, NULL);*/
+    renderLTexture(nameTag, xTextTag, 490, NULL);
     
     
     
@@ -358,84 +349,6 @@ void createViewportSetting()
     SDL_RenderSetViewport( renderer, &viewportSize );
 }
 
-void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture musicDuration){
-    
-    
-    int xImg = 126;
-    int xText = 318;
-    int xDuration = 570;
-
-
-    //first
-    renderLTexture(img, xImg, yImgOfMusic, NULL);
-    renderLTexture(title, xText, yTitleOfMusic, NULL);
-    renderLTexture(artiste, xText, yTitleOfArtiste, NULL);
-    renderLTexture(musicDuration, xDuration, yMusicDuration, NULL);
-    
-    renderLTexture(textTags, xText, yAddButton, NULL);
-    setPositionButtonViewportNew();
-    
-    
-    
-    //TODO :
-    // si chaine != vide et pas en train d'écrire :
-    // afficher le tag
-    
-    renderLTexture(textPlaylist, xText, yAddPlaylist, NULL);
-    
-    inputText.w = 200;
-    inputText.x = xText+90;
-    inputText.y = yAddButton-5;
-
-    SDL_RenderDrawRect(renderer, &inputText);
-    if(textAddTagInput[0] != '\0'){
-        startInput();
-        loadFromRenderedText(&inputTextTexture, textAddTagInput);
-    }else {
-        loadFromRenderedText(&inputTextTexture, " ");
-    }
-    
-    
-    
-    renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
-
-    if(wantInputButtons[0].mCurrentButton == 3) {
-        setActiveInputTag(1);
-        setActiveInputPlaylist(0);
-    }
-    
-    if(textAddTagInput[0] != '\0' && !getInputTag()){
-        renderLTexture(imgTag, xText+310, yAddButton-10, NULL);
-        loadFromRenderedText(&textVarTag, textAddTagInput);
-        renderLTexture(textVarTag, xText+320, yAddButton, NULL);
-    }
-    
-    //renderLTexture(imgTag, xText+400, yAddButton-10, NULL);
-    
-    
-  
-    
-    inputText.y = yAddButton + 40;
-
-    SDL_RenderDrawRect(renderer, &inputText);
-    
-    if(textAddPlaylistInput[0] != '\0'){
-        startInput();
-        loadFromRenderedText(&inputTextTexture, textAddPlaylistInput);
-    }else {
-        loadFromRenderedText(&inputTextTexture, " ");
-    }
-    
-    renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
-    
-    if(wantInputButtons[1].mCurrentButton == 3){
-        setActiveInputPlaylist(1);
-        setActiveInputTag(0);
-    }
-    
-    indexAddButton++;
-}
-
 void buttonSelected(void){
     int i;
     for(i=0; i < TOTAL_BUTTONS_LEFT_MENU; i++){
@@ -444,8 +357,6 @@ void buttonSelected(void){
         }
     }
 }
-
-
 
 void setRectSelected(SDL_Rect* size, int y)
 {
@@ -462,6 +373,6 @@ void setXVolume(int x){
     xVolume = x;
 }
 
-int getSelectedPage(void){
-    return selectedButton;
+void setXScrolling(int x){
+    xScrolling = x;
 }

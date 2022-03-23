@@ -34,8 +34,12 @@
 
 #define BUTTON_VOLUME_SIZE 16
 
-#define TOTAL_ADD_BUTTONS 3
+#define SCROLLING_AREA_WIDTH 932
+#define SCROLLING_AREA_HEIGHT 150
 
+#define TOTAL_BUTTON_SCROLLING_AREA 12
+#define SCROLLING_BUTTON_MUSIC_WIDTH 60
+#define SCROLLING_BUTTON_MUSIC_HEIGHT 60
 
 
 typedef enum LButtonEvent
@@ -44,7 +48,9 @@ typedef enum LButtonEvent
     BUTTON_MOUSE_MOTION = 1,
     BUTTON_MOUSE_DOWN = 2,
     BUTTON_MOUSE_UP = 3,
-    BUTTON_TOTAL = 4
+    WHEEL_UP = 4,
+    WHEEL_DOWN = 5,
+    BUTTON_TOTAL = 6
 }LButtonEvent;
 
 
@@ -55,9 +61,10 @@ typedef struct LButton{
 
 LButton gButtonsLeftMenu[ TOTAL_BUTTONS_LEFT_MENU];
 LButton gButtonsBottomMenu[ TOTAL_BUTTONS_LEFT_MENU];
-LButton volumeButton;
+LButton volumeButton, scrollingArea, scrollingButton[ TOTAL_BUTTON_SCROLLING_AREA];
 
-LButton wantInputButtons[TOTAL_ADD_BUTTONS];
+int xScrolling;
+
 
 extern LTexture recSelected;
 extern SDL_Rect recSelectedSize;
@@ -69,9 +76,10 @@ void setPosition( LButton *button, int x, int y );
 void handleEvent( LButton *button, SDL_Event* e, int width, int height );
 void initButtonMenu(SDL_Event*);
 void dragButtonVolume(SDL_Event*);
+void scrollingEvent();
 
 void setPositionButtonLeftMenu(void);
 void setPositionButtonBottomMenu(void);
-void setPositionButtonViewportNew(void);
+void setPositionScrollingArea(void);
 
 #endif /* mouseButton_h */

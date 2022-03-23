@@ -14,10 +14,8 @@
 #include "initMedia.h"
 #include "mouseButton.h"
 #include "dropEvent.h"
-#include "inputText.h"
 
 
-SDL_Rect inputText;
 
 
 _Bool createLeftMenu(void);
@@ -28,17 +26,15 @@ void createViewportNew(void);
 void createViewportPlaylist(void);
 void createViewportSetting(void);
 
-void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture musicDuration);
-
 void buttonSelected(void);
 void setRectSelected(SDL_Rect* size, int y);
 
 
 void setXVolume(int);
-
-int getSelectedPage(void);
-
+void setXScrolling(int);
 SDL_Rect recSelectedSize;
+
+int spacing;
 
 
 
