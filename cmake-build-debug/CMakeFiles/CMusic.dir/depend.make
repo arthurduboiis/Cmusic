@@ -10,6 +10,11 @@ CMakeFiles/CMusic.dir/initMedia.c.obj: \
  ../common.h \
  ../initMedia.c \
  ../initMedia.h
+CMakeFiles/CMusic.dir/inputText.c.obj: \
+ ../common.h \
+ ../initMedia.h \
+ ../inputText.c \
+ ../inputText.h
 CMakeFiles/CMusic.dir/main.c.obj: \
  ../common.h \
  ../dropEvent.h \

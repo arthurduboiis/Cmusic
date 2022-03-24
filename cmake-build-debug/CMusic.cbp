@@ -153,6 +153,12 @@
 		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h">
 			<Option target="CMusic"/>
 		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.c">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.h">
+			<Option target="CMusic"/>
+		</Unit>
 		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/main.c">
 			<Option target="CMusic"/>
 		</Unit>

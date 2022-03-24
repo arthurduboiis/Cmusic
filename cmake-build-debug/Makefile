@@ -176,6 +176,30 @@ initMedia.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CMusic.dir\build.make CMakeFiles/CMusic.dir/initMedia.c.s
 .PHONY : initMedia.c.s
 
+inputText.obj: inputText.c.obj
+.PHONY : inputText.obj
+
+# target to build an object file
+inputText.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CMusic.dir\build.make CMakeFiles/CMusic.dir/inputText.c.obj
+.PHONY : inputText.c.obj
+
+inputText.i: inputText.c.i
+.PHONY : inputText.i
+
+# target to preprocess a source file
+inputText.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CMusic.dir\build.make CMakeFiles/CMusic.dir/inputText.c.i
+.PHONY : inputText.c.i
+
+inputText.s: inputText.c.s
+.PHONY : inputText.s
+
+# target to generate assembly for a file
+inputText.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CMusic.dir\build.make CMakeFiles/CMusic.dir/inputText.c.s
+.PHONY : inputText.c.s
+
 main.obj: main.c.obj
 .PHONY : main.obj
 
@@ -287,6 +311,9 @@ help:
 	@echo ... initMedia.obj
 	@echo ... initMedia.i
 	@echo ... initMedia.s
+	@echo ... inputText.obj
+	@echo ... inputText.i
+	@echo ... inputText.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

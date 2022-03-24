@@ -10,6 +10,11 @@ CMakeFiles/CMusic.dir/initMedia.c.obj
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.c
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h
+CMakeFiles/CMusic.dir/inputText.c.obj
+ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h
+ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h
+ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.c
+ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.h
 CMakeFiles/CMusic.dir/main.c.obj
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/dropEvent.h

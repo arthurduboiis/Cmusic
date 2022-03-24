@@ -35,6 +35,8 @@ add_executable(CMusic
         viewport.c
         viewport.h
         dropEvent.c
-        dropEvent.h)
+        dropEvent.h
+        inputText.c
+        inputText.h)
 
 target_link_libraries(CMusic mingw32 sdl2main sdl2 sdl2_image sdl2_ttf sdl2_mixer)
