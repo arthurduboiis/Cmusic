@@ -1,12 +1,12 @@
 const QueryString = require("querystring")
 
-const AV = require('./core_av');
-const { AUDIO_SOUND_RATE, AUDIO_CODEC_NAME} = require('./core_av');
+const AV = require('../core/core_av');
+const { AUDIO_SOUND_RATE, AUDIO_CODEC_NAME} = require('../core/core_av');
 
 const Handshake = require("./rtmp_handshake")
-const context = require("./core_ctx")
-const AMF = require("./core_amf")
-const CoreUtils = require("./core_utils");
+const context = require("../core/core_ctx")
+const AMF = require("../core/core_amf")
+const CoreUtils = require("../core/core_utils");
 
 const RTMP_HANDSHAKE_SIZE = 1536
 const RTMP_HANDSHAKE_UNINIT = 0

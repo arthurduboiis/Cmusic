@@ -1,6 +1,6 @@
 const Net = require("net")
 const rtmp_session = require("./rtmp_session")
-const context = require("./core_ctx")
+const context = require("../core/core_ctx")
 
 const RTMP_PORT = 1935
 

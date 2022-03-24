@@ -1,9 +1,8 @@
-const rtmp_server = require("./rtmp_server")
-const context = require("./core_ctx")
+const rtmp_server = require("./rtmp/rtmp_server")
+const context = require("./core/core_ctx")
 
 class server{
     constructor(config){
-
         this.config = config
     }
 
@@ -11,6 +10,9 @@ class server{
         if(this.config.rtmp.port){
             this.rtmp_s = new rtmp_server(this.config)
             this.rtmp_s.run()
+        }
+        if(this.config.tcp.port){
+            this.tcp_s = new tcp_server(this.config)
         }
         process.on('uncaughtException', err => {
                 console.log("UncaughtException : " + err)
@@ -25,7 +27,10 @@ class server{
     }
     stop() {
         if (this.rtmp_s) {
-            this.rtmp_s.stop();
+            this.rtmp_s.stop()
+        }
+        if(this.tcp_s){
+            this.tcp_s.stop()
         }
     }
 }
