@@ -14,6 +14,8 @@ CMakeFiles/CMusic.dir/main.c.obj
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/dropEvent.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h
+ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.h
+ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/lecteur_audio.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/main.c
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/render.h
@@ -22,6 +24,7 @@ CMakeFiles/CMusic.dir/mouseButton.c.obj
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/dropEvent.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h
+ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/lecteur_audio.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.c
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.h
@@ -36,6 +39,7 @@ CMakeFiles/CMusic.dir/viewport.c.obj
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/dropEvent.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h
+ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/render.h
  C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/viewport.c

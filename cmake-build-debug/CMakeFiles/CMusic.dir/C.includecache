@@ -60,6 +60,12 @@ C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h
 common.h
 C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h
 
+C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.h
+common.h
+C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h
+initMedia.h
+C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h
+
 C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/lecteur_audio.h
 
 C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/main.c
@@ -77,6 +83,10 @@ mouseButton.h
 C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.h
 dropEvent.h
 C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/dropEvent.h
+inputText.h
+C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.h
+lecteur_audio.h
+C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/lecteur_audio.h
 
 C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.c
 mouseButton.h
@@ -117,4 +127,6 @@ mouseButton.h
 C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.h
 dropEvent.h
 C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/dropEvent.h
+inputText.h
+C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/inputText.h
 

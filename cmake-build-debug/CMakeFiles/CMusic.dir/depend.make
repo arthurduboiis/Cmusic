@@ -14,6 +14,8 @@ CMakeFiles/CMusic.dir/main.c.obj: \
  ../common.h \
  ../dropEvent.h \
  ../initMedia.h \
+ ../inputText.h \
+ ../lecteur_audio.h \
  ../main.c \
  ../mouseButton.h \
  ../render.h \
@@ -22,6 +24,7 @@ CMakeFiles/CMusic.dir/mouseButton.c.obj: \
  ../common.h \
  ../dropEvent.h \
  ../initMedia.h \
+ ../inputText.h \
  ../lecteur_audio.h \
  ../mouseButton.c \
  ../mouseButton.h \
@@ -36,6 +39,7 @@ CMakeFiles/CMusic.dir/viewport.c.obj: \
  ../common.h \
  ../dropEvent.h \
  ../initMedia.h \
+ ../inputText.h \
  ../mouseButton.h \
  ../render.h \
  ../viewport.c \
