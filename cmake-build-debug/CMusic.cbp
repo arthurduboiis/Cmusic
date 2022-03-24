@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="CMusic"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CMusic">
+				<Option output="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/CMusic.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/."/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 CMusic"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CMusic/fast">
+				<Option output="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/CMusic.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/."/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 CMusic/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/font/arial.ttf">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/font/coco-sharp.ttf">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/background.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/home.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/logo_cmusic.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/mp3.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/new.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/pause.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/play.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/playlist.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/rank.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/repeat.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/selected.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/setting.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/shuffle.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/skip_left.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/skip_right.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/Ressources/img/sound.png">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/common.h">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/dropEvent.c">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/dropEvent.h">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.c">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/initMedia.h">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/main.c">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.c">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/mouseButton.h">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/render.c">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/render.h">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/viewport.c">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/viewport.h">
+			<Option target="CMusic"/>
+		</Unit>
+		<Unit filename="C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
