@@ -8,6 +8,10 @@
 #include <string.h>
 #include "initMedia.h"
 
+_Bool inputTag = 0;
+_Bool inputPlaylist = 0;
+_Bool inputHome = 0;
+
 static void vmsg(const char *prefix, const char *sep, const char *suffix,
                  const char *format, va_list ap)
 {
@@ -66,7 +70,7 @@ _Bool init(void)
         fprintf( stderr, "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
         return 0;
     }
-
+    displayIcon();
     renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
     if( renderer == NULL )
     {
@@ -102,7 +106,7 @@ _Bool loadMediaText(void)
     gFont = TTF_OpenFont( CHEMIN"Ressources/font/arial.ttf", 20 );
     if( gFont == NULL )
     {
-        printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
+        fprintf( stderr, "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
         success = 0;
     }
 
@@ -118,9 +122,9 @@ _Bool loadFromRenderedText(LTexture *ltexture, char textureText[])
     SDL_Color colorText = {0,0,0};
     //Render text surface
     SDL_Surface* textSurface = TTF_RenderUTF8_Blended(gFont, textureText, colorText );
-    if( textSurface == NULL )
+    if( textSurface == NULL)
     {
-        printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
+        fprintf(stderr, "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
     }
     else
     {
@@ -128,7 +132,7 @@ _Bool loadFromRenderedText(LTexture *ltexture, char textureText[])
         ltexture->mTexture = SDL_CreateTextureFromSurface( renderer, textSurface );
         if( ltexture->mTexture == NULL )
         {
-            printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
+            fprintf(stderr, "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
         }
         else
         {
@@ -152,12 +156,13 @@ _Bool loadFromFile(char path[],LTexture *finalTexture){
     //The final texture
     SDL_Texture* newTexture = NULL;
     
+    
 
     //Load image at specified path
     SDL_Surface* loadedSurface = IMG_Load( path );
     if( loadedSurface == NULL )
     {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path, IMG_GetError() );
+        fprintf(stderr, "Unable to load image %s! SDL_image Error: %s\n", path, IMG_GetError() );
     }
     else
     {
@@ -167,7 +172,7 @@ _Bool loadFromFile(char path[],LTexture *finalTexture){
         newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
         if( newTexture == NULL )
         {
-            printf( "Unable to create texture from %s! SDL Error: %s\n", path, SDL_GetError() );
+            fprintf(stderr, "Unable to create texture from %s! SDL Error: %s\n", path, SDL_GetError() );
         }
         else
         {
@@ -183,6 +188,16 @@ _Bool loadFromFile(char path[],LTexture *finalTexture){
     //Return success
     finalTexture->mTexture = newTexture;
     return finalTexture->mTexture != NULL;
+}
+
+void displayIcon(void){
+    SDL_Surface *loadIcon = IMG_Load(CHEMIN"Ressources/img/logo_cmusic.png");
+    if (loadIcon == NULL){
+        fprintf(stderr, "Unable to load image app icon! SDL_image Error: %s\n", IMG_GetError() );
+    } else {
+        SDL_SetColorKey( loadIcon, SDL_TRUE, SDL_MapRGB( loadIcon->format,89, 106, 255 ));
+        SDL_SetWindowIcon(window, loadIcon);
+    }
 }
 
 void freeLtexture(LTexture *texture)
@@ -207,7 +222,7 @@ void renderLTexture(LTexture texture,  int x, int y, SDL_Rect *clip){
         renderQuad.w = clip->w;
         renderQuad.h = clip->h;
     }
-
+    
     //Render to screen
     SDL_RenderCopy( renderer, texture.mTexture, clip, &renderQuad );
 }
@@ -272,8 +287,8 @@ void initAllLTexture(void){
     die_if(!loadFromRenderedText(&musicTitle, "Titre de la musique"), "Can't load text : Titre de la musique");
     die_if(!loadFromRenderedText(&musicArtiste, "Artiste"), "Can't load text : Artiste");
     die_if(!loadFromRenderedText(&musicDuration, "04:34"), "Can't load text : Music duration");
-    die_if(!loadFromRenderedText(&timeAdd, "Il y a X minutes"), "Can't load text : Il y a X minutes");
-    die_if(!loadFromRenderedText(&textTags, "tags : "), "Can't load text : tags :");
+    die_if(!loadFromRenderedText(&textPlaylist, "Playlist : "), "Can't load text : Playlist : ");
+    die_if(!loadFromRenderedText(&textTags, "Tags : "), "Can't load text : tags :");
     die_if(!loadFromRenderedText(&nameTag, "Hip-Hop"), "Can't load text : nameTag");
     die_if(!loadFromFile(CHEMIN"Ressources/img/imgTag.png", &imgTag), "Can't load imgTag");
     
@@ -284,6 +299,9 @@ void initAllLTexture(void){
     die_if(!loadFromRenderedText(&artist, "Artiste"), "Can't load text : Artiste");
     die_if(!loadFromRenderedText(&duration, "Durée"), "Can't load text : Durée");
     die_if(!loadFromRenderedText(&views, "Vues"), "Can't load text : Vues");
+    
+    
+   
     
     
     
@@ -335,8 +353,8 @@ void freeAllTexture(void){
     freeLtexture(&textTags);
     freeLtexture(&nameTag);
     freeLtexture(&imgTag);
-    freeLtexture(&timeAdd);
-
+    freeLtexture(&textPlaylist);
+    freeLtexture(&textVarTag);
     // free viewport top
     freeLtexture(&listenText);
     freeLtexture(&hashtag);
@@ -344,6 +362,7 @@ void freeAllTexture(void){
     freeLtexture(&artist);
     freeLtexture(&duration);
     freeLtexture(&views);
+    
     
     
 }
@@ -354,3 +373,31 @@ int getWidth(LTexture *texture){
 int getHeight(LTexture *texture){
     return texture->mHeight;
 }
+
+void setActiveInputTag(_Bool active)
+{
+    inputTag = active;
+}
+
+void setActiveInputPlaylist(_Bool active)
+{
+    inputPlaylist = active;
+}
+
+void setActiveInputHome(_Bool active)
+{
+    inputHome = active;
+}
+
+_Bool getInputTag(void){
+    return inputTag;
+}
+
+_Bool getInputPlaylist(void){
+    return inputPlaylist;
+}
+
+_Bool getInputHome(void){
+    return inputHome;
+}
+

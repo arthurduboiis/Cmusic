@@ -28,8 +28,12 @@ typedef struct LTexture {
 
 _Bool init(void);
 
+void displayIcon(void);
 
 _Bool loadMediaText(void);
+
+
+
 
 #if defined(SDL_TTF_MAJOR_VERSION)
 _Bool loadFromRenderedText(LTexture *ltexture, char textureText[]);
@@ -45,7 +49,7 @@ SDL_Texture* loadMediaTexture(char path[]);
 
 // Texture & char for text input
 LTexture inputTextTexture;
-char *textFromInput;
+char *textFromInput, *textAddTagInput, *textAddPlaylistInput;
 
 
 // Texture for center menu
@@ -58,10 +62,12 @@ LTexture logoTexture,recSelected,homeTxt, homePng, newTxt, newPng, topTxt, topPn
 LTexture background, play, stop, nextRight, nextLeft, randomMusic, replay, sound, point;
 
 // Texture for viewport news
-LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, nameTag, imgTag,timeAdd;
+LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, nameTag, imgTag,textPlaylist, textVarTag;
 
 // Texture for viewport top
 LTexture listenText, hashtag, title, artist, duration, views;
+
+
 
 
 void initAllLTexture(void);
@@ -70,5 +76,13 @@ void freeAllTexture(void);
 //Gets LTexture dimensions
 int getWidth(LTexture *texture);
 int getHeight(LTexture *texture);
+
+void setActiveInputTag(_Bool);
+void setActiveInputPlaylist(_Bool);
+void setActiveInputHome(_Bool);
+_Bool getInputTag(void);
+_Bool getInputPlaylist(void);
+_Bool getInputHome(void);
+
 
 #endif /* initMedia_h */
