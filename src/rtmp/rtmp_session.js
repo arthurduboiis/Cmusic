@@ -101,7 +101,6 @@ class rtmp_session{
         this.pingTimeout = config.rtmp.ping_timeout ? config.rtmp.ping_timeout * 1000 : RTMP_PING_TIMEOUT
         this.pingInterval = null
 
-        this.isLocal = this.ip === '127.0.0.1' || this.ip === '::1' || this.ip == '::ffff:127.0.0.1'
         this.isStarting = false
         this.isPublishing = false
         this.isPlaying = false
@@ -111,11 +110,6 @@ class rtmp_session{
         this.metaData = null
         this.aacSequenceHeader = null
         this.audioCodec = 0
-        this.audioCodecName = ''
-        this.audioProfileName = ''
-        this.audioSamplerate = 0
-        this.audioChannels = 1
-        this.bitrate = 0
 
         this.ackSize = 0
         this.inAckSize = 0
@@ -162,7 +156,7 @@ class rtmp_session{
                 clearInterval(this.pingInterval)
                 this.pingInterval = null
             }
-            console.log("rtmp disconnect " + this.id)
+            console.log("[RTMP] rtmp disconnect " + this.id)
             context.nodeEvent.emit('doneConnect', this.id, this.connectCmdObj)
 
             context.sessions.delete(this.id)
@@ -171,21 +165,21 @@ class rtmp_session{
     }
 
     reject(){
-        console.log("rtmp reject" + this.id)
+        console.log("[RTMP] rtmp reject" + this.id)
         this.stop()
     }
     flush(){
         if(this.numPlayCache > 0){
-            console.log("rtmp flush" + this.id)
+            console.log("[RTMP] rtmp flush" + this.id)
             this.res.uncork()
         }
     }
     onSocketClose(){
-        console.log("rtmp close" + this.id)
+        console.log("[RTMP] rtmp close" + this.id)
         this.stop()
     }
     onSocketError(){
-        console.log("rtmp error" + this.id)
+        console.log("[RTMP] rtmp error" + this.id)
         this.stop()
     }
     onSocketTimeout(){
@@ -454,7 +448,7 @@ class rtmp_session{
         this.rtmpChunkMessageHeaderRead()
 
         if (this.parserPacket.header.type > RTMP_TYPE_METADATA) {
-            console.log("rtmp packet parse error")
+            console.log("[RTMP] rtmp packet parse error")
             this.stop()
         }
     }
@@ -545,7 +539,7 @@ class rtmp_session{
             }
 
             if (sound_format != 10 && sound_format != 13) {
-                    console.log("sound format error")
+                    console.log("[RTMP] sound format error")
             }
         }
 
@@ -563,7 +557,7 @@ class rtmp_session{
                 this.audioSamplerate = 48000
                 this.audioChannels = payload[11]
             }
-            console.log("don't know weird things with sound format \_(ツ)_/")
+            console.log("[RTMP] don't know weird things with sound format \_(ツ)_/")
 
         }
 
@@ -788,7 +782,7 @@ class rtmp_session{
             last_update: this.startTimestamp,
             bytes: 0,
         }
-        console.log("rtmp connect " + this.id + " " + this.appname)
+        console.log("[RTMP] rtmp connect " + this.id + " " + this.appname)
         context.nodeEvent.emit('postConnect', this.id, invokeMessage.cmdObj)
     }
 
@@ -809,13 +803,13 @@ class rtmp_session{
 
         if (context.publishers.has(this.publishStreamPath)) {
             this.reject()
-            console.log("rtmp already has a stream" + this.id)
+            console.log("[RTMP] rtmp already has a stream" + this.id)
             this.sendStatusMessage(this.publishStreamId, 'error', 'NetStream.Publish.BadName', 'Stream already publishing')
         } else if (this.isPublishing) {
-            console.log("rtmp NetConnection is publishing" + this.id)
+            console.log("[RTMP] rtmp NetConnection is publishing" + this.id)
             this.sendStatusMessage(this.publishStreamId, 'error', 'NetStream.Publish.BadConnection', 'Connection already publishing')
         } else {
-            console.log("rtmp New Stream " + this.id)
+            console.log("[RTMP] rtmp New Stream " + this.id)
             context.publishers.set(this.publishStreamPath, this.id)
             this.isPublishing = true
 
@@ -845,7 +839,7 @@ class rtmp_session{
         }
 
         if (this.isPlaying) {
-            console.log("rtmp NetConnection is playing" + this.id)
+            console.log("[RTMP] rtmp NetConnection is playing" + this.id)
             this.sendStatusMessage(this.playStreamId, 'error', 'NetStream.Play.BadConnection', 'Connection already playing')
         } else {
             this.respondPlay()
@@ -854,7 +848,7 @@ class rtmp_session{
         if (context.publishers.has(this.playStreamPath)) {
             this.onStartPlay()
         } else {
-            console.log("rtmp Stream not found" + this.id)
+            console.log("[RTMP] rtmp Stream not found" + this.id)
             this.isIdling = true
             context.idlePlayers.add(this.id)
         }
@@ -893,14 +887,14 @@ class rtmp_session{
         this.isIdling = false
         this.isPlaying = true
         context.nodeEvent.emit('postPlay', this.id, this.playStreamPath, this.playArgs)
-        console.log("rtmp Join stream " + this.id)
+        console.log("[RTMP] rtmp Join stream " + this.id)
     }
 
     onPause(invokeMessage) {
         this.isPause = invokeMessage.pause
         let c = this.isPause ? 'NetStream.Pause.Notify' : 'NetStream.Unpause.Notify'
         let d = this.isPause ? 'Paused live' : 'Unpaused live'
-        console.log("rtmp play " + d + " " + this.id)
+        console.log("[RTMP] rtmp play " + d + " " + this.id)
         if (!this.isPause) {
             this.sendStreamStatus(STREAM_BEGIN, this.playStreamId)
             if (context.publishers.has(this.playStreamPath)) {
@@ -928,7 +922,7 @@ class rtmp_session{
 
     onReceiveAudio(invokeMessage) {
         this.isReceiveAudio = invokeMessage.bool
-        console.log("rtmp play receiveAUdio" + this.id)
+        console.log("[RTMP] rtmp play receiveAUdio" + this.id)
     }
 
     onCloseStream() {
@@ -950,7 +944,7 @@ class rtmp_session{
                 context.nodeEvent.emit('donePlay', this.id, this.playStreamPath, this.playArgs)
                 this.isPlaying = false
             }
-            console.log("rtmp play Close Stream" +this.id)
+            console.log("[RTMP] rtmp play Close Stream" +this.id)
             if (this.isStarting) {
                 this.sendStatusMessage(this.playStreamId, 'status', 'NetStream.Play.Stop', 'Stopped playing stream.')
             }
@@ -960,7 +954,7 @@ class rtmp_session{
 
         if (invokeMessage.streamId == this.publishStreamId) {
             if (this.isPublishing) {
-                console.log("rtmp publish Close Stream" + this.id)
+                console.log("[RTMP] rtmp publish Close Stream" + this.id)
                 context.nodeEvent.emit('donePublish', this.id, this.publishStreamPath, this.publishArgs)
                 if (this.isStarting) {
                     this.sendStatusMessage(this.publishStreamId, 'status', 'NetStream.Unpublish.Success', `${this.publishStreamPath} is now unpublished.`)

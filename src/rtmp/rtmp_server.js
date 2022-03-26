@@ -15,15 +15,15 @@ class rtmp_server{
 
     run(){
         this.tcp_server.listen(this.port, () => {
-            console.log("Listen on port " + this.port)
+            console.log("[RTMP] Listen on port " + this.port)
         })
 
         this.tcp_server.on('error', (e) => {
-            console.log("error " + e)
+            console.log("[RTMP] error " + e)
         })
 
         this.tcp_server.on('close', () => {
-            console.log("close")
+            console.log("[RTMP] close")
         })
     }
 

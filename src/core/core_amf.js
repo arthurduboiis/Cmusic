@@ -970,7 +970,7 @@ function decodeAmf0Data(dbuf) {
                 }
             })
         } else {
-            console.log("unknow command")
+            console.log("[CORE] unknow command")
         }
     }
 
@@ -999,7 +999,7 @@ function decodeAMF0Cmd(dbuf) {
             }
         })
     } else {
-        console.log("unknow command")
+        console.log("[CORE]  unknow command")
     }
     return resp
 }
@@ -1018,7 +1018,7 @@ function encodeAMF0Cmd(opt) {
                 data = Buffer.concat([data, amf0EncodeOne(opt[n])])
         })
     } else {
-        console.log("unknow command")
+        console.log("[CORE] unknow command")
     }
     return data
 }
@@ -1032,7 +1032,7 @@ function encodeAMF0Data(opt) {
                 data = Buffer.concat([data, amf0EncodeOne(opt[n])])
         })
     } else {
-        console.log("unknow data")
+        console.log("[CORE] unknow data")
     }
     return data
 }
@@ -1059,7 +1059,7 @@ function decodeAMF3Cmd(dbuf) {
             }
         })
     } else {
-        console.log("unknow command")
+        console.log("[CORE] unknow command")
     }
     return resp
 }
@@ -1078,7 +1078,7 @@ function encodeAMF3Cmd(opt) {
                 data = Buffer.concat([data, amf3EncodeOne(opt[n])])
         })
     } else {
-        console.log("unknow command")
+        console.log("[CORE] unknow command")
     }
     return data
 }

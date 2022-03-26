@@ -1,4 +1,5 @@
 const rtmp_server = require("./rtmp/rtmp_server")
+const tcp_server = require("./tcp/tcp_server")
 const context = require("./core/core_ctx")
 
 class server{
@@ -13,9 +14,10 @@ class server{
         }
         if(this.config.tcp.port){
             this.tcp_s = new tcp_server(this.config)
+            this.tcp_s.run()
         }
         process.on('uncaughtException', err => {
-                console.log("UncaughtException : " + err)
+                console.log("[SERVER] UncaughtException : " + err)
             }
         )
         process.on('SIGINT', () => {

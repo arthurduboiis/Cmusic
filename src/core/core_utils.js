@@ -11,6 +11,7 @@ function generateNewSessionID() {
     } while (context.sessions.has(sessionID))
     return sessionID
 }
+
 module.exports = {
-    generateNewSessionID
+    generateNewSessionID,
 }
