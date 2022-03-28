@@ -1,4 +1,7 @@
 const server = require("./src/server")
+const dotenv = require("dotenv")
+
+dotenv.config()
 
 const config = {
     rtmp: {
@@ -9,7 +12,7 @@ const config = {
     },
     tcp: {
         port: 8080,
-    }
+    },
 };
 let s = new server(config)
 s.run()

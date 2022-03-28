@@ -19,7 +19,7 @@ class rtmp_server{
         })
 
         this.tcp_server.on('error', (e) => {
-            console.log("[RTMP] error " + e)
+            console.log("[RTMP] " + e)
         })
 
         this.tcp_server.on('close', () => {

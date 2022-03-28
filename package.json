@@ -16,5 +16,8 @@
     "url": "https://github.com/arthurduboiis/Cmusic/issues"
   },
   "homepage": "https://github.com/arthurduboiis/Cmusic#readme",
-  "dependencies": {}
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "mysql2": "^2.3.3"
+  }
 }
