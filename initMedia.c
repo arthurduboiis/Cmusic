@@ -121,7 +121,14 @@ _Bool loadFromRenderedText(LTexture *ltexture, char textureText[])
     freeLtexture(ltexture);
     SDL_Color colorText = {0,0,0};
     //Render text surface
-    SDL_Surface* textSurface = TTF_RenderUTF8_Blended(gFont, textureText, colorText );
+    SDL_Surface* textSurface;
+//    fprintf(stdout , "taille textureText : %d ", strlen(textureText));
+//    if(strlen(textureText) > 0 ){
+//        textSurface = TTF_RenderUTF8_Blended(gFont, textureText, colorText );
+//    }else{
+//        textSurface = TTF_RenderUTF8_Blended(gFont, " ", colorText );
+//    }
+    textSurface = TTF_RenderUTF8_Blended(gFont, textureText, colorText );
     if( textSurface == NULL)
     {
         fprintf(stderr, "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );

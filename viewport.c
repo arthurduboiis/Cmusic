@@ -234,6 +234,7 @@ _Bool createCenterMenu(void){
     inputText.y = 60;
 
     SDL_RenderDrawRect(renderer, &inputText);
+//    size_t m = sizeof(textFromInput)/sizeof(textFromInput[0])
     loadFromRenderedText(&inputTextTexture, textFromInput);
     renderLTexture(inputTextTexture, 215, 65, NULL);
 

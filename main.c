@@ -35,6 +35,9 @@ int main(int argc, char* argv[]){
     textFromInput = malloc(100 * sizeof(char*));
     textAddTagInput = malloc(100 * sizeof(char*));
     textAddPlaylistInput = malloc(100 * sizeof(char*));
+//    textFromInput = " ";
+//    textAddTagInput = " ";
+//    textAddPlaylistInput =" ";
 
     setPositionButtonLeftMenu();
     setPositionButtonBottomMenu();
