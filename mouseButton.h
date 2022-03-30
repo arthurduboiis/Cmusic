@@ -34,6 +34,8 @@
 
 #define BUTTON_VOLUME_SIZE 16
 
+#define TOTAL_ADD_BUTTONS 3
+
 #define SCROLLING_AREA_WIDTH 932
 #define SCROLLING_AREA_HEIGHT 150
 
@@ -65,6 +67,7 @@ LButton volumeButton, scrollingArea, scrollingButton[ TOTAL_BUTTON_SCROLLING_ARE
 
 int xScrolling;
 
+LButton wantInputButtons[TOTAL_ADD_BUTTONS];
 
 extern LTexture recSelected;
 extern SDL_Rect recSelectedSize;
@@ -81,5 +84,6 @@ void scrollingEvent();
 void setPositionButtonLeftMenu(void);
 void setPositionButtonBottomMenu(void);
 void setPositionScrollingArea(void);
+void setPositionButtonViewportNew(void);
 
 #endif /* mouseButton_h */

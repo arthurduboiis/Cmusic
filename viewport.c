@@ -8,7 +8,15 @@
 #include "viewport.h"
 
 int selectedButton = 0;
-int xVolume=1072;
+int xVolume=1098;
+int yImgOfMusic = 80;
+int yTitleOfMusic = 94;
+int yTitleOfArtiste = 124;
+int yMusicDuration = 135;
+int yAddButton = 174;
+int yAddPlaylist = 224;
+int indexAddButton = 0;
+
 
 int xScrolling = 50;
 
@@ -85,8 +93,6 @@ _Bool createLeftMenu(void)
         case 4:
             createViewportSetting();
             break;
-       
-            
         default:
             break;
     }
@@ -228,6 +234,7 @@ _Bool createCenterMenu(void){
     inputText.y = 60;
 
     SDL_RenderDrawRect(renderer, &inputText);
+//    size_t m = sizeof(textFromInput)/sizeof(textFromInput[0])
     loadFromRenderedText(&inputTextTexture, textFromInput);
     renderLTexture(inputTextTexture, 215, 65, NULL);
 
@@ -283,16 +290,13 @@ void createViewportNew(void)
     viewportSize.y = 0;
     SDL_RenderSetViewport( renderer, &viewportSize );
     
-    int xImg = 126;
-    int xText = 318;
-    int xDuration = 570;
-    int xTime = 670;
-    int xTag = 383;
-    int xTextTag = 400;
+
     
     renderLTexture(addNewText, 300, 22, NULL);
     
-    //first
+    createMusicDisplay(voidImg,musicTitle,musicArtiste,musicDuration);
+
+    /*//first
     renderLTexture(voidImg, xImg, 80, NULL);
     renderLTexture(musicTitle, xText, 94, NULL);
     renderLTexture(musicArtiste, xText, 124, NULL);
@@ -320,7 +324,7 @@ void createViewportNew(void)
     renderLTexture(timeAdd, xTime, 453, NULL);
     renderLTexture(textTags, xText, 490, NULL);
     renderLTexture(imgTag, xTag, 483, NULL);
-    renderLTexture(nameTag, xTextTag, 490, NULL);
+    renderLTexture(nameTag, xTextTag, 490, NULL);*/
     
     
     
@@ -349,6 +353,84 @@ void createViewportSetting()
     SDL_RenderSetViewport( renderer, &viewportSize );
 }
 
+void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture musicDuration){
+
+
+    int xImg = 126;
+    int xText = 318;
+    int xDuration = 570;
+
+
+    //first
+    renderLTexture(img, xImg, yImgOfMusic, NULL);
+    renderLTexture(title, xText, yTitleOfMusic, NULL);
+    renderLTexture(artiste, xText, yTitleOfArtiste, NULL);
+    renderLTexture(musicDuration, xDuration, yMusicDuration, NULL);
+
+    renderLTexture(textTags, xText, yAddButton, NULL);
+    setPositionButtonViewportNew();
+
+
+
+    //TODO :
+    // si chaine != vide et pas en train d'écrire :
+    // afficher le tag
+
+    renderLTexture(textPlaylist, xText, yAddPlaylist, NULL);
+
+    inputText.w = 200;
+    inputText.x = xText+90;
+    inputText.y = yAddButton-5;
+
+    SDL_RenderDrawRect(renderer, &inputText);
+    if(textAddTagInput[0] != '\0'){
+        startInput();
+        loadFromRenderedText(&inputTextTexture, textAddTagInput);
+    }else {
+        loadFromRenderedText(&inputTextTexture, " ");
+    }
+
+
+
+    renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
+
+    if(wantInputButtons[0].mCurrentButton == 3) {
+        setActiveInputTag(1);
+        setActiveInputPlaylist(0);
+    }
+
+    if(textAddTagInput[0] != '\0' && !getInputTag()){
+        renderLTexture(imgTag, xText+310, yAddButton-10, NULL);
+        loadFromRenderedText(&textVarTag, textAddTagInput);
+        renderLTexture(textVarTag, xText+320, yAddButton, NULL);
+    }
+
+    //renderLTexture(imgTag, xText+400, yAddButton-10, NULL);
+
+
+
+
+    inputText.y = yAddButton + 40;
+
+    SDL_RenderDrawRect(renderer, &inputText);
+
+    if(textAddPlaylistInput[0] != '\0'){
+        startInput();
+        loadFromRenderedText(&inputTextTexture, textAddPlaylistInput);
+    }else {
+        loadFromRenderedText(&inputTextTexture, " ");
+    }
+
+    renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
+
+    if(wantInputButtons[1].mCurrentButton == 3){
+        setActiveInputPlaylist(1);
+        setActiveInputTag(0);
+    }
+
+    indexAddButton++;
+}
+
 void buttonSelected(void){
     int i;
     for(i=0; i < TOTAL_BUTTONS_LEFT_MENU; i++){
@@ -375,4 +457,8 @@ void setXVolume(int x){
 
 void setXScrolling(int x){
     xScrolling = x;
+}
+
+int getSelectedPage(void){
+    return selectedButton;
 }
