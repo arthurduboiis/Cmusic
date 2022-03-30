@@ -23,7 +23,7 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
-    //SDL_CreateThread(thread_lecteur_audio, "thread_lecteur_audio", "rtmp://localhost/live/STREAM_NAME");
+    SDL_CreateThread(thread_lecteur_audio, "thread_lecteur_audio", "rtmp://localhost/live/STREAM_NAME");
 
     initAllLTexture();
     //Main loop flag
