@@ -18,6 +18,7 @@
   "homepage": "https://github.com/arthurduboiis/Cmusic#readme",
   "dependencies": {
     "dotenv": "^16.0.0",
+    "ffmpeg": "0.0.4",
     "mysql2": "^2.3.3"
   }
 }

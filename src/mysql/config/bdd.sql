@@ -33,6 +33,7 @@ CREATE TABLE musique(
     duree TIME,
     date DATE,
     style VARCHAR(64),
+    path VARCHAR(256),
     tags JSON,
     thumbnail VARCHAR(1024),
     idArtiste INT,

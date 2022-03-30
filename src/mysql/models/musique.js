@@ -65,7 +65,7 @@ exports.get_music_by_album = (data, callback) =>{
     })
 }
 exports.add_music = (data, callback) =>{
-    db.query("INSERT INTO musique (nom, duree, date, style, tags, thumbnail, idArtiste, idAlbum) VALUES(?, ?, ?, ?, ?, ?, ?, ?);", [data.nom, data.duree, data.date, data.style, data.tags, data.thumbnail, data.idArtiste, data.idAlbum], (error, results) =>{
+    db.query("INSERT INTO musique (nom, duree, date, style, path, tags, thumbnail, idArtiste, idAlbum) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", [data.nom, data.duree, data.date, data.style, data.path, data.tags, data.thumbnail, data.idArtiste, data.idAlbum], (error, results) =>{
         if(error){
             return callback(error)
         }
@@ -129,7 +129,7 @@ exports.update_music_album = (data, callback) => {
     })
 }
 exports.add_music_tag = (data, callback) => {
-    db.query("UPDATE musique SET tags = JSON_MERGE_PATCH(tags, ?) WHERE id = ?;", [data.tags, data.id],(error, results) =>{
+    db.query("UPDATE musique SET tags = JSON_MERGE_PRESERVE(tags, ?) WHERE id = ?;", [data.tags, data.id],(error, results) =>{
         if(error){
             return callback(error)
         }

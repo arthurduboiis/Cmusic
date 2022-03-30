@@ -1,0 +1,26 @@
+C/TCP/	->client to server
+  START/	->start music
+    [id] : int	->id of the music
+  STOP/
+  SEEK/
+  GET/
+  POST/
+    [table] :  (musique/playlist/artiste)        -> table of the data
+    [type] : (0/1)	-> depends of [table]
+    [id] : int		-> only if [type] == 1
+    [data] : JSON
+  DELETE/
+    [table] : (musique/playlist/artiste)	-> table of the data
+    [type] : (0/1/2)	-> depends of [table]
+    [id] : int
+    [data] : string	-> only if [type] == 1
+  UPDATE/
+    [table] : (musique/playlist/artiste)	->table of the data
+    [type] : (0 - 6)	-> depends of [table]
+    [id] : int
+    [data] : 		-> data to update
+  INFO/
+    [string] : (data_received, music_starting, music_created, tag_added, artiste_added, playlist_added, music_added_to_playlist, musique_deleted, tag_deleted, all_tags_deleted, playlist_deleted, musiques_in_playlist_deleted, all_musiques_in_playlist_deleted, artiste_deleted, 
+    [data] : JSON
+  ERROR/
+    [string] : (

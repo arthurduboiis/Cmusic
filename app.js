@@ -1,7 +1,8 @@
-const server = require("./src/server")
 const dotenv = require("dotenv")
 
 dotenv.config()
+
+const server = require("./src/server")
 
 const config = {
     rtmp: {

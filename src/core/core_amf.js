@@ -1001,6 +1001,9 @@ function decodeAMF0Cmd(dbuf) {
     } else {
         console.log("[CORE]  unknow command")
     }
+    // if(resp.cmdObj)
+    //     if(resp.cmdObj.app)
+    //         resp.cmdObj.app = "test"         SI ON VEUT MODIFIER L'URL D'ACCES AU STREAM RTMP (app et
     return resp
 }
 

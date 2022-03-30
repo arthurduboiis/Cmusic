@@ -57,7 +57,7 @@ exports.update_playlist_nom = (data, callback) =>{
     })
 }
 exports.add_musics_to_playlist = (data, callback) => {
-    db.query("UPDATE playlist SET idMusiques = JSON_MERGE_PATCH(idMusiques, ?) WHERE id = ?;", [data.idMusiques, data.id],(error, results) =>{
+    db.query("UPDATE playlist SET idMusiques = JSON_MERGE_PRESERVE(idMusiques, ?) WHERE id = ?;", [data.idMusiques, data.id],(error, results) =>{
         if(error){
             return callback(error)
         }

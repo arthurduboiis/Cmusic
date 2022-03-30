@@ -82,7 +82,6 @@ class rtmp_session{
         this.socket = socket
         this.res = socket
         this.id = CoreUtils.generateNewSessionID()
-        this.ip = socket.remoteAddress
         this.tag = 'rtmp'
 
         this.handshakePayload = Buffer.alloc(RTMP_HANDSHAKE_SIZE)
@@ -614,9 +613,6 @@ class rtmp_session{
             case 'play':
                 this.onPlay(invokeMessage)
                 break
-            case 'pause':
-                this.onPause(invokeMessage)
-                break
             case 'FCUnpublish':
                 break
             case 'deleteStream':
@@ -889,37 +885,6 @@ class rtmp_session{
         context.nodeEvent.emit('postPlay', this.id, this.playStreamPath, this.playArgs)
         console.log("[RTMP] rtmp Join stream " + this.id)
     }
-
-    onPause(invokeMessage) {
-        this.isPause = invokeMessage.pause
-        let c = this.isPause ? 'NetStream.Pause.Notify' : 'NetStream.Unpause.Notify'
-        let d = this.isPause ? 'Paused live' : 'Unpaused live'
-        console.log("[RTMP] rtmp play " + d + " " + this.id)
-        if (!this.isPause) {
-            this.sendStreamStatus(STREAM_BEGIN, this.playStreamId)
-            if (context.publishers.has(this.playStreamPath)) {
-                //fix ckplayer
-                let publisherId = context.publishers.get(this.playStreamPath)
-                let publisher = context.sessions.get(publisherId)
-                if (publisher.audioCodec === 10 || publisher.audioCodec === 13) {
-                    let packet = RtmpPacket.create()
-                    packet.header.fmt = RTMP_CHUNK_TYPE_0
-                    packet.header.cid = RTMP_CHANNEL_AUDIO
-                    packet.header.type = RTMP_TYPE_AUDIO
-                    packet.payload = publisher.aacSequenceHeader
-                    packet.header.length = packet.payload.length
-                    packet.header.stream_id = this.playStreamId
-                    packet.header.timestamp = publisher.parserPacket.clock // ?? 0 or clock
-                    let chunks = this.rtmpChunksCreate(packet)
-                    this.socket.write(chunks)
-                }
-            }
-        } else {
-            this.sendStreamStatus(STREAM_EOF, this.playStreamId)
-        }
-        this.sendStatusMessage(this.playStreamId, c, d)
-    }
-
     onReceiveAudio(invokeMessage) {
         this.isReceiveAudio = invokeMessage.bool
         console.log("[RTMP] rtmp play receiveAUdio" + this.id)
@@ -969,8 +934,6 @@ class rtmp_session{
                         playerSession.stop()
                     }
                 }
-
-                //let the players to idlePlayers
                 for (let playerId of this.players) {
                     let playerSession = context.sessions.get(playerId)
                     context.idlePlayers.add(playerId)
