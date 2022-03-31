@@ -53,13 +53,13 @@ char *textFromInput, *textAddTagInput, *textAddPlaylistInput;
 
 
 // Texture for center menu
-LTexture textTexture, mp3Texture;
+LTexture textTexture, mp3Texture, mp3BTexture;
 
 // Texture for left menu
 LTexture logoTexture,recSelected,homeTxt, homePng, newTxt, newPng, topTxt, topPng, playlistTxt, playlistPng, paramTxt, paramPng;
 
 //Texture for bottom menu
-LTexture background, play, stop, nextRight, nextLeft, randomMusic, replay, sound, point;
+LTexture background, play, pauseB, stop, nextRight, nextLeft, nextRightB, nextLeftB, randomMusic, randomMusicB, replay, replayB, sound, point;
 
 // Texture for viewport news
 LTexture addNewText,voidImg, musicTitle, musicArtiste, musicDuration, textTags, nameTag, imgTag,textPlaylist, textVarTag;

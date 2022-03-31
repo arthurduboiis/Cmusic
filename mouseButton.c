@@ -7,8 +7,15 @@
 
 #include "mouseButton.h"
 #include "lecteur_audio.h"
+#include "flag_thread.h"
 
-int volume = 128;
+int volume = 64;
+_Bool playB = 0;
+int id = 0;
+_Bool mu[12] = {0};
+_Bool rr[5] = {0};
+_Bool rrA[5] = {0};
+
 
 void initLButton(LButton *button){
     button->mPosition.x = 0;
@@ -56,18 +63,16 @@ void handleEvent( LButton *button, SDL_Event* e ,int width, int height)
             }
                 //Mouse is inside button
             else {
+//                button->mCurrentButton = MOUSE_ON;
                 if (e->type == SDL_MOUSEMOTION) {
                     button->mCurrentButton = BUTTON_MOUSE_MOTION;
                 }
-                if (e->type == SDL_MOUSEBUTTONDOWN) {
+                if (e->type == SDL_MOUSEBUTTONDOWN && width != 932) {
                     button->mCurrentButton = BUTTON_MOUSE_DOWN;
-                    printf("downnnnn");
-
                 }
 
                 if (e->type == SDL_MOUSEBUTTONUP) {
                     button->mCurrentButton = BUTTON_MOUSE_UP;
-                    printf("clicked");
                 }
 
                 if (e->type == SDL_MOUSEWHEEL ) {
@@ -92,7 +97,7 @@ void initButtonMenu(SDL_Event *e)
         handleEvent(&gButtonsLeftMenu[i], e, BUTTON_WIDTH, BUTTON_HEIGHT);
         handleEvent(&gButtonsBottomMenu[i], e,BUTTON_BOTTOM_WIDTH,BUTTON_BOTTOM_HEIGHT);
     }
-    handleEvent(&volumeButton, e, 100, BUTTON_VOLUME_SIZE);
+    handleEvent(&volumeButton, e, 128, BUTTON_VOLUME_SIZE);
     handleEvent(&scrollingArea, e, SCROLLING_AREA_WIDTH, SCROLLING_AREA_HEIGHT);
     for(int i = 0; i < TOTAL_BUTTON_SCROLLING_AREA; i++)
     {
@@ -114,8 +119,6 @@ void dragButtonVolume(SDL_Event *event)
     {
         setXVolume(event->motion.x - BUTTON_VOLUME_SIZE/2);
         volume = event->motion.x - 1008;
-
-        fprintf(stderr, "volume : %d\n", volume);
     }
 }
 
@@ -128,6 +131,12 @@ void scrollingEvent()
     else if (scrollingArea.mCurrentButton == 5 && xScrolling > -1930)
     {
         setXScrolling(xScrolling-= 60);
+    }
+}
+
+void playButton(){
+    if(gButtonsBottomMenu[2].mCurrentButton == 2){
+        playB = 1;
     }
 }
 
@@ -156,10 +165,49 @@ void setPositionScrollingArea(void)
 {
     setPosition(&scrollingArea, 210, 40);
     for (int i = 0; i < TOTAL_BUTTON_SCROLLING_AREA; ++i) {
-        setPosition(&scrollingButton[i], xScrolling, 60);
+//        fprintf(stderr, "%d\n", xScrolling);
+        setPosition(&scrollingButton[i], xScrolling+210+(250*i), 60);
     }
 
 }
+void chooseButton(){
+    for(int i = 0; i < TOTAL_BUTTON_SCROLLING_AREA; i++){
+        if(scrollingButton[i].mCurrentButton == 1){
+            mu[i] = 1;
+        }
+        else{
+            mu[i] = 0;
+        }
+        if(scrollingButton[i].mCurrentButton == 2){
+            id = i+1;
+            mu[i] = 1;
+        }
+    }
+}
+
+void checkRR(){
+    for(int i = 0; i < 5; i++){
+        if(i == 2)
+            i++;
+        if(gButtonsBottomMenu[i].mCurrentButton == 1)
+            rr[i] = 1;
+        else if(gButtonsBottomMenu[i].mCurrentButton == 2 && rrA[i] == 0){
+            rr[i] = 1;
+            rrA[i] = 1;
+        }
+        else if(gButtonsBottomMenu[i].mCurrentButton == 2 && rrA[i] == 1){
+            rr[i] = 0;
+            rrA[i] = 0;
+        }
+        else if(rrA[i]){
+            rr[i] = 1;
+        }
+        else{
+            rr[i] = 0;
+        }
+    }
+}
+
 
 void setPositionButtonViewportNew(void)
 {

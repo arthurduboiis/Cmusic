@@ -281,10 +281,15 @@ void initAllLTexture(void){
     // init bottom menu
     die_if(!loadFromFile(CHEMIN"Ressources/img/background.png", &background), "Can't load background img for bottom menu");
     die_if(!loadFromFile(CHEMIN"Ressources/img/play.png", &play), "Can't load Play img ");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/pause.png", &pauseB), "Can't load Play img ");
     die_if(!loadFromFile(CHEMIN"Ressources/img/skip_right.png", &nextRight), "Can't load skip right img");
     die_if(!loadFromFile(CHEMIN"Ressources/img/skip_left.png", &nextLeft), "Can't load skip left img");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/skip_rightB.png", &nextRightB), "Can't load skip right img");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/skip_leftB.png", &nextLeftB), "Can't load skip left img");
     die_if(!loadFromFile(CHEMIN"Ressources/img/shuffle.png", &randomMusic), "Can't load shuffle img");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/shuffleB.png", &randomMusicB), "Can't load shuffle img");
     die_if(!loadFromFile(CHEMIN"Ressources/img/repeat.png", &replay), "Can't load repeat img ");
+    die_if(!loadFromFile(CHEMIN"Ressources/img/repeatB.png", &replayB), "Can't load repeat img ");
     die_if(!loadFromFile(CHEMIN"Ressources/img/sound.png", &sound), "Can't load sound img");
     die_if(!loadFromFile(CHEMIN"Ressources/img/point.png", &point),"Can't load point img");
     
@@ -322,6 +327,7 @@ void freeAllTexture(void){
     // free center menu
     freeLtexture(&textTexture);
     freeLtexture(&mp3Texture);
+    freeLtexture(&mp3BTexture);
 
     // free left menu
     freeLtexture(&recSelected);
@@ -341,11 +347,16 @@ void freeAllTexture(void){
     //free bottom menu
     freeLtexture(&background);
     freeLtexture(&play);
+    freeLtexture(&pauseB);
     freeLtexture(&stop);
     freeLtexture(&nextRight);
     freeLtexture(&nextLeft);
+    freeLtexture(&nextRightB);
+    freeLtexture(&nextLeftB);
     freeLtexture(&randomMusic);
+    freeLtexture(&randomMusicB);
     freeLtexture(&replay);
+    freeLtexture(&replayB);
     freeLtexture(&sound);
     freeLtexture(&point);
     

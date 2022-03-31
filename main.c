@@ -7,11 +7,17 @@
 #include "dropEvent.h"
 #include "inputText.h"
 #include "lecteur_audio.h"
+#include "tcp.h"
+#include "flag_thread.h"
 
+_Bool quit = 0;
 
 void closee(void);
 
 int main(int argc, char* argv[]){
+
+//    freopen("error_log.txt", "w", stderr);
+
     if(!init()){
         fprintf(stderr, "Failed to initialize\n");
         closee();
@@ -23,25 +29,22 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
-    SDL_CreateThread(thread_lecteur_audio, "thread_lecteur_audio", "rtmp://localhost/live/STREAM_NAME");
+    char temp[] = "127.0.0.1:8080";
+
+    SDL_CreateThread(thread_tcp, "thread_tcp", temp);
 
     initAllLTexture();
     //Main loop flag
-    _Bool quit = 0;
     //Event handler
     SDL_Event e;
 
 
-    textFromInput = malloc(100 * sizeof(char*));
+    textFromInput = "Ajouter une musique";
     textAddTagInput = malloc(100 * sizeof(char*));
     textAddPlaylistInput = malloc(100 * sizeof(char*));
-//    textFromInput = " ";
-//    textAddTagInput = " ";
-//    textAddPlaylistInput =" ";
 
     setPositionButtonLeftMenu();
     setPositionButtonBottomMenu();
-    setPositionScrollingArea();
 
 
 
@@ -78,10 +81,14 @@ int main(int argc, char* argv[]){
             }
 
             dropEvent(&e);
+            setPositionScrollingArea();
 
             initButtonMenu(&e);
             dragButtonVolume(&e);
+            checkRR();
+            chooseButton();
             scrollingEvent();
+            playButton();
         }
 
 

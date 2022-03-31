@@ -40,8 +40,8 @@
 #define SCROLLING_AREA_HEIGHT 150
 
 #define TOTAL_BUTTON_SCROLLING_AREA 12
-#define SCROLLING_BUTTON_MUSIC_WIDTH 60
-#define SCROLLING_BUTTON_MUSIC_HEIGHT 60
+#define SCROLLING_BUTTON_MUSIC_WIDTH 100
+#define SCROLLING_BUTTON_MUSIC_HEIGHT 120
 
 
 typedef enum LButtonEvent
@@ -52,7 +52,8 @@ typedef enum LButtonEvent
     BUTTON_MOUSE_UP = 3,
     WHEEL_UP = 4,
     WHEEL_DOWN = 5,
-    BUTTON_TOTAL = 6
+    MOUSE_ON = 6,
+    BUTTON_TOTAL = 7
 }LButtonEvent;
 
 
@@ -80,7 +81,9 @@ void handleEvent( LButton *button, SDL_Event* e, int width, int height );
 void initButtonMenu(SDL_Event*);
 void dragButtonVolume(SDL_Event*);
 void scrollingEvent();
-
+void playButton();
+void chooseButton();
+void checkRR();
 void setPositionButtonLeftMenu(void);
 void setPositionButtonBottomMenu(void);
 void setPositionScrollingArea(void);

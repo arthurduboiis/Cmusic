@@ -6,9 +6,10 @@
 //
 
 #include "viewport.h"
+#include "flag_thread.h"
 
 int selectedButton = 0;
-int xVolume=1098;
+int xVolume=1064;
 int yImgOfMusic = 80;
 int yTitleOfMusic = 94;
 int yTitleOfArtiste = 124;
@@ -119,29 +120,62 @@ _Bool createBottomMenu(void)
     SDL_RenderDrawLine( renderer,0,0,1152,0 );
     
 
-    
-    play.mHeight = 25;
-    play.mWidth = 25;
-    renderLTexture(play,553,27.5, NULL);
-    
-    nextRight.mHeight = 25;
-    nextRight.mWidth = 25;
-    renderLTexture(nextRight,598,27.5, NULL);
-    
-    
-    nextLeft.mHeight = 25;
-    nextLeft.mWidth = 25;
-    renderLTexture(nextLeft,508,27.5, NULL);
-    
-    randomMusic.mHeight = 25;
-    randomMusic.mWidth = 25;
-    renderLTexture(randomMusic,423,27.5, NULL);
-    
+    if(!is_playing){
+        play.mHeight = 25;
+        play.mWidth = 25;
+        renderLTexture(play,553,27.5, NULL);
+    }
+    else{
+        pauseB.mHeight = 25;
+        pauseB.mWidth = 25;
+        renderLTexture(pauseB,553,27.5, NULL);
+    }
 
-    replay.mHeight = 25;
-    replay.mWidth = 25;
-    renderLTexture(replay,683,27.5, NULL);
+    if(!rr[3]) {
+        nextRight.mHeight = 25;
+        nextRight.mWidth = 25;
+        renderLTexture(nextRight, 598, 27.5, NULL);
+    }
+    else{
+        nextRightB.mHeight = 25;
+        nextRightB.mWidth = 25;
+        renderLTexture(nextRightB, 598, 27.5, NULL);
+    }
+
     
+    if(!rr[1]){
+        nextLeft.mHeight = 25;
+        nextLeft.mWidth = 25;
+        renderLTexture(nextLeft,508,27.5, NULL);
+    }
+    else{
+        nextLeftB.mHeight = 25;
+        nextLeftB.mWidth = 25;
+        renderLTexture(nextLeftB,508,27.5, NULL);
+    }
+
+
+    if(!rr[0]) {
+        randomMusic.mHeight = 25;
+        randomMusic.mWidth = 25;
+        renderLTexture(randomMusic, 423, 27.5, NULL);
+    }
+    else{
+        randomMusicB.mHeight = 25;
+        randomMusicB.mWidth = 25;
+        renderLTexture(randomMusicB, 423, 27.5, NULL);
+    }
+
+    if(!rr[4]) {
+        replay.mHeight = 25;
+        replay.mWidth = 25;
+        renderLTexture(replay, 683, 27.5, NULL);
+    }
+    else{
+        replayB.mHeight = 25;
+        replayB.mWidth = 25;
+        renderLTexture(replayB, 683, 27.5, NULL);
+    }
     sound.mHeight = 25;
     sound.mWidth = 25;
     renderLTexture(sound,978,27.5, NULL);
@@ -190,15 +224,23 @@ _Bool createCenterMenu(void){
     SDL_RenderDrawRect(renderer, &scrolling);
 
     spacing = 0;
+
+    char test[][25] = {"black serpens", "enemy", "dancin", "Edge of Infinity", "Flash Funk", "Let The Games Befin", "Lucidity", "Piercing Light", "PROJECT Yi", "Silver Scrapes", "The Glory", "WOW"};
+
     for (int i = 0; i < TOTAL_BUTTON_SCROLLING_AREA; ++i) {
         loadFromFile(CHEMIN"Ressources/img/mp3.png", &mp3Texture);
+        loadFromFile(CHEMIN"Ressources/img/mp3B.png", &mp3BTexture);
         mp3Texture.mHeight = 100;
         mp3Texture.mWidth = 100;
-        renderLTexture(mp3Texture, xScrolling + spacing, 10, NULL);
-        char test[100];
-        sprintf(test, "Test %d", i);
-        loadFromRenderedText(&textTexture, test);
-        renderLTexture(textTexture, xScrolling + spacing + 25, 120, NULL);
+        mp3BTexture.mHeight = 100;
+        mp3BTexture.mWidth = 100;
+        if(mu[i]) {
+            renderLTexture(mp3BTexture, xScrolling + spacing, 10, NULL);
+        }
+        else
+            renderLTexture(mp3Texture, xScrolling + spacing, 10, NULL);
+        loadFromRenderedText(&textTexture, test[i]);
+        renderLTexture(textTexture, xScrolling + spacing +15, 120, NULL);
 
         spacing+=250;
     }

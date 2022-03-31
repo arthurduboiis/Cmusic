@@ -3,6 +3,7 @@
 //
 
 #include "common.h"
+#include "flag_thread.h"
 
 #include "lecteur_audio.h"
 
@@ -110,7 +111,6 @@ typedef struct AudioState {
 } AudioState;
 
 SDL_AudioDeviceID audio_dev;
-extern int volume;
 
 
 int packet_queue_init(PacketQueue *q){
@@ -902,6 +902,14 @@ int read_thread(void *arg){
     }
 
     for(;;){
+
+        if(quit)
+            break;
+        if(stopL){
+            stopL = 0;
+            break;
+        }
+
         is->audio_volume = volume;
 
         if(is->abort_request){
@@ -940,7 +948,6 @@ int read_thread(void *arg){
         }
 
     }
-
     ret = 0;
 
     fail:
@@ -1001,18 +1008,6 @@ void stream_close(AudioState* is){
     av_free(is);
 }
 
-void do_exit(AudioState *is)
-{
-    if (is) {
-        stream_close(is);
-    }
-    avformat_network_deinit();
-    printf("\n");
-    SDL_Quit();
-    av_log(NULL, AV_LOG_QUIET, "%s", "");
-    exit(0);
-}
-
 AudioState* stream_open(const char* filename){
     AudioState* is;
 
@@ -1067,6 +1062,5 @@ int thread_lecteur_audio(void *arg){
         fprintf(stderr, "Failed to initialize AudioState\n");
         return -1;
     }
-
     return 0;
 }
