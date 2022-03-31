@@ -31,13 +31,9 @@ int main(int argc, char* argv[]){
     //Event handler
     SDL_Event e;
 
-
-    textFromInput = malloc(100 * sizeof(char*));
-    textAddTagInput = malloc(100 * sizeof(char*));
-    textAddPlaylistInput = malloc(100 * sizeof(char*));
-//    textFromInput = " ";
-//    textAddTagInput = " ";
-//    textAddPlaylistInput =" ";
+    textFromInput[0] = '\0';
+    textAddTagInput[0] = '\0';
+    textAddPlaylistInput[0] = '\0';
 
     setPositionButtonLeftMenu();
     setPositionButtonBottomMenu();

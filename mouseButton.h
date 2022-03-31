@@ -79,7 +79,7 @@ void setPosition( LButton *button, int x, int y );
 void handleEvent( LButton *button, SDL_Event* e, int width, int height );
 void initButtonMenu(SDL_Event*);
 void dragButtonVolume(SDL_Event*);
-void scrollingEvent();
+void scrollingEvent(void);
 
 void setPositionButtonLeftMenu(void);
 void setPositionButtonBottomMenu(void);

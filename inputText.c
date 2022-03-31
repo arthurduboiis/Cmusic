@@ -31,7 +31,6 @@ void handleInputEvent(SDL_Event *e, char *textFromInput)
         else if( e->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL )
         {
             textFromInput = SDL_GetClipboardText();
-            
         }
         
         // Press enter to end input text

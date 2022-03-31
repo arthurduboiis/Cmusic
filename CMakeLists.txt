@@ -39,4 +39,5 @@ add_executable(CMusic
         inputText.c
         inputText.h)
 
+
 target_link_libraries(CMusic mingw32 sdl2main sdl2 sdl2_image sdl2_ttf sdl2_mixer)

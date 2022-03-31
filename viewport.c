@@ -13,7 +13,7 @@ int yImgOfMusic = 80;
 int yTitleOfMusic = 94;
 int yTitleOfArtiste = 124;
 int yMusicDuration = 135;
-int yAddButton = 174;
+int yAddButton = 175;
 int yAddPlaylist = 224;
 int indexAddButton = 0;
 
@@ -196,9 +196,9 @@ _Bool createCenterMenu(void){
         mp3Texture.mWidth = 100;
         renderLTexture(mp3Texture, xScrolling + spacing, 10, NULL);
         char test[100];
-        sprintf(test, "Test %d", i);
+        sprintf(test, "Musique %d", i);
         loadFromRenderedText(&textTexture, test);
-        renderLTexture(textTexture, xScrolling + spacing + 25, 120, NULL);
+        renderLTexture(textTexture, xScrolling + spacing + 10, 120, NULL);
 
         spacing+=250;
     }
@@ -234,8 +234,12 @@ _Bool createCenterMenu(void){
     inputText.y = 60;
 
     SDL_RenderDrawRect(renderer, &inputText);
-//    size_t m = sizeof(textFromInput)/sizeof(textFromInput[0])
-    loadFromRenderedText(&inputTextTexture, textFromInput);
+    if(textFromInput[0] != '\0'){
+        startInput();
+        loadFromRenderedText(&inputTextTexture, textFromInput);
+    }else {
+        loadFromRenderedText(&inputTextTexture, "Entrez une URL YouTube");
+    }
     renderLTexture(inputTextTexture, 215, 65, NULL);
 
     SDL_RenderDrawLine(renderer, 0, 120, 1100, 120);
@@ -292,42 +296,9 @@ void createViewportNew(void)
     
 
     
-    renderLTexture(addNewText, 300, 22, NULL);
+    renderLTexture(addNewText, 425, 22, NULL);
     
     createMusicDisplay(voidImg,musicTitle,musicArtiste,musicDuration);
-
-    /*//first
-    renderLTexture(voidImg, xImg, 80, NULL);
-    renderLTexture(musicTitle, xText, 94, NULL);
-    renderLTexture(musicArtiste, xText, 124, NULL);
-    renderLTexture(musicDuration, xDuration, 135, NULL);
-    renderLTexture(timeAdd, xTime, 135, NULL);
-    renderLTexture(textTags, xText, 174, NULL);
-    renderLTexture(imgTag, xTag, 166, NULL);
-    renderLTexture(nameTag, xTextTag, 174, NULL);
-    
-    //second
-    renderLTexture(voidImg, xImg, 239, NULL);
-    renderLTexture(musicTitle, xText, 253, NULL);
-    renderLTexture(musicArtiste, xText, 283, NULL);
-    renderLTexture(musicDuration, xDuration, 294, NULL);
-    renderLTexture(timeAdd, xTime, 294, NULL);
-    renderLTexture(textTags, xText, 332, NULL);
-    renderLTexture(imgTag, xTag, 324, NULL);
-    renderLTexture(nameTag, xTextTag, 332, NULL);
-    
-    //third
-    renderLTexture(voidImg, xImg, 398, NULL);
-    renderLTexture(musicTitle, xText, 412, NULL);
-    renderLTexture(musicArtiste, xText, 442, NULL);
-    renderLTexture(musicDuration, xDuration, 453, NULL);
-    renderLTexture(timeAdd, xTime, 453, NULL);
-    renderLTexture(textTags, xText, 490, NULL);
-    renderLTexture(imgTag, xTag, 483, NULL);
-    renderLTexture(nameTag, xTextTag, 490, NULL);*/
-    
-    
-    
     
 }
 
@@ -378,21 +349,21 @@ void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture 
 
     renderLTexture(textPlaylist, xText, yAddPlaylist, NULL);
 
-    inputText.w = 200;
-    inputText.x = xText+90;
-    inputText.y = yAddButton-5;
+    inputText.w = 250;
+    inputText.h = 30;
+    inputText.x = xText + 90;
+    inputText.y = yAddButton;
+
 
     SDL_RenderDrawRect(renderer, &inputText);
     if(textAddTagInput[0] != '\0'){
         startInput();
         loadFromRenderedText(&inputTextTexture, textAddTagInput);
     }else {
-        loadFromRenderedText(&inputTextTexture, " ");
+        loadFromRenderedText(&inputTextTexture, "Entrez un Tag");
     }
 
-
-
-    renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
+    renderLTexture(inputTextTexture, inputText.x + 5, inputText.y + 3, NULL);
 
     if(wantInputButtons[0].mCurrentButton == 3) {
         setActiveInputTag(1);
@@ -400,17 +371,15 @@ void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture 
     }
 
     if(textAddTagInput[0] != '\0' && !getInputTag()){
-        renderLTexture(imgTag, xText+310, yAddButton-10, NULL);
+        renderLTexture(imgTag, xText + 350, yAddButton - 6, NULL);
         loadFromRenderedText(&textVarTag, textAddTagInput);
-        renderLTexture(textVarTag, xText+320, yAddButton, NULL);
+        renderLTexture(textVarTag, xText + 370 - strlen(textAddTagInput), yAddButton + 3, NULL);
     }
 
     //renderLTexture(imgTag, xText+400, yAddButton-10, NULL);
 
 
-
-
-    inputText.y = yAddButton + 40;
+    inputText.y = yAddButton + 45;
 
     SDL_RenderDrawRect(renderer, &inputText);
 
@@ -418,10 +387,10 @@ void createMusicDisplay(LTexture img,LTexture title, LTexture artiste, LTexture 
         startInput();
         loadFromRenderedText(&inputTextTexture, textAddPlaylistInput);
     }else {
-        loadFromRenderedText(&inputTextTexture, " ");
+        loadFromRenderedText(&inputTextTexture, "Entrez un nom de Playlist");
     }
 
-    renderLTexture(inputTextTexture, inputText.x, inputText.y, NULL);
+    renderLTexture(inputTextTexture, inputText.x + 5, inputText.y + 3, NULL);
 
     if(wantInputButtons[1].mCurrentButton == 3){
         setActiveInputPlaylist(1);

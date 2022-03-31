@@ -119,7 +119,7 @@ void dragButtonVolume(SDL_Event *event)
     }
 }
 
-void scrollingEvent()
+void scrollingEvent(void)
 {
     if(scrollingArea.mCurrentButton == 4 && xScrolling < 10)
     {

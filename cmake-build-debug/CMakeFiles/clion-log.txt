@@ -1,4 +1,4 @@
-C:\Users\toino\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\213.6777.58\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\toino\Desktop\IUT\S3\Ptut\CMusic
+C:\Users\toino\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\213.7172.20\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\toino\Desktop\IUT\S3\Réseaux\TP\Cmusic
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Users/toino/Desktop/IUT/S3/Ptut/CMusic/cmake-build-debug
+-- Build files have been written to: C:/Users/toino/Desktop/IUT/S3/Réseaux/TP/Cmusic/cmake-build-debug
