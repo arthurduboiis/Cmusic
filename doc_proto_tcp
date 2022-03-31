@@ -4,6 +4,9 @@ C/TCP/	->client to server
   STOP/
   SEEK/
   GET/
+    [table] :  (musique/playlist/artiste)        -> table of the data
+    [type] : (0 - 7)	-> depends of [table]
+    [id]
   POST/
     [table] :  (musique/playlist/artiste)        -> table of the data
     [type] : (0/1)	-> depends of [table]
@@ -13,14 +16,18 @@ C/TCP/	->client to server
     [table] : (musique/playlist/artiste)	-> table of the data
     [type] : (0/1/2)	-> depends of [table]
     [id] : int
-    [data] : string	-> only if [type] == 1
+    [data] : string	-> only if [type] == 1
   UPDATE/
     [table] : (musique/playlist/artiste)	->table of the data
     [type] : (0 - 6)	-> depends of [table]
     [id] : int
     [data] : 		-> data to update
+
+S/TCP/
+  POST/
+    [data] : JSON
   INFO/
-    [string] : (data_received, music_starting, music_created, tag_added, artiste_added, playlist_added, music_added_to_playlist, musique_deleted, tag_deleted, all_tags_deleted, playlist_deleted, musiques_in_playlist_deleted, all_musiques_in_playlist_deleted, artiste_deleted, 
+    [string] : (data_received, music_starting, music_created, tag_added, artiste_added, playlist_added, music_added_to_playlist, musique_deleted, tag_deleted, all_tags_deleted, playlist_deleted, musiques_in_playlist_deleted, all_musiques_in_playlist_deleted, artiste_deleted, artiste_name_updated, playlist_name_updated,
     [data] : JSON
   ERROR/
-    [string] : (
+    [string] : (table_doesnt_exist, couldnt_start_music, type_doesnt_exist, create_musique, add_tag, create_artiste, create_playlist, add_music_to_playlist, delete_musique, delete_tag, delete_all_tag, delete_all_music_in_playlist, delete_music_in_playlist, delete_playlist, delete_artiste, update_artiste, update_playlist, update_music, get_musics,

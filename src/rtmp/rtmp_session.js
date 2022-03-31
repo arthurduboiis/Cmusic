@@ -918,6 +918,7 @@ class rtmp_session{
         }
 
         if (invokeMessage.streamId == this.publishStreamId) {
+
             if (this.isPublishing) {
                 console.log("[RTMP] rtmp publish Close Stream" + this.id)
                 context.nodeEvent.emit('donePublish', this.id, this.publishStreamPath, this.publishArgs)

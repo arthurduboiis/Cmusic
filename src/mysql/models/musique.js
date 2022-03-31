@@ -129,11 +129,25 @@ exports.update_music_album = (data, callback) => {
     })
 }
 exports.add_music_tag = (data, callback) => {
-    db.query("UPDATE musique SET tags = JSON_MERGE_PRESERVE(tags, ?) WHERE id = ?;", [data.tags, data.id],(error, results) =>{
-        if(error){
+    db.query("SELECT tags FROM musique WHERE id = ?;", [data.id], (error, temp) =>{
+        if(error)
             return callback(error)
+        if(temp[0].tags == null){
+            db.query("UPDATE musique SET tags = ? WHERE id = ?;", [data.tags, data.id],(error, results) =>{
+                if(error){
+                    return callback(error)
+                }
+                return callback(null, results)
+            })
         }
-        return callback(null, results)
+        else{
+            db.query("UPDATE musique SET tags = JSON_MERGE_PRESERVE(tags, ?) WHERE id = ?;", [data.tags, data.id],(error, results) =>{
+                if(error){
+                    return callback(error)
+                }
+                return callback(null, results)
+            })
+        }
     })
 }
 exports.delete_music_tag = (data, callback) => {
@@ -154,6 +168,15 @@ exports.delete_all_music_tags = (data, callback) => {
 }
 exports.replace_music_tags = (data, callback) =>{
     db.query("UPDATE musique SET tags = ? WHERE id = ?;", [data.tags, data.id], (error, results) =>{
+        if(error){
+            return callback(error)
+        }
+        return callback(null, results)
+    })
+}
+
+exports.get_all_tags = (callback) => {
+    db.query("SELECT tags FROM musique GROUP BY tags;", (error, results) =>{
         if(error){
             return callback(error)
         }
